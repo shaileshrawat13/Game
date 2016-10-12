@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/popup_element"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@drawable/tutorial2"
+    android:padding="10px"
+    android:orientation="vertical"
+    >
+
+    <ImageView
+        android:layout_width="30dp"
+        android:layout_height="100dp"
+        android:rotation="135"
+        android:layout_margin="90dp"
+        android:background="@drawable/arrow"
+        android:layout_gravity="center_horizontal|top" />
+
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+
+        android:orientation="horizontal"
+        android:layout_marginBottom="100dp"
+        android:gravity="center_horizontal|bottom">
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@android:color/white"
+            android:textSize="30dp"
+            android:text="Match the COLOR Ball" />
+    </LinearLayout>
+</LinearLayout>
