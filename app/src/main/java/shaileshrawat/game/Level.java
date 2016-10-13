@@ -40,6 +40,15 @@ public class Level extends Activity implements View.OnClickListener {
         PowerManager mPowerManager = (PowerManager) getSystemService(POWER_SERVICE);
         mWakeLock = mPowerManager.newWakeLock(PowerManager.SCREEN_BRIGHT_WAKE_LOCK, TAG);
         setContentView(R.layout.level);
+        Typeface myTypeface = Typeface.createFromAsset(getAssets(), "Fonts/levelcompletefont.ttf");
+        Typeface myTypeface1 = Typeface.createFromAsset(getAssets(), "Fonts/levelfonts.ttf");
+        // How to play button
+        Button learnplay = (Button) findViewById(R.id.howToPlaybutton);
+                learnplay.setOnClickListener(this);
+                learnplay.setTag("Learn");
+        TextView howToPlay = (TextView) findViewById(R.id.howtoplaytext);
+        howToPlay.setTypeface(myTypeface);
+
         // Ask permissions
 
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED)
@@ -82,8 +91,7 @@ public class Level extends Activity implements View.OnClickListener {
         Animation blink = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.blink);
 
         TextView label = (TextView) findViewById(R.id.LevelLabel);
-        Typeface myTypeface = Typeface.createFromAsset(getAssets(), "Fonts/levelcompletefont.ttf");
-        Typeface myTypeface1 = Typeface.createFromAsset(getAssets(), "Fonts/levelfonts.ttf");
+
         label.setTypeface(myTypeface);
         label.startAnimation(blink);
 
@@ -155,49 +163,58 @@ public class Level extends Activity implements View.OnClickListener {
 
     public void onClick(View v) {
         String levelNo = v.getTag().toString();
-        if (levelNo.equals("one")){
-            LevelWrapper.level=1;
-            LevelWrapper.levelspeed=9.0f*multiplier;
+        if (v.getTag().toString().equals("Learn"))
+        {
+            Intent tutorial = new Intent(getApplicationContext(), tutorial.class);
+            startActivity(tutorial);
+
+        }else {
+
+
+            if (levelNo.equals("one")) {
+                LevelWrapper.level = 1;
+                LevelWrapper.levelspeed = 9.0f * multiplier;
+            }
+            if (levelNo.equals("two")) {
+                LevelWrapper.level = 2;
+                LevelWrapper.levelspeed = 7.5f * multiplier;
+            }
+            if (levelNo.equals("three")) {
+                LevelWrapper.level = 3;
+                LevelWrapper.levelspeed = 9.5f * multiplier;
+            }
+            if (levelNo.equals("four")) {
+                LevelWrapper.level = 4;
+                LevelWrapper.levelspeed = 9.0f * multiplier;
+            }
+            if (levelNo.equals("five")) {
+                LevelWrapper.level = 5;
+                LevelWrapper.levelspeed = 9.60f * multiplier;
+            }
+            if (levelNo.equals("six")) {
+                LevelWrapper.level = 6;
+                LevelWrapper.levelspeed = 9.7f * multiplier;
+            }
+            if (levelNo.equals("seven")) {
+                LevelWrapper.level = 7;
+                LevelWrapper.levelspeed = 9.8f * multiplier;
+            }
+            if (levelNo.equals("eight")) {
+                LevelWrapper.level = 8;
+                LevelWrapper.levelspeed = 10f * multiplier;
+            }
+            if (levelNo.equals("nine")) {
+                LevelWrapper.level = 9;
+                LevelWrapper.levelspeed = 10f * multiplier;
+            }
+            if (levelNo.equals("ten")) {
+                LevelWrapper.level = 10;
+                LevelWrapper.levelspeed = 90f * multiplier;
+            }
+            Intent mainIntent = new Intent(getApplicationContext(), Gamehome.class);
+            startActivity(mainIntent);
+            this.finish();
         }
-        if (levelNo.equals("two")){
-            LevelWrapper.level=2;
-            LevelWrapper.levelspeed=7.5f*multiplier;
-         }
-        if (levelNo.equals("three")){
-            LevelWrapper.level=3;
-            LevelWrapper.levelspeed=9.5f*multiplier;
-        }
-        if (levelNo.equals("four")){
-            LevelWrapper.level=4;
-            LevelWrapper.levelspeed=9.0f*multiplier;
-        }
-        if (levelNo.equals("five")){
-            LevelWrapper.level=5;
-            LevelWrapper.levelspeed=9.60f*multiplier;
-        }
-        if (levelNo.equals("six")){
-            LevelWrapper.level=6;
-            LevelWrapper.levelspeed=9.7f*multiplier;
-        }
-        if (levelNo.equals("seven")){
-            LevelWrapper.level=7;
-            LevelWrapper.levelspeed=9.8f*multiplier;
-        }
-        if (levelNo.equals("eight")){
-            LevelWrapper.level=8;
-            LevelWrapper.levelspeed=10f*multiplier;
-        }
-        if (levelNo.equals("nine")){
-            LevelWrapper.level=9;
-            LevelWrapper.levelspeed=10f*multiplier;
-        }
-        if (levelNo.equals("ten")){
-            LevelWrapper.level=10;
-            LevelWrapper.levelspeed=90f*multiplier;
-        }
-        Intent mainIntent = new Intent(getApplicationContext(), Gamehome.class);
-        startActivity(mainIntent);
-        this.finish();
     }
     @Override
     protected void onResume() {
