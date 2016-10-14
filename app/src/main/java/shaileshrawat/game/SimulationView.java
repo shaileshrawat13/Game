@@ -13,6 +13,7 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Display;
 import android.view.Gravity;
@@ -35,7 +36,7 @@ import java.util.Random;
 /**
  * Created by shailesh.rawat on 9/2/2016.
  */
-public class SimulationView extends View implements SensorEventListener {
+public class    SimulationView extends View implements SensorEventListener {
 
     private SensorManager mSensorManager;
     private Sensor mAccelerometer;
@@ -46,7 +47,7 @@ public class SimulationView extends View implements SensorEventListener {
     private Paint paint;
     private Paint rectpaint;
 
-    private static final int BALL_SIZE = 60;
+    private static int BALL_SIZE = 60;
     private static final int HOLE_SIZE = 150;
 
     private float mXOrigin;
@@ -97,11 +98,16 @@ public class SimulationView extends View implements SensorEventListener {
         // Draw Grass
 
         mGrass = BitmapFactory.decodeResource(getResources(), R.drawable.wood, opts);
-        //mGreen = BitmapFactory.decodeResource(getResources(), R.drawable.green, opts);
+
 
         WindowManager mWindowManager = (WindowManager) ((Context)activity).getSystemService(Context.WINDOW_SERVICE);
         mDisplay = mWindowManager.getDefaultDisplay();
-
+        DisplayMetrics displaymetrics = new DisplayMetrics();
+        mDisplay.getMetrics(displaymetrics);
+        int screenWidth = displaymetrics.widthPixels;
+        int screenHeight = displaymetrics.heightPixels;
+        //System.out.println(screenHeight + " " + screenWidth);
+        BALL_SIZE=screenHeight*screenWidth/34560;
         mSensorManager = (SensorManager) ((Context)activity).getSystemService(Context.SENSOR_SERVICE);
         mAccelerometer = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
 
@@ -230,7 +236,7 @@ public class SimulationView extends View implements SensorEventListener {
         paint.setAntiAlias(true);
         paint.setColor(Color.parseColor(colortext[j]));
         Canvas canvas = new Canvas(canvasBitmap);
-        canvas.drawCircle(50, 50, 30, paint);
+        canvas.drawCircle(50, 50, BALL_SIZE/2, paint);
         return canvasBitmap;
     }
 

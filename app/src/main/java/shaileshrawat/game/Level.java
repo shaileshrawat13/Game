@@ -33,6 +33,8 @@ public class Level extends Activity implements View.OnClickListener {
         int show=View.VISIBLE;
         int hide=View.INVISIBLE;
 
+
+
         super.onCreate(savedInstanceState);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         if (savedInstanceState == null) {
@@ -167,6 +169,7 @@ public class Level extends Activity implements View.OnClickListener {
         {
             Intent tutorial = new Intent(getApplicationContext(), tutorial.class);
             startActivity(tutorial);
+            this.finish();
 
         }else {
 

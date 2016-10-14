@@ -9,4 +9,6 @@ public class LevelWrapper extends Activity {
     static int level;
     static float levelspeed;
     static int levelno=1;
+    static int BALL_SIZE;
+
 }
