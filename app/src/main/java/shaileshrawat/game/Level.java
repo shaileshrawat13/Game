@@ -26,7 +26,7 @@ import java.util.List;
 public class Level extends Activity implements View.OnClickListener {
     private static final String TAG = ".Level";
     private PowerManager.WakeLock mWakeLock;
-    float multiplier=6000000000000f;
+    float multiplier=1000000000000f;
     List<Button> buttonList = new ArrayList<Button>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -214,6 +214,7 @@ public class Level extends Activity implements View.OnClickListener {
                 LevelWrapper.level = 10;
                 LevelWrapper.levelspeed = 90f * multiplier;
             }
+            LevelWrapper.curtime=System.currentTimeMillis();
             Intent mainIntent = new Intent(getApplicationContext(), Gamehome.class);
             startActivity(mainIntent);
             this.finish();

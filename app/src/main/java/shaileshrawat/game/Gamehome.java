@@ -76,6 +76,7 @@ public class Gamehome extends Activity {
 
     @Override
     public void onBackPressed() {
+
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
 
         alertDialogBuilder.setTitle("");
@@ -88,6 +89,7 @@ public class Gamehome extends Activity {
                     public void onClick(DialogInterface dialog, int id) {
                         // if this button is clicked, close
                         // current activity
+                        LevelWrapper.curtime=System.currentTimeMillis();
                         Intent levelIntent = new Intent(getApplicationContext(), Level.class);
                         levelIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         getApplicationContext().startActivity(levelIntent);

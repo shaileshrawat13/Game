@@ -7,8 +7,12 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.LinearGradient;
 import android.graphics.Paint;
+import android.graphics.Point;
 import android.graphics.Rect;
+import android.graphics.Shader;
+import android.graphics.SweepGradient;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -26,17 +30,22 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.PopupWindow;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
+import java.util.logging.Handler;
+
+import static shaileshrawat.game.LevelWrapper.curtime;
+import static shaileshrawat.game.LevelWrapper.levelno;
 
 /**
  * Created by shailesh.rawat on 9/2/2016.
  */
-public class    SimulationView extends View implements SensorEventListener {
+public class SimulationView extends View implements SensorEventListener {
 
     private SensorManager mSensorManager;
     private Sensor mAccelerometer;
@@ -45,10 +54,14 @@ public class    SimulationView extends View implements SensorEventListener {
     private Bitmap mGrass, mGreen;
     private Bitmap mHole;
     private Paint paint;
-    private Paint rectpaint;
 
     private static int BALL_SIZE = 60;
     private static final int HOLE_SIZE = 150;
+
+    public static int w;
+    public static int h;
+
+    private int incr=0;
 
     private float mXOrigin;
     private float mYOrigin;
@@ -65,7 +78,6 @@ public class    SimulationView extends View implements SensorEventListener {
     private List<Bitmap> ballListColour= new ArrayList();
     int minball=0;
     int maxBall= level*2;
-
     private Activity activity ;
 
     public SimulationView(Activity activity) {
@@ -84,9 +96,6 @@ public class    SimulationView extends View implements SensorEventListener {
         paint = new Paint();
         paint.setTextAlign(Paint.Align.CENTER);
         paint.setTextSize(90f);
-        rectpaint= new Paint();
-        rectpaint.setColor(Color.CYAN);
-
 
         // Draw Holes
         Bitmap hole = BitmapFactory.decodeResource(getResources(), R.drawable.blackhole2);
@@ -99,28 +108,29 @@ public class    SimulationView extends View implements SensorEventListener {
 
         mGrass = BitmapFactory.decodeResource(getResources(), R.drawable.wood, opts);
 
+        Point size = new Point();
+
 
         WindowManager mWindowManager = (WindowManager) ((Context)activity).getSystemService(Context.WINDOW_SERVICE);
         mDisplay = mWindowManager.getDefaultDisplay();
-        DisplayMetrics displaymetrics = new DisplayMetrics();
-        mDisplay.getMetrics(displaymetrics);
-        int screenWidth = displaymetrics.widthPixels;
-        int screenHeight = displaymetrics.heightPixels;
+        mDisplay.getSize(size);
+        w = size.x;
+        h = size.y;
         //System.out.println(screenHeight + " " + screenWidth);
-        BALL_SIZE=screenHeight*screenWidth/34560;
+        BALL_SIZE=w*h/34560;
         mSensorManager = (SensorManager) ((Context)activity).getSystemService(Context.SENSOR_SERVICE);
         mAccelerometer = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
 
     }
 
     @Override
-    protected void onSizeChanged(int w, int h, int oldw, int oldh) {
-        mXOrigin = w * 0.5f;
-        mYOrigin = h * 0.5f;
+    protected void onSizeChanged(int w1, int h1, int oldw, int oldh) {
+        mXOrigin = w1 * 0.5f;
+        mYOrigin = h1 * 0.5f;
 
-        mHorizontalBound = ((w) * 0.5f)-BALL_SIZE/2;
+        mHorizontalBound = ((w1) * 0.5f)-BALL_SIZE/2;
 
-        mVerticalBound = ((h) * 0.5f)-BALL_SIZE/2;
+        mVerticalBound = ((h1) * 0.5f)-BALL_SIZE/2;
     }
 
     private float mSensorX;
@@ -184,6 +194,9 @@ public class    SimulationView extends View implements SensorEventListener {
                 canvas.drawBitmap(mHole, holex, holey, null);
                 paint.setColor(Color.parseColor(colortext[i]));
                 canvas.drawText(color[i], mXOrigin, (2 * mYOrigin), paint);
+                canvas.drawBitmap(drawScore(incr),(mXOrigin*2)-50,0,null);
+                canvas.drawBitmap(showScore(),w-150,h-100,null);
+                incr=0;
 
                 //Ball 1
                 for (int k = minball; k < maxBall; k++) {
@@ -199,25 +212,27 @@ public class    SimulationView extends View implements SensorEventListener {
 
                             if (ballcolormap.get(mball10).equals(colortext[i])) {
                                 mball10.visibility = false;
+                                incr=-2;
                                 if(k!=maxBall+-1) {
                                     i++;
                                 }
                                 else {
-
                                     Intent levelIntent = new Intent();
                                     levelIntent.setClass(getContext(),Level.class);
                                     getContext().startActivity(levelIntent);
-                                    if (LevelWrapper.level ==LevelWrapper.levelno){
-                                        LevelWrapper.levelno++;
+                                    if (LevelWrapper.level == levelno){
+                                        levelno++;
                                     }
-                                    SharedPrefsUtils.setIntegerPreference(getContext(),"LevelNO",LevelWrapper.levelno);
+                                    SharedPrefsUtils.setIntegerPreference(getContext(),"LevelNO", levelno);
                                     activity.finish();
+
 
                                 }
 
 
                              } else {
                                 mball10.resetPosition(mXOrigin, mYOrigin);
+                                incr=2;
                             }
 
                         } else {
@@ -237,6 +252,49 @@ public class    SimulationView extends View implements SensorEventListener {
         paint.setColor(Color.parseColor(colortext[j]));
         Canvas canvas = new Canvas(canvasBitmap);
         canvas.drawCircle(50, 50, BALL_SIZE/2, paint);
+        return canvasBitmap;
+    }
+
+    // Draw scoreBar
+
+    public static Bitmap drawScore(float incr) {
+        Bitmap canvasBitmap1 = Bitmap.createBitmap(65 , h, Bitmap.Config.ARGB_8888);
+
+        Paint Mypaint = new Paint();
+
+        long elapsedtime = System.currentTimeMillis();
+        float score=((elapsedtime-curtime)/1000)+incr;
+
+        float decr = score*(h-90)/(LevelWrapper.level*60);
+        System.out.println(decr);
+        Mypaint.setAntiAlias(true);
+        int shaderColor0 = Color.GREEN;
+        int shaderColor1 = Color.RED;
+
+        Mypaint.setShader(new LinearGradient(
+                0, 0,
+                0, h-90,
+                shaderColor0,
+                shaderColor1, Shader.TileMode.CLAMP));
+
+        //paint.setColor(Color.parseColor(colortext[j]));
+
+        Canvas canvas = new Canvas(canvasBitmap1);
+        canvas.drawRect(50,h-90, 20,decr, Mypaint);
+        return canvasBitmap1;
+    }
+    public static Bitmap showScore() {
+        Bitmap canvasBitmap = Bitmap.createBitmap( 200, 100, Bitmap.Config.ARGB_8888);
+        String score;
+        long elapsedtime = System.currentTimeMillis();
+        score = String.valueOf((elapsedtime-curtime)/1000);
+        System.out.println(score);
+        Paint paint = new Paint();
+        paint.setAntiAlias(true);
+        paint.setColor(Color.WHITE);
+        paint.setTextSize(90f);
+        Canvas canvas = new Canvas(canvasBitmap);
+        canvas.drawText(score, 0, 80, paint);
         return canvasBitmap;
     }
 

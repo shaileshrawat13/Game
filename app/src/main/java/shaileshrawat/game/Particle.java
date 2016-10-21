@@ -23,7 +23,7 @@ public class Particle { /* coefficient of restitution */
 
     public void updatePosition(float sx, float sy, float sz, long timestamp) {
         float dt = -System.currentTimeMillis() / LevelWrapper.levelspeed;
-        System.out.println("Difference= " + (System.currentTimeMillis()));
+        //System.out.println("Difference= " + (System.currentTimeMillis()));
         mVelX += -(sx) * dt;
         //System.out.println(mVelX);
         mVelY += -(sy) * dt;

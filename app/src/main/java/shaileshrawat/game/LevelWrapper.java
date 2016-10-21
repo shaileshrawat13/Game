@@ -10,5 +10,6 @@ public class LevelWrapper extends Activity {
     static float levelspeed;
     static int levelno=1;
     static int BALL_SIZE;
+    static long curtime;
 
 }
