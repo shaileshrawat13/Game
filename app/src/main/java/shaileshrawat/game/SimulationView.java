@@ -189,7 +189,7 @@ public class SimulationView extends View implements SensorEventListener {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        if (decr <= h - 90) {
+
         float holex = mXOrigin / 2;
         float holey = mYOrigin / 3;
         //System.out.println("HOLEX" + holex + " " + holey);
@@ -197,6 +197,7 @@ public class SimulationView extends View implements SensorEventListener {
 
         canvas.drawBitmap(mGrass, 0, 0, null);
         canvas.drawBitmap(mHole, holex, holey, null);
+        if (decr < h - 90) {
         paint.setColor(Color.parseColor(colortext[i]));
         canvas.drawText(color[i], mXOrigin, (2 * mYOrigin), paint);
         canvas.drawBitmap(drawScore(incr), (mXOrigin * 2) - 50, 0, null);
@@ -343,6 +344,7 @@ public class SimulationView extends View implements SensorEventListener {
 
 
 
+
         // Getting a reference to Close button, and close the popup when clicked.
         Button close = (Button) layout.findViewById(R.id.close);
 
@@ -350,6 +352,8 @@ public class SimulationView extends View implements SensorEventListener {
 
             @Override
             public void onClick(View v) {
+                decr=0;
+                curtime=System.currentTimeMillis();
                 popup.dismiss();
                 activity.recreate();
             }
@@ -357,7 +361,5 @@ public class SimulationView extends View implements SensorEventListener {
     }
 
 
-    public void onBackPressed() {
 
-    }
 }
