@@ -1,7 +1,9 @@
 package shaileshrawat.game;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -13,6 +15,7 @@ import android.graphics.Point;
 import android.graphics.Rect;
 import android.graphics.Shader;
 import android.graphics.SweepGradient;
+import android.graphics.drawable.BitmapDrawable;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -31,6 +34,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.PopupWindow;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -62,6 +66,7 @@ public class SimulationView extends View implements SensorEventListener {
     public static int h;
 
     private int incr=0;
+    public static float decr=0;
 
     private float mXOrigin;
     private float mYOrigin;
@@ -78,7 +83,7 @@ public class SimulationView extends View implements SensorEventListener {
     private List<Bitmap> ballListColour= new ArrayList();
     int minball=0;
     int maxBall= level*2;
-    private Activity activity ;
+    private static Activity activity ;
 
     public SimulationView(Activity activity) {
         super((Context)activity);
@@ -184,64 +189,75 @@ public class SimulationView extends View implements SensorEventListener {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
+        if (decr <= h - 90) {
+        float holex = mXOrigin / 2;
+        float holey = mYOrigin / 3;
+        //System.out.println("HOLEX" + holex + " " + holey);
+        //System.out.println((holex-30) + " " + (holey-5));
 
-                float holex = mXOrigin / 2;
-                float holey = mYOrigin / 3;
-                //System.out.println("HOLEX" + holex + " " + holey);
-                //System.out.println((holex-30) + " " + (holey-5));
+        canvas.drawBitmap(mGrass, 0, 0, null);
+        canvas.drawBitmap(mHole, holex, holey, null);
+        paint.setColor(Color.parseColor(colortext[i]));
+        canvas.drawText(color[i], mXOrigin, (2 * mYOrigin), paint);
+        canvas.drawBitmap(drawScore(incr), (mXOrigin * 2) - 50, 0, null);
+        canvas.drawBitmap(showScore(), w - 150, h - 100, null);
+        incr = 0;
 
-                canvas.drawBitmap(mGrass, 0, 0, null);
-                canvas.drawBitmap(mHole, holex, holey, null);
-                paint.setColor(Color.parseColor(colortext[i]));
-                canvas.drawText(color[i], mXOrigin, (2 * mYOrigin), paint);
-                canvas.drawBitmap(drawScore(incr),(mXOrigin*2)-50,0,null);
-                canvas.drawBitmap(showScore(),w-150,h-100,null);
-                incr=0;
+        //Ball 1
+        for (int k = minball; k < maxBall; k++) {
+            Particle mball10 = ((Particle) ballList.get(k));
+            if (mball10.visibility) {
+                mball10.updatePosition(mSensorX, mSensorY, mSensorZ, mSensorTimeStamp);
+                //System.out.println(mSensorX + " " +  mSensorY+ " " + mSensorZ+ " " + mSensorTimeStamp);
+                //System.out.println("Sensor" + mSensorTimeStamp);
+                mball10.resolveCollisionWithBounds(mHorizontalBound, mVerticalBound);
+                canvas.drawBitmap(drawCircle(i), (1.42f * mXOrigin), (1.91f * mYOrigin), null);
 
-                //Ball 1
-                for (int k = minball; k < maxBall; k++) {
-                    Particle mball10= ((Particle)ballList.get(k));
-                    if (mball10.visibility) {
-                        mball10.updatePosition(mSensorX, mSensorY, mSensorZ, mSensorTimeStamp);
-                        //System.out.println(mSensorX + " " +  mSensorY+ " " + mSensorZ+ " " + mSensorTimeStamp);
-                        //System.out.println("Sensor" + mSensorTimeStamp);
-                        mball10.resolveCollisionWithBounds(mHorizontalBound, mVerticalBound);
-                        canvas.drawBitmap(drawCircle(i),(1.42f * mXOrigin),(1.91f * mYOrigin),null);
-                        if (((mXOrigin -BALL_SIZE + mball10.mPosX) >= (holex - 30) && (mXOrigin -BALL_SIZE + mball10.mPosX) <= (holex + 30)) &&
-                                (mYOrigin - BALL_SIZE - mball10.mPosY) >= holey - 30 && (mYOrigin - BALL_SIZE - mball10.mPosY) <= (holey + 30)) {
+                    if (((mXOrigin - BALL_SIZE + mball10.mPosX) >= (holex - 30) && (mXOrigin - BALL_SIZE + mball10.mPosX) <= (holex + 30)) &&
+                            (mYOrigin - BALL_SIZE - mball10.mPosY) >= holey - 30 && (mYOrigin - BALL_SIZE - mball10.mPosY) <= (holey + 30)) {
 
-                            if (ballcolormap.get(mball10).equals(colortext[i])) {
-                                mball10.visibility = false;
-                                incr=-2;
-                                if(k!=maxBall+-1) {
-                                    i++;
+                        if (ballcolormap.get(mball10).equals(colortext[i])) {
+                            mball10.visibility = false;
+                            incr = -2;
+                            if (k != maxBall + -1) {
+                                i++;
+                            } else {
+                                Intent levelIntent = new Intent();
+                                levelIntent.setClass(getContext(), Level.class);
+                                getContext().startActivity(levelIntent);
+                                if (LevelWrapper.level == levelno) {
+                                    levelno++;
                                 }
-                                else {
-                                    Intent levelIntent = new Intent();
-                                    levelIntent.setClass(getContext(),Level.class);
-                                    getContext().startActivity(levelIntent);
-                                    if (LevelWrapper.level == levelno){
-                                        levelno++;
-                                    }
-                                    SharedPrefsUtils.setIntegerPreference(getContext(),"LevelNO", levelno);
-                                    activity.finish();
+                                SharedPrefsUtils.setIntegerPreference(getContext(), "LevelNO", levelno);
+                                activity.finish();
 
 
-                                }
-
-
-                             } else {
-                                mball10.resetPosition(mXOrigin, mYOrigin);
-                                incr=2;
                             }
 
+
                         } else {
-                            canvas.drawBitmap(ballListColour.get(k), mXOrigin -BALL_SIZE + mball10.mPosX, mYOrigin - BALL_SIZE - mball10.mPosY, null);
-                            //System.out.println((mXOrigin -BALL_SIZE + mball10.mPosX) + " " + (mYOrigin - BALL_SIZE - mball10.mPosY));
+                            mball10.resetPosition(mXOrigin, mYOrigin);
+                            incr = 2;
                         }
+
+                    } else {
+                        canvas.drawBitmap(ballListColour.get(k), mXOrigin - BALL_SIZE + mball10.mPosX, mYOrigin - BALL_SIZE - mball10.mPosY, null);
+                        //System.out.println((mXOrigin -BALL_SIZE + mball10.mPosX) + " " + (mYOrigin - BALL_SIZE - mball10.mPosY));
                     }
                 }
-        invalidate();
+            }
+            invalidate();
+    }
+        else{
+            decr=0;
+            showPopup("Duh! Duh! Time Up to finish this level." +
+                    "\nClick 'Restart' to play again");
+            /*Intent levelIntent = new Intent();
+            levelIntent.setClass(getContext(), AndroidPopupWindowActivity.class);
+            getContext().startActivity(levelIntent);
+            activity.finish();*/
+        }
+
     }
 
     public static Bitmap drawCircle(int j) {
@@ -265,7 +281,7 @@ public class SimulationView extends View implements SensorEventListener {
         long elapsedtime = System.currentTimeMillis();
         float score=((elapsedtime-curtime)/1000)+incr;
 
-        float decr = score*(h-90)/(LevelWrapper.level*60);
+        decr = score*(h-90)/(LevelWrapper.level*5);
         System.out.println(decr);
         Mypaint.setAntiAlias(true);
         int shaderColor0 = Color.GREEN;
@@ -280,7 +296,7 @@ public class SimulationView extends View implements SensorEventListener {
         //paint.setColor(Color.parseColor(colortext[j]));
 
         Canvas canvas = new Canvas(canvasBitmap1);
-        canvas.drawRect(50,h-90, 20,decr, Mypaint);
+        canvas.drawRect(50, h - 90, 20, decr, Mypaint);
         return canvasBitmap1;
     }
     public static Bitmap showScore() {
@@ -297,6 +313,49 @@ public class SimulationView extends View implements SensorEventListener {
         canvas.drawText(score, 0, 80, paint);
         return canvasBitmap;
     }
+    private void showPopup(String testString) {
+
+        int popupWidth = (w*3)/4;
+        int popupHeight =h/4;
+
+        // Inflate the popup_layout.xml
+        RelativeLayout viewGroup = (RelativeLayout) activity.findViewById(R.id.popup);
+        LayoutInflater layoutInflater = (LayoutInflater) activity
+                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View layout = layoutInflater.inflate(R.layout.popup_layout, viewGroup);
+
+        // Creating the PopupWindow
+        final PopupWindow popup = new PopupWindow(activity);
+        popup.setContentView(layout);
+        popup.setWidth(popupWidth);
+        popup.setHeight(popupHeight);
+        popup.setFocusable(true);
+
+       // Clear the default translucent background
+        popup.setBackgroundDrawable(new BitmapDrawable());
+
+
+        // Displaying the popup at the specified location, + offsets.
+        popup.showAtLocation(layout, Gravity.CENTER, 0, 0);
+        //System.out.print(testString);
+        TextView tv= (TextView) layout.findViewById(R.id.textView2);
+        tv.setText(testString);
+
+
+
+        // Getting a reference to Close button, and close the popup when clicked.
+        Button close = (Button) layout.findViewById(R.id.close);
+
+        close.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                popup.dismiss();
+                activity.recreate();
+            }
+        });
+    }
+
 
     public void onBackPressed() {
 

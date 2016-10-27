@@ -17,13 +17,5 @@
         android:id="@+id/colortext"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true" />
-    <ProgressBar
-        style="@android:style/Widget.ProgressBar.Horizontal"
-        android:id="@+id/progressbar"
-        android:layout_centerInParent="true"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:max="100"
-        android:progress="100"
-        android:progressDrawable="@drawable/progress_drawable" />
+
 </FrameLayout>

@@ -25,6 +25,11 @@
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen">
 
         </activity>
+        <activity android:name=".AndroidPopupWindowActivity"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen">
+
+        </activity>
         <activity android:name=".tutorial"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen">
