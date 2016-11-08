@@ -20,6 +20,7 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.os.Handler;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Display;
@@ -41,10 +42,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
-import java.util.logging.Handler;
 
 import static shaileshrawat.game.LevelWrapper.curtime;
+import static shaileshrawat.game.LevelWrapper.hold;
 import static shaileshrawat.game.LevelWrapper.levelno;
+import static shaileshrawat.game.LevelWrapper.timer;
+import static shaileshrawat.game.R.id.time;
 
 /**
  * Created by shailesh.rawat on 9/2/2016.
@@ -186,6 +189,8 @@ public class SimulationView extends View implements SensorEventListener {
         mSensorManager.unregisterListener(this);
     }
 
+    boolean started = false;
+
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
@@ -197,69 +202,108 @@ public class SimulationView extends View implements SensorEventListener {
 
         canvas.drawBitmap(mGrass, 0, 0, null);
         canvas.drawBitmap(mHole, holex, holey, null);
-        if (decr < h - 90) {
-        paint.setColor(Color.parseColor(colortext[i]));
-        canvas.drawText(color[i], mXOrigin, (2 * mYOrigin), paint);
-        canvas.drawBitmap(drawScore(incr), (mXOrigin * 2) - 50, 0, null);
-        canvas.drawBitmap(showScore(), w - 150, h - 100, null);
-        incr = 0;
 
-        //Ball 1
-        for (int k = minball; k < maxBall; k++) {
-            Particle mball10 = ((Particle) ballList.get(k));
-            if (mball10.visibility) {
-                mball10.updatePosition(mSensorX, mSensorY, mSensorZ, mSensorTimeStamp);
-                //System.out.println(mSensorX + " " +  mSensorY+ " " + mSensorZ+ " " + mSensorTimeStamp);
-                //System.out.println("Sensor" + mSensorTimeStamp);
-                mball10.resolveCollisionWithBounds(mHorizontalBound, mVerticalBound);
-                canvas.drawBitmap(drawCircle(i), (1.42f * mXOrigin), (1.91f * mYOrigin), null);
+            if (decr < h - 90) {
 
-                    if (((mXOrigin - BALL_SIZE + mball10.mPosX) >= (holex - 30) && (mXOrigin - BALL_SIZE + mball10.mPosX) <= (holex + 30)) &&
-                            (mYOrigin - BALL_SIZE - mball10.mPosY) >= holey - 30 && (mYOrigin - BALL_SIZE - mball10.mPosY) <= (holey + 30)) {
+                paint.setColor(Color.parseColor(colortext[i]));
+                canvas.drawText(color[i], mXOrigin, (2 * mYOrigin), paint);
+                canvas.drawBitmap(drawScore(incr), (mXOrigin * 2) - 50, 0, null);
+                canvas.drawBitmap(showScore(), w - 150, h - 100, null);
+                incr = 0;
 
-                        if (ballcolormap.get(mball10).equals(colortext[i])) {
-                            mball10.visibility = false;
-                            incr = -2;
-                            if (k != maxBall + -1) {
-                                i++;
-                            } else {
-                                Intent levelIntent = new Intent();
-                                levelIntent.setClass(getContext(), Level.class);
-                                getContext().startActivity(levelIntent);
-                                if (LevelWrapper.level == levelno) {
-                                    levelno++;
+                //Ball 1
+                for (int k = minball; k < maxBall; k++) {
+                    Particle mball10 = ((Particle) ballList.get(k));
+                    if (mball10.visibility) {
+                        mball10.updatePosition(mSensorX, mSensorY, mSensorZ, mSensorTimeStamp);
+                        //System.out.println(mSensorX + " " +  mSensorY+ " " + mSensorZ+ " " + mSensorTimeStamp);
+                        //System.out.println("Sensor" + mSensorTimeStamp);
+                        mball10.resolveCollisionWithBounds(mHorizontalBound, mVerticalBound);
+                        canvas.drawBitmap(drawCircle(i), (1.42f * mXOrigin), (1.91f * mYOrigin), null);
+
+                        if (((mXOrigin - BALL_SIZE + mball10.mPosX) >= (holex - 30) && (mXOrigin - BALL_SIZE + mball10.mPosX) <= (holex + 30)) &&
+                                (mYOrigin - BALL_SIZE - mball10.mPosY) >= holey - 30 && (mYOrigin - BALL_SIZE - mball10.mPosY) <= (holey + 30)) {
+
+                            if (ballcolormap.get(mball10).equals(colortext[i])) {
+                                mball10.visibility = false;
+                                incr = -2;
+                                if (k != maxBall + -1) {
+                                    i++;
+                                } else {
+                                    Intent levelIntent = new Intent();
+                                    levelIntent.setClass(getContext(), Level.class);
+                                    getContext().startActivity(levelIntent);
+                                    if (LevelWrapper.level == levelno) {
+                                        levelno++;
+                                    }
+                                    SharedPrefsUtils.setIntegerPreference(getContext(), "LevelNO", levelno);
+                                    activity.finish();
+
+
                                 }
-                                SharedPrefsUtils.setIntegerPreference(getContext(), "LevelNO", levelno);
-                                activity.finish();
 
 
+                            } else {
+                                mball10.resetPosition(mXOrigin, mYOrigin);
+                                incr = 2;
                             }
 
-
                         } else {
-                            mball10.resetPosition(mXOrigin, mYOrigin);
-                            incr = 2;
+                            canvas.drawBitmap(ballListColour.get(k), mXOrigin - BALL_SIZE + mball10.mPosX, mYOrigin - BALL_SIZE - mball10.mPosY, null);
+                            //System.out.println((mXOrigin -BALL_SIZE + mball10.mPosX) + " " + (mYOrigin - BALL_SIZE - mball10.mPosY));
                         }
-
-                    } else {
-                        canvas.drawBitmap(ballListColour.get(k), mXOrigin - BALL_SIZE + mball10.mPosX, mYOrigin - BALL_SIZE - mball10.mPosY, null);
-                        //System.out.println((mXOrigin -BALL_SIZE + mball10.mPosX) + " " + (mYOrigin - BALL_SIZE - mball10.mPosY));
                     }
                 }
-            }
-            invalidate();
-    }
-        else{
-            decr=0;
-            showPopup("Duh! Duh! Time Up to finish this level." +
-                    "\nClick 'Restart' to play again");
+
+                final Handler newhandler = new Handler();
+
+                if(!started){
+                    started = true;
+                    newhandler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            if(!hold){
+                                timer++;
+                                newhandler.postDelayed(this, 1000);
+                            }else{
+                                started = false;
+                            }
+
+                        }
+                    });
+                }
+
+                if(!hold){
+                    invalidate();
+
+                }else{
+                   final  Handler handler = new Handler();
+                    handler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            if(!hold){
+                                invalidate();
+                            }else{
+                                handler.postDelayed(this, 100);
+                            }
+                        }
+                    });
+                }
+
+
+
+            } else {
+                decr = 0;
+                showPopup("Duh! Duh! Time Up to finish this level." +
+                        "\nClick 'Restart' to play again");
             /*Intent levelIntent = new Intent();
             levelIntent.setClass(getContext(), AndroidPopupWindowActivity.class);
             getContext().startActivity(levelIntent);
             activity.finish();*/
+            }
         }
 
-    }
+
 
     public static Bitmap drawCircle(int j) {
         Bitmap canvasBitmap = Bitmap.createBitmap( 100, 100, Bitmap.Config.ARGB_8888);
@@ -278,12 +322,13 @@ public class SimulationView extends View implements SensorEventListener {
         Bitmap canvasBitmap1 = Bitmap.createBitmap(65 , h, Bitmap.Config.ARGB_8888);
 
         Paint Mypaint = new Paint();
-
+        /*float score=0;
         long elapsedtime = System.currentTimeMillis();
-        float score=((elapsedtime-curtime)/1000)+incr;
+        score=score+((elapsedtime-curtime)/1000)+incr;*/
 
-        decr = score*(h-90)/(LevelWrapper.level*5);
-        System.out.println(decr);
+        decr = timer*(h-90)/(LevelWrapper.level*10);
+        /*System.out.println("sec=" + score);
+        System.out.println(decr);*/
         Mypaint.setAntiAlias(true);
         int shaderColor0 = Color.GREEN;
         int shaderColor1 = Color.RED;
@@ -300,23 +345,26 @@ public class SimulationView extends View implements SensorEventListener {
         canvas.drawRect(50, h - 90, 20, decr, Mypaint);
         return canvasBitmap1;
     }
+
     public static Bitmap showScore() {
         Bitmap canvasBitmap = Bitmap.createBitmap( 200, 100, Bitmap.Config.ARGB_8888);
-        String score;
+        String score1;
+
         long elapsedtime = System.currentTimeMillis();
-        score = String.valueOf((elapsedtime-curtime)/1000);
-        System.out.println(score);
+        //score1 = String.valueOf((elapsedtime-curtime)/1000);
+        score1 = String.valueOf(timer);
+        //System.out.println(score1);
         Paint paint = new Paint();
         paint.setAntiAlias(true);
         paint.setColor(Color.WHITE);
         paint.setTextSize(90f);
         Canvas canvas = new Canvas(canvasBitmap);
-        canvas.drawText(score, 0, 80, paint);
+        canvas.drawText(score1, 0, 80, paint);
         return canvasBitmap;
     }
     private void showPopup(String testString) {
 
-        int popupWidth = (w*3)/4;
+       /* int popupWidth = (w*3)/4;
         int popupHeight =h/4;
 
         // Inflate the popup_layout.xml
@@ -340,11 +388,44 @@ public class SimulationView extends View implements SensorEventListener {
         popup.showAtLocation(layout, Gravity.CENTER, 0, 0);
         //System.out.print(testString);
         TextView tv= (TextView) layout.findViewById(R.id.textView2);
-        tv.setText(testString);
+        tv.setText(testString);*/
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(activity);
+        alertDialogBuilder.setTitle("");
+        // set dialog message
+        alertDialogBuilder
+                .setMessage("Duh..!! Your time is up")
+                .setCancelable(false)
+                .setPositiveButton("Restart", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        // if this button is clicked, close
+                        // current activity
+                        LevelWrapper.curtime = System.currentTimeMillis();
+                        decr=0;
+                        timer=0;
+                        activity.recreate();
+                    }
+                })
+                .setNegativeButton("Exit", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        // if this button is clicked, just close
+                        // the dialog box and do nothing
+                        decr=0;
+                        Intent levelIntent = new Intent(activity, Level.class);
+                        levelIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        activity.startActivity(levelIntent);
+                        activity.finish();
+                    }
+                });
+
+        // create alert dialog
+        AlertDialog alertDialog = alertDialogBuilder.create();
+
+        // show it
+        alertDialog.show();
 
 
 
-
+/*
         // Getting a reference to Close button, and close the popup when clicked.
         Button close = (Button) layout.findViewById(R.id.close);
 
@@ -357,7 +438,7 @@ public class SimulationView extends View implements SensorEventListener {
                 popup.dismiss();
                 activity.recreate();
             }
-        });
+        });*/
     }
 
 

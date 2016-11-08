@@ -20,6 +20,9 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
+import static shaileshrawat.game.LevelWrapper.hold;
+import static shaileshrawat.game.LevelWrapper.timer;
+
 /**
  * Created by shailesh.rawat on 9/14/2016.
  */
@@ -32,9 +35,8 @@ public class Level extends Activity implements View.OnClickListener {
     protected void onCreate(Bundle savedInstanceState) {
         int show=View.VISIBLE;
         int hide=View.INVISIBLE;
-
-
-
+        hold=false;
+        timer=0;
         super.onCreate(savedInstanceState);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         if (savedInstanceState == null) {

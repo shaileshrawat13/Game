@@ -32,6 +32,8 @@ import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.common.api.GoogleApiClient;
 
+import static shaileshrawat.game.LevelWrapper.hold;
+
 public class Gamehome extends Activity {
     private static final String TAG = ".Gamehome";
     private PowerManager.WakeLock mWakeLock;
@@ -77,6 +79,7 @@ public class Gamehome extends Activity {
     @Override
     public void onBackPressed() {
 
+
             AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
             alertDialogBuilder.setTitle("");
             // set dialog message
@@ -98,10 +101,13 @@ public class Gamehome extends Activity {
                         public void onClick(DialogInterface dialog, int id) {
                             // if this button is clicked, just close
                             // the dialog box and do nothing
+                            hold=false;
+                            LevelWrapper.curtime = System.currentTimeMillis();
                             dialog.cancel();
+
                         }
                     });
-
+        hold=true;
             // create alert dialog
             AlertDialog alertDialog = alertDialogBuilder.create();
 
