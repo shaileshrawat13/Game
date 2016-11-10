@@ -80,7 +80,7 @@ public class Gamehome extends Activity {
     public void onBackPressed() {
 
 
-            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+            /*AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
             alertDialogBuilder.setTitle("");
             // set dialog message
             alertDialogBuilder
@@ -90,7 +90,7 @@ public class Gamehome extends Activity {
                         public void onClick(DialogInterface dialog, int id) {
                             // if this button is clicked, close
                             // current activity
-                            LevelWrapper.curtime = System.currentTimeMillis();
+
                             Intent levelIntent = new Intent(getApplicationContext(), Level.class);
                             levelIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                             getApplicationContext().startActivity(levelIntent);
@@ -102,19 +102,21 @@ public class Gamehome extends Activity {
                             // if this button is clicked, just close
                             // the dialog box and do nothing
                             hold=false;
-                            LevelWrapper.curtime = System.currentTimeMillis();
                             dialog.cancel();
 
                         }
-                    });
+                    });*/
         hold=true;
-            // create alert dialog
+            /*// create alert dialog
             AlertDialog alertDialog = alertDialogBuilder.create();
 
             // show it
             alertDialog.show();
+*/
+        CustomDialogClass cdd=new CustomDialogClass(this);
+        cdd.show();
 
-        }
+    }
 
 
     @Override

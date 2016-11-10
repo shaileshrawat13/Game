@@ -46,6 +46,7 @@ import java.util.Random;
 import static shaileshrawat.game.LevelWrapper.curtime;
 import static shaileshrawat.game.LevelWrapper.hold;
 import static shaileshrawat.game.LevelWrapper.levelno;
+import static shaileshrawat.game.LevelWrapper.started;
 import static shaileshrawat.game.LevelWrapper.timer;
 import static shaileshrawat.game.R.id.time;
 
@@ -189,7 +190,7 @@ public class SimulationView extends View implements SensorEventListener {
         mSensorManager.unregisterListener(this);
     }
 
-    boolean started = false;
+
 
     @Override
     protected void onDraw(Canvas canvas) {
@@ -364,31 +365,7 @@ public class SimulationView extends View implements SensorEventListener {
     }
     private void showPopup(String testString) {
 
-       /* int popupWidth = (w*3)/4;
-        int popupHeight =h/4;
 
-        // Inflate the popup_layout.xml
-        RelativeLayout viewGroup = (RelativeLayout) activity.findViewById(R.id.popup);
-        LayoutInflater layoutInflater = (LayoutInflater) activity
-                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View layout = layoutInflater.inflate(R.layout.popup_layout, viewGroup);
-
-        // Creating the PopupWindow
-        final PopupWindow popup = new PopupWindow(activity);
-        popup.setContentView(layout);
-        popup.setWidth(popupWidth);
-        popup.setHeight(popupHeight);
-        popup.setFocusable(true);
-
-       // Clear the default translucent background
-        popup.setBackgroundDrawable(new BitmapDrawable());
-
-
-        // Displaying the popup at the specified location, + offsets.
-        popup.showAtLocation(layout, Gravity.CENTER, 0, 0);
-        //System.out.print(testString);
-        TextView tv= (TextView) layout.findViewById(R.id.textView2);
-        tv.setText(testString);*/
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(activity);
         alertDialogBuilder.setTitle("");
         // set dialog message
@@ -422,25 +399,5 @@ public class SimulationView extends View implements SensorEventListener {
 
         // show it
         alertDialog.show();
-
-
-
-/*
-        // Getting a reference to Close button, and close the popup when clicked.
-        Button close = (Button) layout.findViewById(R.id.close);
-
-        close.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                decr=0;
-                curtime=System.currentTimeMillis();
-                popup.dismiss();
-                activity.recreate();
-            }
-        });*/
     }
-
-
-
 }

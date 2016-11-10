@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static shaileshrawat.game.LevelWrapper.hold;
+import static shaileshrawat.game.LevelWrapper.started;
 import static shaileshrawat.game.LevelWrapper.timer;
 
 /**
@@ -37,6 +38,7 @@ public class Level extends Activity implements View.OnClickListener {
         int hide=View.INVISIBLE;
         hold=false;
         timer=0;
+        started=false;
         super.onCreate(savedInstanceState);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         if (savedInstanceState == null) {
