@@ -78,42 +78,7 @@ public class Gamehome extends Activity {
 
     @Override
     public void onBackPressed() {
-
-
-            /*AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
-            alertDialogBuilder.setTitle("");
-            // set dialog message
-            alertDialogBuilder
-                    .setMessage("Are you sure want to leave balls on space?")
-                    .setCancelable(false)
-                    .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int id) {
-                            // if this button is clicked, close
-                            // current activity
-
-                            Intent levelIntent = new Intent(getApplicationContext(), Level.class);
-                            levelIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                            getApplicationContext().startActivity(levelIntent);
-                            Gamehome.this.finish();
-                        }
-                    })
-                    .setNegativeButton("No", new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int id) {
-                            // if this button is clicked, just close
-                            // the dialog box and do nothing
-                            hold=false;
-                            dialog.cancel();
-
-                        }
-                    });*/
-        hold=true;
-            /*// create alert dialog
-            AlertDialog alertDialog = alertDialogBuilder.create();
-
-            // show it
-            alertDialog.show();
-*/
-        CustomDialogClass cdd=new CustomDialogClass(this);
+        CustomDialogClass cdd=new CustomDialogClass(this, "Are you sure want to leave balls on space? ", "Yes", "No");
         cdd.show();
 
     }

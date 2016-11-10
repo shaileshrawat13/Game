@@ -43,7 +43,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 
-import static shaileshrawat.game.LevelWrapper.curtime;
 import static shaileshrawat.game.LevelWrapper.hold;
 import static shaileshrawat.game.LevelWrapper.levelno;
 import static shaileshrawat.game.LevelWrapper.started;
@@ -59,7 +58,7 @@ public class SimulationView extends View implements SensorEventListener {
     private Sensor mAccelerometer;
     private Display mDisplay;
 
-    private Bitmap mGrass, mGreen;
+    private Bitmap mGrass;
     private Bitmap mHole;
     private Paint paint;
 
@@ -82,7 +81,7 @@ public class SimulationView extends View implements SensorEventListener {
                                 ,"#990000","#D2B48C","#F5F5DC"};
     int i=0;
     private HashMap<Particle, String> ballcolormap = new HashMap();
-    private HashMap<Integer, Bitmap> hmcolour = new HashMap();
+  //  private HashMap<Integer, Bitmap> hmcolour = new HashMap();
     private List<Particle> ballList= new ArrayList();
     private List<Bitmap> ballListColour= new ArrayList();
     int minball=0;
@@ -118,8 +117,6 @@ public class SimulationView extends View implements SensorEventListener {
         mGrass = BitmapFactory.decodeResource(getResources(), R.drawable.wood, opts);
 
         Point size = new Point();
-
-
         WindowManager mWindowManager = (WindowManager) ((Context)activity).getSystemService(Context.WINDOW_SERVICE);
         mDisplay = mWindowManager.getDefaultDisplay();
         mDisplay.getSize(size);
@@ -134,11 +131,10 @@ public class SimulationView extends View implements SensorEventListener {
 
     @Override
     protected void onSizeChanged(int w1, int h1, int oldw, int oldh) {
+
         mXOrigin = w1 * 0.5f;
         mYOrigin = h1 * 0.5f;
-
         mHorizontalBound = ((w1) * 0.5f)-BALL_SIZE/2;
-
         mVerticalBound = ((h1) * 0.5f)-BALL_SIZE/2;
     }
 
@@ -172,9 +168,6 @@ public class SimulationView extends View implements SensorEventListener {
         }
         mSensorZ = event.values[2];
         mSensorTimeStamp = event.timestamp;
-        //System.out.println("Event "+ event.timestamp);
-        //mSensorTimeStamp =35828590473855;
-
     }
 
     @Override
@@ -214,11 +207,9 @@ public class SimulationView extends View implements SensorEventListener {
 
                 //Ball 1
                 for (int k = minball; k < maxBall; k++) {
-                    Particle mball10 = ((Particle) ballList.get(k));
+                    Particle mball10 = ballList.get(k);
                     if (mball10.visibility) {
                         mball10.updatePosition(mSensorX, mSensorY, mSensorZ, mSensorTimeStamp);
-                        //System.out.println(mSensorX + " " +  mSensorY+ " " + mSensorZ+ " " + mSensorTimeStamp);
-                        //System.out.println("Sensor" + mSensorTimeStamp);
                         mball10.resolveCollisionWithBounds(mHorizontalBound, mVerticalBound);
                         canvas.drawBitmap(drawCircle(i), (1.42f * mXOrigin), (1.91f * mYOrigin), null);
 
@@ -231,14 +222,15 @@ public class SimulationView extends View implements SensorEventListener {
                                 if (k != maxBall + -1) {
                                     i++;
                                 } else {
-                                    Intent levelIntent = new Intent();
+                                    levelFinishdialog();
+                                   /* Intent levelIntent = new Intent();
                                     levelIntent.setClass(getContext(), Level.class);
                                     getContext().startActivity(levelIntent);
                                     if (LevelWrapper.level == levelno) {
                                         levelno++;
                                     }
                                     SharedPrefsUtils.setIntegerPreference(getContext(), "LevelNO", levelno);
-                                    activity.finish();
+                                    activity.finish();*/
 
 
                                 }
@@ -264,8 +256,9 @@ public class SimulationView extends View implements SensorEventListener {
                         @Override
                         public void run() {
                             if(!hold){
-                                timer++;
+                                System.out.println(timer);
                                 newhandler.postDelayed(this, 1000);
+                                timer++;
                             }else{
                                 started = false;
                             }
@@ -273,7 +266,6 @@ public class SimulationView extends View implements SensorEventListener {
                         }
                     });
                 }
-
                 if(!hold){
                     invalidate();
 
@@ -295,12 +287,7 @@ public class SimulationView extends View implements SensorEventListener {
 
             } else {
                 decr = 0;
-                showPopup("Duh! Duh! Time Up to finish this level." +
-                        "\nClick 'Restart' to play again");
-            /*Intent levelIntent = new Intent();
-            levelIntent.setClass(getContext(), AndroidPopupWindowActivity.class);
-            getContext().startActivity(levelIntent);
-            activity.finish();*/
+                timeFinishdialog();
             }
         }
 
@@ -308,7 +295,6 @@ public class SimulationView extends View implements SensorEventListener {
 
     public static Bitmap drawCircle(int j) {
         Bitmap canvasBitmap = Bitmap.createBitmap( 100, 100, Bitmap.Config.ARGB_8888);
-        //BitmapShader shader = new BitmapShader(canvasBitmap, Shader.TileMode.CLAMP, Shader.TileMode.CLAMP);
         Paint paint = new Paint();
         paint.setAntiAlias(true);
         paint.setColor(Color.parseColor(colortext[j]));
@@ -320,16 +306,10 @@ public class SimulationView extends View implements SensorEventListener {
     // Draw scoreBar
 
     public static Bitmap drawScore(float incr) {
+
         Bitmap canvasBitmap1 = Bitmap.createBitmap(65 , h, Bitmap.Config.ARGB_8888);
-
         Paint Mypaint = new Paint();
-        /*float score=0;
-        long elapsedtime = System.currentTimeMillis();
-        score=score+((elapsedtime-curtime)/1000)+incr;*/
-
-        decr = timer*(h-90)/(LevelWrapper.level*10);
-        /*System.out.println("sec=" + score);
-        System.out.println(decr);*/
+        decr = timer*(h-90)/(LevelWrapper.level*20);
         Mypaint.setAntiAlias(true);
         int shaderColor0 = Color.GREEN;
         int shaderColor1 = Color.RED;
@@ -340,21 +320,16 @@ public class SimulationView extends View implements SensorEventListener {
                 shaderColor0,
                 shaderColor1, Shader.TileMode.CLAMP));
 
-        //paint.setColor(Color.parseColor(colortext[j]));
-
         Canvas canvas = new Canvas(canvasBitmap1);
         canvas.drawRect(50, h - 90, 20, decr, Mypaint);
         return canvasBitmap1;
     }
 
     public static Bitmap showScore() {
+
         Bitmap canvasBitmap = Bitmap.createBitmap( 200, 100, Bitmap.Config.ARGB_8888);
         String score1;
-
-        long elapsedtime = System.currentTimeMillis();
-        //score1 = String.valueOf((elapsedtime-curtime)/1000);
         score1 = String.valueOf(timer);
-        //System.out.println(score1);
         Paint paint = new Paint();
         paint.setAntiAlias(true);
         paint.setColor(Color.WHITE);
@@ -363,41 +338,14 @@ public class SimulationView extends View implements SensorEventListener {
         canvas.drawText(score1, 0, 80, paint);
         return canvasBitmap;
     }
-    private void showPopup(String testString) {
 
-
-        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(activity);
-        alertDialogBuilder.setTitle("");
-        // set dialog message
-        alertDialogBuilder
-                .setMessage("Duh..!! Your time is up")
-                .setCancelable(false)
-                .setPositiveButton("Restart", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        // if this button is clicked, close
-                        // current activity
-                        LevelWrapper.curtime = System.currentTimeMillis();
-                        decr=0;
-                        timer=0;
-                        activity.recreate();
-                    }
-                })
-                .setNegativeButton("Exit", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        // if this button is clicked, just close
-                        // the dialog box and do nothing
-                        decr=0;
-                        Intent levelIntent = new Intent(activity, Level.class);
-                        levelIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        activity.startActivity(levelIntent);
-                        activity.finish();
-                    }
-                });
-
-        // create alert dialog
-        AlertDialog alertDialog = alertDialogBuilder.create();
-
-        // show it
-        alertDialog.show();
+    private void timeFinishdialog() {
+        CustomDialogClass cdd=new CustomDialogClass(activity, "Duh, your time is up for this level.", "Restart", "Exit");
+        cdd.show();
     }
+    private void levelFinishdialog() {
+        CustomDialogClass cdd=new CustomDialogClass(activity, "Congratulations!! \n Level Completed. Score =  ", "Replay", "Next");
+        cdd.show();
+    }
+
 }

@@ -36,9 +36,8 @@ public class Level extends Activity implements View.OnClickListener {
     protected void onCreate(Bundle savedInstanceState) {
         int show=View.VISIBLE;
         int hide=View.INVISIBLE;
-        hold=false;
+        hold=true;
         timer=0;
-        started=false;
         super.onCreate(savedInstanceState);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         if (savedInstanceState == null) {
@@ -218,7 +217,7 @@ public class Level extends Activity implements View.OnClickListener {
                 LevelWrapper.level = 10;
                 LevelWrapper.levelspeed = 90f * multiplier;
             }
-            LevelWrapper.curtime=System.currentTimeMillis();
+            hold=false;
             Intent mainIntent = new Intent(getApplicationContext(), Gamehome.class);
             startActivity(mainIntent);
             this.finish();
