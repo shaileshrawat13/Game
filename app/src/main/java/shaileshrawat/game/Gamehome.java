@@ -78,7 +78,7 @@ public class Gamehome extends Activity {
 
     @Override
     public void onBackPressed() {
-        CustomDialogClass cdd=new CustomDialogClass(this, "Are you sure want to leave balls on space? ", "Yes", "No");
+        CustomDialogClass cdd=new CustomDialogClass(this, "Are you sure you want to leave balls on space? ", "Yes", "No");
         cdd.show();
 
     }

@@ -2,6 +2,7 @@ package shaileshrawat.game;
 
 import android.Manifest;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Typeface;
@@ -31,6 +32,7 @@ public class Level extends Activity implements View.OnClickListener {
     private static final String TAG = ".Level";
     private PowerManager.WakeLock mWakeLock;
     float multiplier=1000000000000f;
+
     List<Button> buttonList = new ArrayList<Button>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +41,7 @@ public class Level extends Activity implements View.OnClickListener {
         hold=true;
         timer=0;
         super.onCreate(savedInstanceState);
+        new LevelWrapper((Context)this);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         if (savedInstanceState == null) {
         }

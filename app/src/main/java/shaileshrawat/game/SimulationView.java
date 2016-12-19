@@ -49,6 +49,8 @@ import static shaileshrawat.game.LevelWrapper.started;
 import static shaileshrawat.game.LevelWrapper.timer;
 import static shaileshrawat.game.R.id.time;
 
+import static shaileshrawat.game.LevelWrapper.*;
+
 /**
  * Created by shailesh.rawat on 9/2/2016.
  */
@@ -56,17 +58,11 @@ public class SimulationView extends View implements SensorEventListener {
 
     private SensorManager mSensorManager;
     private Sensor mAccelerometer;
-    private Display mDisplay;
+
 
     private Bitmap mGrass;
     private Bitmap mHole;
     private Paint paint;
-
-    private static int BALL_SIZE = 60;
-    private static final int HOLE_SIZE = 150;
-
-    public static int w;
-    public static int h;
 
     private int incr=0;
     public static float decr=0;
@@ -115,15 +111,6 @@ public class SimulationView extends View implements SensorEventListener {
         // Draw Grass
 
         mGrass = BitmapFactory.decodeResource(getResources(), R.drawable.wood, opts);
-
-        Point size = new Point();
-        WindowManager mWindowManager = (WindowManager) ((Context)activity).getSystemService(Context.WINDOW_SERVICE);
-        mDisplay = mWindowManager.getDefaultDisplay();
-        mDisplay.getSize(size);
-        w = size.x;
-        h = size.y;
-        //System.out.println(screenHeight + " " + screenWidth);
-        BALL_SIZE=w*h/34560;
         mSensorManager = (SensorManager) ((Context)activity).getSystemService(Context.SENSOR_SERVICE);
         mAccelerometer = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
 
@@ -191,10 +178,11 @@ public class SimulationView extends View implements SensorEventListener {
 
         float holex = mXOrigin / 2;
         float holey = mYOrigin / 3;
-        //System.out.println("HOLEX" + holex + " " + holey);
-        //System.out.println((holex-30) + " " + (holey-5));
 
         canvas.drawBitmap(mGrass, 0, 0, null);
+//        System.out.println(BALL_SIZE);
+//        System.out.println("Width = " + w  + " Horizontalnound= " + mHorizontalBound);
+
         canvas.drawBitmap(mHole, holex, holey, null);
 
             if (decr < h - 90) {
@@ -223,27 +211,14 @@ public class SimulationView extends View implements SensorEventListener {
                                     i++;
                                 } else {
                                     levelFinishdialog();
-                                   /* Intent levelIntent = new Intent();
-                                    levelIntent.setClass(getContext(), Level.class);
-                                    getContext().startActivity(levelIntent);
-                                    if (LevelWrapper.level == levelno) {
-                                        levelno++;
-                                    }
-                                    SharedPrefsUtils.setIntegerPreference(getContext(), "LevelNO", levelno);
-                                    activity.finish();*/
-
-
                                 }
-
-
                             } else {
                                 mball10.resetPosition(mXOrigin, mYOrigin);
                                 incr = 2;
                             }
-
                         } else {
                             canvas.drawBitmap(ballListColour.get(k), mXOrigin - BALL_SIZE + mball10.mPosX, mYOrigin - BALL_SIZE - mball10.mPosY, null);
-                            //System.out.println((mXOrigin -BALL_SIZE + mball10.mPosX) + " " + (mYOrigin - BALL_SIZE - mball10.mPosY));
+                            System.out.println((mXOrigin -BALL_SIZE + mball10.mPosX) + " " + (mYOrigin - BALL_SIZE - mball10.mPosY));
                         }
                     }
                 }
@@ -262,7 +237,6 @@ public class SimulationView extends View implements SensorEventListener {
                             }else{
                                 started = false;
                             }
-
                         }
                     });
                 }
@@ -282,16 +256,11 @@ public class SimulationView extends View implements SensorEventListener {
                         }
                     });
                 }
-
-
-
             } else {
                 decr = 0;
                 timeFinishdialog();
             }
         }
-
-
 
     public static Bitmap drawCircle(int j) {
         Bitmap canvasBitmap = Bitmap.createBitmap( 100, 100, Bitmap.Config.ARGB_8888);
@@ -299,17 +268,15 @@ public class SimulationView extends View implements SensorEventListener {
         paint.setAntiAlias(true);
         paint.setColor(Color.parseColor(colortext[j]));
         Canvas canvas = new Canvas(canvasBitmap);
-        canvas.drawCircle(50, 50, BALL_SIZE/2, paint);
+        canvas.drawCircle(BALL_SIZE, BALL_SIZE, BALL_SIZE/2, paint);
         return canvasBitmap;
     }
 
     // Draw scoreBar
-
     public static Bitmap drawScore(float incr) {
-
         Bitmap canvasBitmap1 = Bitmap.createBitmap(65 , h, Bitmap.Config.ARGB_8888);
         Paint Mypaint = new Paint();
-        decr = timer*(h-90)/(LevelWrapper.level*20);
+        decr = timer*(h-90)/(LevelWrapper.level*60);
         Mypaint.setAntiAlias(true);
         int shaderColor0 = Color.GREEN;
         int shaderColor1 = Color.RED;
@@ -324,9 +291,8 @@ public class SimulationView extends View implements SensorEventListener {
         canvas.drawRect(50, h - 90, 20, decr, Mypaint);
         return canvasBitmap1;
     }
-
+    // Show Score
     public static Bitmap showScore() {
-
         Bitmap canvasBitmap = Bitmap.createBitmap( 200, 100, Bitmap.Config.ARGB_8888);
         String score1;
         score1 = String.valueOf(timer);
