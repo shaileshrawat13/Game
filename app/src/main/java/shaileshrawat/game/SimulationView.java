@@ -91,7 +91,6 @@ public class SimulationView extends View implements SensorEventListener {
         for(int k = minball; k <maxBall; k++) {
 
             Particle mBall11 = new Particle();
-
             Bitmap dynballBitmap = drawCircle(k);
             ballList.add(mBall11);
             ballListColour.add(dynballBitmap);
