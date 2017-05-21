@@ -22,7 +22,7 @@ import android.widget.TextView;
  */
 public class splashscreen extends AppCompatActivity {
 
-    private final int SPLASH_DISPLAY_LENGTH = 3000;
+    private final int SPLASH_DISPLAY_LENGTH = 1000;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,7 +35,7 @@ public class splashscreen extends AppCompatActivity {
             @Override
             public void run() {
                 /* Create an Intent that will start the Menu-Activity. */
-                Intent mainIntent = new Intent(splashscreen.this,Level.class);
+                Intent mainIntent = new Intent(splashscreen.this,Homepage.class);
                 splashscreen.this.startActivity(mainIntent);
                 splashscreen.this.finish();
             }

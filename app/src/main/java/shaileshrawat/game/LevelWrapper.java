@@ -17,7 +17,7 @@ public class LevelWrapper {
     static boolean started = false;
     static int timer=0;
     public static int BALL_SIZE;
-    public static float HOLE_SIZE;
+    public static int HOLE_SIZE;
     public static Display mDisplay;
     public static int w,h;
 
@@ -32,7 +32,7 @@ public class LevelWrapper {
         mDisplay.getSize(size);
         //System.out.println(screenHeight + " " + screenWidth);
         BALL_SIZE=size.y/30;
-        HOLE_SIZE=BALL_SIZE*2.5f;
+        HOLE_SIZE=BALL_SIZE*2;
         w=size.x;
         h=size.y;
     }

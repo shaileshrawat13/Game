@@ -2,7 +2,6 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="150dp"
-    android:background="@drawable/dialog_bg"
     android:orientation="vertical" >
 
     <TextView
@@ -28,7 +27,6 @@
                 android:id="@+id/btn_yes"
                 android:layout_width="120dp"
                 android:layout_height="30dp"
-                android:background="@drawable/button1"
                 android:clickable="true"
                 android:text="Yes"
             android:textSize="20sp"
@@ -40,7 +38,6 @@
             android:layout_width="100dp"
             android:layout_height="30dp"
             android:layout_marginLeft="20dp"
-            android:background="@drawable/button2"
             android:clickable="true"
             android:text="No"
             android:textSize="20sp"
