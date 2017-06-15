@@ -58,20 +58,21 @@ public class SimulationView extends View implements SensorEventListener {
 
     private SensorManager mSensorManager;
     private Sensor mAccelerometer;
-
-
+    public int minball=0;
+    int level=LevelWrapper.level;
+    public int maxBall= level*2;
     private Bitmap mGrass;
     private Bitmap mHole;
     private Paint paint;
-
+    public static float calculatedScore=0;
+    public static int  LEVEL_TIMER=20;
     private int incr=0;
     public static float decr=0;
-
     private float mXOrigin;
     private float mYOrigin;
     private float mHorizontalBound;
     private float mVerticalBound;
-    int level=LevelWrapper.level;
+
     String[] color={"ORANGE","PINK","BLUE","GREEN","BROWN", "VIOLET","GRAY","OLIVE","PEACH","RED","TEAL","YELLOW","WHITE","MAGENTA","LIME","SAFFRON","SKY BLUE", "TURQUOISE","MAROON","TAN","BEIGE"};
     static String[] colortext={"#FFA500","#FFC0CB","#0000FF","#00FF00","#9E664C","#9400D3", "#696969","#137244", "#FFDAB9", "#FF0000", "#008080","#FFFF00","#FFFFFF","#AA00BB","#E3FF00","#F4C430","#87CEEB","#40E0D0"
                                 ,"#990000","#D2B48C","#F5F5DC"};
@@ -80,9 +81,8 @@ public class SimulationView extends View implements SensorEventListener {
   //  private HashMap<Integer, Bitmap> hmcolour = new HashMap();
     private List<Particle> ballList= new ArrayList();
     private List<Bitmap> ballListColour= new ArrayList();
-    int minball=0;
-    int maxBall= level*2;
-    private static Activity activity ;
+
+    public static Activity activity ;
 
     public SimulationView(Activity activity) {
         super((Context)activity);
@@ -175,18 +175,14 @@ public class SimulationView extends View implements SensorEventListener {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-
         float holex = mXOrigin / 2;
         float holey = mYOrigin / 3;
-
         canvas.drawBitmap(mGrass, 0, 0, null);
 //        System.out.println(BALL_SIZE);
 //        System.out.println("Width = " + w  + " Horizontalnound= " + mHorizontalBound);
 
         canvas.drawBitmap(mHole, holex, holey, null);
-
             if (decr < h - 90) {
-
                 paint.setColor(Color.parseColor(colortext[i]));
                 canvas.drawText(color[i], mXOrigin, (2 * mYOrigin), paint);
                 canvas.drawBitmap(drawScore(incr), (mXOrigin * 2) - 50, 0, null);
@@ -209,7 +205,9 @@ public class SimulationView extends View implements SensorEventListener {
                                 incr = -2;
                                 if (k != maxBall + -1) {
                                     i++;
+                                    //calculatescore();
                                 } else {
+                                    calculatescore(k+1);
                                     levelFinishdialog();
                                 }
                             } else {
@@ -218,41 +216,38 @@ public class SimulationView extends View implements SensorEventListener {
                             }
                         } else {
                             canvas.drawBitmap(ballListColour.get(k), mXOrigin - BALL_SIZE + mball10.mPosX, mYOrigin - BALL_SIZE - mball10.mPosY, null);
-                            System.out.println((mXOrigin -BALL_SIZE + mball10.mPosX) + " " + (mYOrigin - BALL_SIZE - mball10.mPosY));
+                           // System.out.println((mXOrigin -BALL_SIZE + mball10.mPosX) + " " + (mYOrigin - BALL_SIZE - mball10.mPosY));
                         }
                     }
                 }
-
                 final Handler newhandler = new Handler();
-
                 if(!started){
                     started = true;
                     newhandler.post(new Runnable() {
                         @Override
                         public void run() {
-                            if(!hold){
-                                System.out.println(timer);
-                                newhandler.postDelayed(this, 1000);
-                                timer++;
-                            }else{
-                                started = false;
-                            }
+                        if(!hold){
+                            System.out.println(timer);
+                            newhandler.postDelayed(this, 1000);
+                            timer++;
+                        }else{
+                            started = false;
+                        }
                         }
                     });
                 }
                 if(!hold){
                     invalidate();
-
                 }else{
                    final  Handler handler = new Handler();
                     handler.post(new Runnable() {
                         @Override
                         public void run() {
-                            if(!hold){
-                                invalidate();
-                            }else{
-                                handler.postDelayed(this, 100);
-                            }
+                        if(!hold){
+                            invalidate();
+                        }else{
+                            handler.postDelayed(this, 100);
+                        }
                         }
                     });
                 }
@@ -276,7 +271,7 @@ public class SimulationView extends View implements SensorEventListener {
     public static Bitmap drawScore(float incr) {
         Bitmap canvasBitmap1 = Bitmap.createBitmap(65 , h, Bitmap.Config.ARGB_8888);
         Paint Mypaint = new Paint();
-        decr = timer*(h-90)/(LevelWrapper.level*60);
+        decr = timer*(h-90)/(LevelWrapper.level*LEVEL_TIMER);
         Mypaint.setAntiAlias(true);
         int shaderColor0 = Color.GREEN;
         int shaderColor1 = Color.RED;
@@ -305,13 +300,89 @@ public class SimulationView extends View implements SensorEventListener {
         return canvasBitmap;
     }
 
+    public void calculatescore(int totalBallsTaken){
+
+        if(totalBallsTaken == 0){
+            calculatedScore = 0;
+        }else{
+            double ballTotalWeightage = (500.0f / maxBall ) * totalBallsTaken;
+            double timeTakenTotalWeightage = 500.0f;
+
+
+            double timeTaken = timer;//secs;
+
+
+            double timePercentage = (timeTaken / (LEVEL_TIMER * level)) * 100;
+
+            if(timePercentage > 20){
+                timeTakenTotalWeightage = ((100.0f-timePercentage) * timeTakenTotalWeightage)/100;
+            }
+            calculatedScore = (float) (ballTotalWeightage + timeTakenTotalWeightage);
+        }
+        /*float perballScore = 1000.0f/(float)maxBall;
+        if (timer<=((level*LEVEL_TIMER)/4)){
+            calculatedScore+=perballScore;
+        }
+        else if(timer<=((level*LEVEL_TIMER)/2)){
+            calculatedScore+=(perballScore*.75);
+        } else if (timer<=(((level*LEVEL_TIMER)/4)*3)){
+            calculatedScore+=(perballScore/2);
+        }else
+        {
+            calculatedScore+=(perballScore/4);
+        }*/
+    }
+
+    private void saveLocalScore(){
+        if (calculatedScore>=1000){
+            calculatedScore=1000;
+        }
+        if (level==1 && (SharedPrefsUtils.getFloatPreference((Context)activity, "Level1", 0) <= calculatedScore)){
+            SharedPrefsUtils.setFloatPreference((Context)activity, "Level1", calculatedScore);
+        }
+        if (level==2 && (SharedPrefsUtils.getFloatPreference((Context)activity, "Level2", 0) <= calculatedScore)){
+            SharedPrefsUtils.setFloatPreference((Context)activity, "Level2", calculatedScore);
+        }
+        if (level==3 && (SharedPrefsUtils.getFloatPreference((Context)activity, "Level3", 0) <= calculatedScore)){
+            SharedPrefsUtils.setFloatPreference((Context)activity, "Level3", calculatedScore);
+        }
+        if (level==4 && (SharedPrefsUtils.getFloatPreference((Context)activity, "Level4", 0) <= calculatedScore)){
+            SharedPrefsUtils.setFloatPreference((Context)activity, "Level4", calculatedScore);
+        }
+        if (level==5 && (SharedPrefsUtils.getFloatPreference((Context)activity, "Level5", 0) <= calculatedScore)){
+            SharedPrefsUtils.setFloatPreference((Context)activity, "Level5", calculatedScore);
+        }
+        if (level==6 && (SharedPrefsUtils.getFloatPreference((Context)activity, "Level6", 0) <= calculatedScore)){
+            SharedPrefsUtils.setFloatPreference((Context)activity, "Level6", calculatedScore);
+        }
+        if (level==7 && (SharedPrefsUtils.getFloatPreference((Context)activity, "Level7", 0) <= calculatedScore)){
+            SharedPrefsUtils.setFloatPreference((Context)activity, "Level7", calculatedScore);
+        }
+        if (level==8 && (SharedPrefsUtils.getFloatPreference((Context)activity, "Level8", 0) <= calculatedScore)){
+            SharedPrefsUtils.setFloatPreference((Context)activity, "Level8", calculatedScore);
+        }
+        if (level==9 && (SharedPrefsUtils.getFloatPreference((Context)activity, "Level9", 0) <= calculatedScore)){
+            SharedPrefsUtils.setFloatPreference((Context)activity, "Level9", calculatedScore);
+        }
+        if (level==10 && (SharedPrefsUtils.getFloatPreference((Context)activity, "Level10", 0) <= calculatedScore)){
+            SharedPrefsUtils.setFloatPreference((Context)activity, "Level10", calculatedScore);
+        }
+    }
+
     private void timeFinishdialog() {
-        CustomDialogClass cdd=new CustomDialogClass(activity, "Duh, your time is up for this level.", "Restart", "Exit");
-        cdd.show();
+        saveLocalScore();
+        Intent finish = new Intent(activity, Finish_Activity.class);
+        finish.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+        finish.putExtra("Text", "TIME UP!");
+        activity.startActivity(finish);
     }
     private void levelFinishdialog() {
-        CustomDialogClass cdd=new CustomDialogClass(activity, "Congratulations!! \n Level Completed. Score =  ", "Replay", "Next");
-        cdd.show();
+        saveLocalScore();
+        hold=true;
+        Intent finish = new Intent(activity, Finish_Activity.class);
+        finish.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+        finish.putExtra("Text", "LEVEL COMPLETED!");
+        activity.startActivity(finish);
     }
 
 }

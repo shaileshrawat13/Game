@@ -33,6 +33,7 @@ import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.common.api.GoogleApiClient;
 
 import static shaileshrawat.game.LevelWrapper.hold;
+import static shaileshrawat.game.SimulationView.calculatedScore;
 
 public class Gamehome extends Activity {
     private static final String TAG = ".Gamehome";
@@ -78,12 +79,10 @@ public class Gamehome extends Activity {
 
     @Override
     public void onBackPressed() {
+        calculatedScore=0;
         CustomDialogClass cdd=new CustomDialogClass(this, "Are you sure you want to leave balls on space? ", "Yes", "No");
         cdd.show();
-
     }
-
-
     @Override
     public void onStart() {
         super.onStart();

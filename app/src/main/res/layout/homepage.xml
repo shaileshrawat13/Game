@@ -2,47 +2,128 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/mainbg">
-    <LinearLayout
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@drawable/mainbg"
+    tools:context="shaileshrawat.game.Homepage">
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="200dp"
+        android:layout_marginTop="10dp"
         android:id="@+id/smartlogo">
     <ImageView
-        android:layout_width="match_parent"
+        android:layout_width="250dp"
         android:layout_height="200dp"
-        android:src="@drawable/smartballlogo"
-        />
-    </LinearLayout>
+        android:src="@drawable/smartballblanklogo"/>
+    <shaileshrawat.game.MoonTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Smart Ball\nin the Hole"
+        android:textStyle="bold"
+        android:layout_marginTop="35dp"
+        android:layout_centerHorizontal="true"
+        android:gravity="top"
+        android:textColor="#FFFFFF"
+        android:textSize="45dp"/>
+    </RelativeLayout>
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/smartlogo"
+        android:layout_centerInParent="true"
+        android:id="@+id/gameslayout">
     <Button
     android:layout_width="250dp"
     android:layout_height="100dp"
-    android:layout_below="@id/smartlogo"
-    android:background="@drawable/gamebtn1"
+    android:background="@drawable/blankplaybtn"
     android:layout_centerInParent="true"
     android:id="@+id/gamestart"/>
-    <Button
+        <shaileshrawat.game.FontTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="     LAUNCH"
+            android:layout_marginLeft="90dp"
+            android:textColor="#FFFFFF"/>
+    </RelativeLayout>
+    <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/gamestart"
-        android:background="@drawable/rulesbtn1"
+        android:layout_below="@id/gameslayout"
+        android:layout_marginLeft="150dp"
+        android:id="@+id/ruleslayout">
+    <Button
+        android:layout_width="180dp"
+        android:layout_height="90dp"
+        android:background="@drawable/blankrulebtn"
         android:id="@+id/rules"/>
+    <shaileshrawat.game.FontTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:text="RULES"
+        android:layout_marginLeft="90dp"
+        android:textColor="#FFFFFF"/>
+</RelativeLayout>
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/ruleslayout"
+        android:id="@+id/highscoreslayout"
+        android:layout_centerInParent="true">
     <Button
         android:layout_width="250dp"
         android:layout_height="100dp"
-        android:layout_below="@id/rules"
-        android:background="@drawable/highscorebtn1"
-        android:layout_centerInParent="true"
+        android:background="@drawable/blankbtn"
         android:id="@+id/highscores"/>
-
+    <shaileshrawat.game.FontTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:text="HIGH SCORES"
+        android:layout_marginLeft="90dp"
+        android:textColor="#FFFFFF"/>
+    </RelativeLayout>
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/highscoreslayout"
+        android:layout_marginTop="30dp"
+        android:layout_marginLeft="30dp">
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/sharebuttonlayout">
     <Button
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:layout_below="@id/highscores"
-        android:background="@drawable/settingsbtn1"
-        android:layout_centerInParent="true"/>
+        android:id="@+id/sharebtn"
+        android:background="@drawable/sharebtn"/>
+    <shaileshrawat.game.FontTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="SHARE"
+        android:textColor="#FFFFFF"
+        android:layout_centerInParent="true"
+        android:layout_toRightOf="@id/sharebtn"/>
+    </RelativeLayout>
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:gravity="center"
+        android:layout_toRightOf="@id/sharebuttonlayout">
     <Button
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:layout_below="@id/highscores"
-        android:background="@drawable/sharebtn1"/>
+        android:background="@drawable/settingsbtn"
+        android:id="@+id/settingsbtn"/>
+        <shaileshrawat.game.FontTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="SETTINGS"
+            android:textColor="#FFFFFF"
+            android:layout_centerInParent="true"
+            android:layout_toRightOf="@id/settingsbtn"/>
+</RelativeLayout>
+    </RelativeLayout>
         </RelativeLayout>

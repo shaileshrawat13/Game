@@ -1,0 +1,124 @@
+package shaileshrawat.game;
+
+import android.animation.ValueAnimator;
+import android.app.Activity;
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import org.w3c.dom.Text;
+
+import static shaileshrawat.game.LevelWrapper.hold;
+import static shaileshrawat.game.LevelWrapper.levelno;
+import static shaileshrawat.game.LevelWrapper.timer;
+import static shaileshrawat.game.SimulationView.activity;
+import static shaileshrawat.game.SimulationView.calculatedScore;
+import static shaileshrawat.game.SimulationView.decr;
+
+/**
+ * Created by SHAILESH RAWAT on 01-06-2017.
+ */
+
+public class ScoreLayout extends Activity{
+    Button relaunch, missionSelect;
+    TextView levelText, scoreText, zeroscore;
+    ImageView star1, star2, star3;
+    Animation fadeIn;
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.score_layout);
+        levelText = (TextView) findViewById(R.id.levelCompleteText);
+        levelText.setText("LEVEL " + levelno + " COMPLETED");
+        scoreText = (TextView) findViewById(R.id.displayScoreText);
+        animateTextView(0,(int)calculatedScore , scoreText);
+        //scoreText.setText(String.valueOf((int)calculatedScore));
+        star1 = (ImageView) findViewById(R.id.display1Star);
+        star2 = (ImageView) findViewById(R.id.display2Star);
+        star3 = (ImageView) findViewById(R.id.display3star);
+        zeroscore = (TextView) findViewById(R.id.zeroscore);
+        fadeIn = AnimationUtils.loadAnimation(this, R.anim.fade_in);
+        if((Level.displayLevelBG(calculatedScore)==0)) {
+            zeroscore.setVisibility(View.VISIBLE);
+        }
+        else if ((Level.displayLevelBG(calculatedScore)==1)){
+                star1.setVisibility(View.VISIBLE);
+                star1.startAnimation(fadeIn);
+            }else if ((Level.displayLevelBG(calculatedScore)==2)){
+                star1.setVisibility(View.VISIBLE);
+                star1.startAnimation(fadeIn);
+                star2.setVisibility(View.VISIBLE);
+                star2.startAnimation(fadeIn);
+            }else
+            {
+                star1.setVisibility(View.VISIBLE);
+                star1.startAnimation(fadeIn);
+                star2.setVisibility(View.VISIBLE);
+                star2.startAnimation(fadeIn);
+                star3.setVisibility(View.VISIBLE);
+                star3.startAnimation(fadeIn);
+                if (LevelWrapper.level == levelno) {
+                    levelno++;
+                }
+                SharedPrefsUtils.setIntegerPreference(getApplicationContext(), "LevelNO", levelno);
+            }
+
+        relaunch = (Button) findViewById(R.id.relaunch);
+        missionSelect = (Button) findViewById(R.id.missionSelect);
+        relaunch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                decr=0;
+                hold=false;
+                timer=0;
+                calculatedScore=0;
+                Intent mainIntent = new Intent(getApplicationContext(), Gamehome.class);
+                startActivity(mainIntent);
+                finish();
+            }
+        });
+        missionSelect.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                decr=0;
+                timer=0;
+                hold=false;
+                calculatedScore=0;
+                Intent game = new Intent(getApplicationContext(), Level.class);
+                startActivity(game);
+            }
+        });
+
+    }
+
+    public void animateTextView(int initialValue, int finalValue, final TextView  textview) {
+
+        ValueAnimator valueAnimator = ValueAnimator.ofInt(initialValue, finalValue);
+        valueAnimator.setDuration(1500);
+
+        valueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator valueAnimator) {
+
+                textview.setText(valueAnimator.getAnimatedValue().toString());
+
+            }
+        });
+        valueAnimator.start();
+
+
+    }
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        activity.finish();
+        Intent levelIntent = new Intent(getApplicationContext(), Level.class);
+        startActivity(levelIntent);
+        this.finish();
+    }
+}

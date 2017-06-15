@@ -31,14 +31,8 @@ public class tutorial extends Activity implements View.OnClickListener {
         //ImageView arrow= (ImageView) findViewById(R.id.arrow);
        Button letsPlay = (Button) findViewById(R.id.button);
         letsPlay.setOnClickListener(this);
-
-
-
     }
     public void onClick(View v) {
-        Intent levelIntent = new Intent(getApplicationContext(), Level.class);
-        levelIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        getApplicationContext().startActivity(levelIntent);
         tutorial.this.finish();
     }
     public void onBackPressed()    {

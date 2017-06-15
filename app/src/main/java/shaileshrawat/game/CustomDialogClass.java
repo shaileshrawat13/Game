@@ -7,6 +7,7 @@ import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -44,10 +45,11 @@ public class CustomDialogClass extends Dialog implements
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.custom_dialog);
-        Typeface myTypeface = Typeface.createFromAsset(c.getAssets(), "Fonts/levelcompletefont.ttf");
+        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+        Window window = getWindow();
+        Typeface myTypeface = Typeface.createFromAsset(c.getAssets(), "Fonts/neuropol.ttf");
         message = (TextView) findViewById(R.id.txt_dia);
         message.setText(msg);
-        message.setTypeface(myTypeface);
         button1 = (Button) findViewById(R.id.btn_yes);
         button1.setText(btn1);
         button1.setTypeface(myTypeface);
@@ -111,7 +113,7 @@ public class CustomDialogClass extends Dialog implements
 
                 dismiss();
                 break;
-            default:
+                default:
                 break;
         }
         dismiss();

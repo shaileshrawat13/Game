@@ -5,7 +5,9 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.graphics.Typeface;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.PowerManager;
 import android.support.v4.app.ActivityCompat;
@@ -24,12 +26,14 @@ import java.util.List;
 import static shaileshrawat.game.LevelWrapper.hold;
 import static shaileshrawat.game.LevelWrapper.started;
 import static shaileshrawat.game.LevelWrapper.timer;
+import static shaileshrawat.game.SimulationView.calculatedScore;
 
 /**
  * Created by shailesh.rawat on 9/14/2016.
  */
 public class Level extends Activity implements View.OnClickListener {
     private static final String TAG = ".Level";
+    public static int star;
     private PowerManager.WakeLock mWakeLock;
     float multiplier=1000000000000f;
 
@@ -48,14 +52,7 @@ public class Level extends Activity implements View.OnClickListener {
         PowerManager mPowerManager = (PowerManager) getSystemService(POWER_SERVICE);
         mWakeLock = mPowerManager.newWakeLock(PowerManager.SCREEN_BRIGHT_WAKE_LOCK, TAG);
         setContentView(R.layout.level);
-        Typeface myTypeface = Typeface.createFromAsset(getAssets(), "Fonts/levelcompletefont.ttf");
-        Typeface myTypeface1 = Typeface.createFromAsset(getAssets(), "Fonts/levelfonts.ttf");
         // How to play button
-        Button learnplay = (Button) findViewById(R.id.howToPlaybutton);
-                learnplay.setOnClickListener(this);
-                learnplay.setTag("Learn");
-        TextView howToPlay = (TextView) findViewById(R.id.howtoplaytext);
-        howToPlay.setTypeface(myTypeface);
 
         // Ask permissions
 
@@ -100,56 +97,45 @@ public class Level extends Activity implements View.OnClickListener {
 
         TextView label = (TextView) findViewById(R.id.LevelLabel);
 
-        label.setTypeface(myTypeface);
         label.startAnimation(blink);
 
         Button one= (Button) findViewById(R.id.one);
-        one.setTypeface(myTypeface1);
         one.setTag("one");
         one.setOnClickListener(this);
 
         Button two= (Button) findViewById(R.id.two);
-        two.setTypeface(myTypeface1);
         two.setTag("two");
         two.setOnClickListener(this);
 
         Button three= (Button) findViewById(R.id.three);
-        three.setTypeface(myTypeface1);
         three.setTag("three");
         three.setOnClickListener(this);
 
         Button four= (Button) findViewById(R.id.four);
-        four.setTypeface(myTypeface1);
         four.setTag("four");
         four.setOnClickListener(this);
 
         Button five= (Button) findViewById(R.id.five);
-        five.setTypeface(myTypeface1);
         five.setTag("five");
         five.setOnClickListener(this);
 
         Button six= (Button) findViewById(R.id.six);
-        six.setTypeface(myTypeface1);
         six.setTag("six");
         six.setOnClickListener(this);
 
         Button seven= (Button) findViewById(R.id.seven);
-        seven.setTypeface(myTypeface1);
         seven.setTag("seven");
         seven.setOnClickListener(this);
 
         Button eight= (Button) findViewById(R.id.eight);
-        eight.setTypeface(myTypeface1);
         eight.setTag("eight");
         eight.setOnClickListener(this);
 
         Button nine= (Button) findViewById(R.id.nine);
-        nine.setTypeface(myTypeface1);
         nine.setTag("nine");
         nine.setOnClickListener(this);
 
         Button ten= (Button) findViewById(R.id.ten);
-        ten.setTypeface(myTypeface1);
         ten.setTag("ten");
         ten.setOnClickListener(this);
         buttonList.add(one);buttonList.add(two);buttonList.add(three);buttonList.add(four);
@@ -164,23 +150,22 @@ public class Level extends Activity implements View.OnClickListener {
         for(int i=0; i<LevelWrapper.levelno;i++ )
         {
             buttonList.get(i).setVisibility(show);
-            buttonList.get(i).setTypeface(myTypeface);
-            buttonList.get(LevelWrapper.levelno-1).setTypeface(myTypeface1);
+            buttonList.get(i).setEnabled(true);
+            if (i<9){
+                buttonList.get(i + 1).setVisibility(show);
+                String setimage = getimage(i+1);
+                String PACKAGE_NAME = getApplicationContext().getPackageName();
+                int imgId = getResources().getIdentifier(PACKAGE_NAME+":drawable/"+setimage , null, null);
+                buttonList.get(i).setBackgroundDrawable(getResources().getDrawable(imgId));
+                buttonList.get(i+1).setEnabled(false);
+                buttonList.get(i+1).setBackgroundDrawable(getResources().getDrawable(R.drawable.lockedlevel));
+            }
         }
     }
 
     public void onClick(View v) {
         String levelNo = v.getTag().toString();
-        if (v.getTag().toString().equals("Learn"))
-        {
-            Intent tutorial = new Intent(getApplicationContext(), tutorial.class);
-            startActivity(tutorial);
-            this.finish();
-
-        }else {
-
-
-            if (levelNo.equals("one")) {
+        if (levelNo.equals("one")) {
                 LevelWrapper.level = 1;
                 LevelWrapper.levelspeed = 9.0f * multiplier;
             }
@@ -218,14 +203,14 @@ public class Level extends Activity implements View.OnClickListener {
             }
             if (levelNo.equals("ten")) {
                 LevelWrapper.level = 10;
-                LevelWrapper.levelspeed = 90f * multiplier;
+                LevelWrapper.levelspeed = 10.5f * multiplier;
             }
             hold=false;
             Intent mainIntent = new Intent(getApplicationContext(), Gamehome.class);
             startActivity(mainIntent);
             this.finish();
         }
-    }
+
     @Override
     protected void onResume() {
         super.onResume();
@@ -296,6 +281,71 @@ public class Level extends Activity implements View.OnClickListener {
             // permissions this app might request
         }
     }
+
+    public String getimage(int level){
+        String filename="";
+        int star;
+        switch (level) {
+            case 1:
+                star=displayLevelBG((SharedPrefsUtils.getFloatPreference(getApplicationContext(), "Level1", 0)));
+                filename = "level"+level+"btn"+star;
+                break;
+            case 2:
+                star=displayLevelBG((SharedPrefsUtils.getFloatPreference(getApplicationContext(), "Level2", 0)));
+                filename = "level"+level+"btn"+star;
+                break;
+            case 3:
+                star=displayLevelBG((SharedPrefsUtils.getFloatPreference(getApplicationContext(), "Level3", 0)));
+                filename = "level"+level+"btn"+star;
+                break;
+            case 4:
+                star=displayLevelBG((SharedPrefsUtils.getFloatPreference(getApplicationContext(), "Level4", 0)));
+                filename = "level"+level+"btn"+star;
+                break;
+            case 5:
+                star=displayLevelBG((SharedPrefsUtils.getFloatPreference(getApplicationContext(), "Level5", 0)));
+                filename = "level"+level+"btn"+star;
+                break;
+            case 6:
+                star=displayLevelBG((SharedPrefsUtils.getFloatPreference(getApplicationContext(), "Level6", 0)));
+                filename = "level"+level+"btn"+star;
+                break;
+            case 7:
+                star=displayLevelBG((SharedPrefsUtils.getFloatPreference(getApplicationContext(), "Level7", 0)));
+                filename = "level"+level+"btn"+star;
+                break;
+            case 8:
+                star=displayLevelBG((SharedPrefsUtils.getFloatPreference(getApplicationContext(), "Level8", 0)));
+                filename = "level"+level+"btn"+star;
+                break;
+            case 9:
+                star=displayLevelBG((SharedPrefsUtils.getFloatPreference(getApplicationContext(), "Level9", 0)));
+                filename = "level"+level+"btn"+star;
+                break;
+            case 10:
+                star=displayLevelBG((SharedPrefsUtils.getFloatPreference(getApplicationContext(), "Level10", 0)));
+                filename = "level"+level+"btn"+star;
+                break;
+        }
+        return filename;
+    }
+    public static int displayLevelBG(float score){
+        star=0;
+        if (score>=0 && score <350){
+            star=0;
+        }
+        if (score>=350 && score <500){
+            star=1;
+        }
+        if (score>=500 && score <750){
+            star=2;
+        }
+        if (score>=750){
+            star=3;
+        }
+        return star;
+    }
+
  }
 
 

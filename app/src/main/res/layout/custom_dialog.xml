@@ -1,18 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="150dp"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_centerVertical="true"
+    android:layout_centerHorizontal="true"
+    android:background="#687763"
+    android:alpha="0.8"
     android:orientation="vertical" >
 
-    <TextView
+    <shaileshrawat.game.FontTextView
         android:id="@+id/txt_dia"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_gravity="center"
-        android:layout_margin="20dp"
         android:textAlignment="center"
         android:text="Do you realy want to exiterttertertertertertertert ?"
-        android:textColor="@android:color/white"
+        android:textColor="#FF0000"
         android:textSize="20dp"
         android:textStyle="bold"/>
 
@@ -25,23 +28,25 @@
 
         <Button
                 android:id="@+id/btn_yes"
-                android:layout_width="120dp"
-                android:layout_height="30dp"
+                android:layout_width="150dp"
+                android:layout_height="60dp"
                 android:clickable="true"
                 android:text="Yes"
-            android:textSize="20sp"
-                android:textColor="#FFFFFF"
+                android:textSize="30dp"
+                android:background="@drawable/genbutton"
+                android:textColor="#42f4f4"
                 android:textStyle="bold" />
 
         <Button
             android:id="@+id/btn_no"
-            android:layout_width="100dp"
-            android:layout_height="30dp"
+            android:layout_width="150dp"
+            android:layout_height="60dp"
             android:layout_marginLeft="20dp"
+            android:background="@drawable/genbutton"
             android:clickable="true"
             android:text="No"
-            android:textSize="20sp"
-            android:textColor="#FFFFFF"
+            android:textSize="30dp"
+            android:textColor="#42f4f4"
             android:textStyle="bold" />
 
 

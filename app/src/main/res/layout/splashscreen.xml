@@ -5,17 +5,39 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     app:theme="@style/AppTheme.NoActionBar"
+    android:background="#000000"
     android:layout_height="match_parent">
-    <TextView
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="Learning\nToddlers"
-        android:id="@+id/textsss"
+        android:gravity="center">
+    <shaileshrawat.game.MoonTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="game"
+        android:layout_marginTop="10dp"
+        android:id="@+id/textgame"
         android:textSize="50dp"
         android:textColor="@android:color/holo_blue_bright"
-        android:gravity="center_vertical"
-        android:textAlignment="center"
-        android:background="@android:color/black"/>
-
-
+        android:textAlignment="center"/>
+    <shaileshrawat.game.FontTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="T"
+        android:id="@+id/textT"
+        android:layout_toRightOf="@id/textgame"
+        android:textSize="50dp"
+        android:textColor="@android:color/holo_blue_bright"
+        android:textAlignment="center"/>
+    <shaileshrawat.game.MoonTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="ricals"
+        android:layout_toRightOf="@id/textT"
+        android:id="@+id/textricals"
+        android:textSize="50dp"
+        android:layout_marginTop="10dp"
+        android:textColor="@android:color/holo_blue_bright"
+        android:textAlignment="center"/>
+    </RelativeLayout>
 </LinearLayout>
