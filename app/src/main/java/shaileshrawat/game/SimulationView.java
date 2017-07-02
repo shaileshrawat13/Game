@@ -23,6 +23,8 @@ import android.view.View;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import static shaileshrawat.game.Homepage.rightBall;
+import static shaileshrawat.game.Homepage.wrongBall;
 import static shaileshrawat.game.LevelWrapper.hold;
 import static shaileshrawat.game.LevelWrapper.started;
 import static shaileshrawat.game.LevelWrapper.timer;
@@ -180,8 +182,10 @@ public class SimulationView extends View implements SensorEventListener {
                             if (ballcolormap.get(mball10).equals(colortext[i])) {
                                 mball10.visibility = false;
                                 incr = -2;
+                                rightBall.start();
                                 if (k != maxBall + -1) {
                                     i++;
+
                                     //calculatescore();
                                 } else {
                                     calculatescore(k+1);
@@ -190,6 +194,7 @@ public class SimulationView extends View implements SensorEventListener {
                             } else {
                                 mball10.resetPosition(mXOrigin, mYOrigin);
                                 incr = 2;
+                                wrongBall.start();
                                 v.vibrate(100);
                             }
                         } else {
