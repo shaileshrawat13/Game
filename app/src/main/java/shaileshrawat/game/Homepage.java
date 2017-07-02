@@ -27,6 +27,7 @@ public class Homepage extends Activity {
             public void onClick(View view) {
                 Intent game = new Intent(Homepage.this, Level.class);
                 startActivity(game);
+                finish();
             }
         });
         rulebtn.setOnClickListener(new View.OnClickListener() {
@@ -34,6 +35,7 @@ public class Homepage extends Activity {
             public void onClick(View view) {
                 Intent tutorial = new Intent(getApplicationContext(), tutorial.class);
                 startActivity(tutorial);
+                finish();
             }
         });
     }

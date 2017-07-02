@@ -36,6 +36,8 @@ public class tutorial extends Activity implements View.OnClickListener {
         tutorial.this.finish();
     }
     public void onBackPressed()    {
+        Intent backHome = new Intent(getApplicationContext(), Homepage.class);
+        startActivity(backHome);
         this.finish();
     }
 }

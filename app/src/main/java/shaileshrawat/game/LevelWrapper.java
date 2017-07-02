@@ -15,7 +15,7 @@ public class LevelWrapper {
     static int levelno=1;
     static boolean hold=false;
     static boolean started = false;
-    static int timer=0;
+    static float timer=0;
     public static int BALL_SIZE;
     public static int HOLE_SIZE;
     public static Display mDisplay;

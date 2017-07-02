@@ -40,12 +40,12 @@ public class Level extends Activity implements View.OnClickListener {
     List<Button> buttonList = new ArrayList<Button>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        int show=View.VISIBLE;
-        int hide=View.INVISIBLE;
-        hold=true;
-        timer=0;
+        int show = View.VISIBLE;
+        int hide = View.INVISIBLE;
+        hold = true;
+        timer = 0;
         super.onCreate(savedInstanceState);
-        new LevelWrapper((Context)this);
+        new LevelWrapper((Context) this);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         if (savedInstanceState == null) {
         }
@@ -92,73 +92,78 @@ public class Level extends Activity implements View.OnClickListener {
             }
         }
 
-        LevelWrapper.levelno=SharedPrefsUtils.getIntegerPreference(getApplicationContext(),"LevelNO",1);
-        Animation blink = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.blink);
+        LevelWrapper.levelno = SharedPrefsUtils.getIntegerPreference(getApplicationContext(), "LevelNO", 1);
+        Animation blink = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.blink);
 
         TextView label = (TextView) findViewById(R.id.LevelLabel);
 
         label.startAnimation(blink);
 
-        Button one= (Button) findViewById(R.id.one);
+        Button one = (Button) findViewById(R.id.one);
         one.setTag("one");
         one.setOnClickListener(this);
 
-        Button two= (Button) findViewById(R.id.two);
+        Button two = (Button) findViewById(R.id.two);
         two.setTag("two");
         two.setOnClickListener(this);
 
-        Button three= (Button) findViewById(R.id.three);
+        Button three = (Button) findViewById(R.id.three);
         three.setTag("three");
         three.setOnClickListener(this);
 
-        Button four= (Button) findViewById(R.id.four);
+        Button four = (Button) findViewById(R.id.four);
         four.setTag("four");
         four.setOnClickListener(this);
 
-        Button five= (Button) findViewById(R.id.five);
+        Button five = (Button) findViewById(R.id.five);
         five.setTag("five");
         five.setOnClickListener(this);
 
-        Button six= (Button) findViewById(R.id.six);
+        Button six = (Button) findViewById(R.id.six);
         six.setTag("six");
         six.setOnClickListener(this);
 
-        Button seven= (Button) findViewById(R.id.seven);
+        Button seven = (Button) findViewById(R.id.seven);
         seven.setTag("seven");
         seven.setOnClickListener(this);
 
-        Button eight= (Button) findViewById(R.id.eight);
+        Button eight = (Button) findViewById(R.id.eight);
         eight.setTag("eight");
         eight.setOnClickListener(this);
 
-        Button nine= (Button) findViewById(R.id.nine);
+        Button nine = (Button) findViewById(R.id.nine);
         nine.setTag("nine");
         nine.setOnClickListener(this);
 
-        Button ten= (Button) findViewById(R.id.ten);
+        Button ten = (Button) findViewById(R.id.ten);
         ten.setTag("ten");
         ten.setOnClickListener(this);
-        buttonList.add(one);buttonList.add(two);buttonList.add(three);buttonList.add(four);
-        buttonList.add(five);buttonList.add(six);buttonList.add(seven);buttonList.add(eight);
-        buttonList.add(nine);buttonList.add(ten);
+        buttonList.add(one);
+        buttonList.add(two);
+        buttonList.add(three);
+        buttonList.add(four);
+        buttonList.add(five);
+        buttonList.add(six);
+        buttonList.add(seven);
+        buttonList.add(eight);
+        buttonList.add(nine);
+        buttonList.add(ten);
         // Set hidden all  initially
-        for(int i=0; i<buttonList.size();i++ )
-        {
+        for (int i = 0; i < buttonList.size(); i++) {
             buttonList.get(i).setVisibility(hide);
         }
 
-        for(int i=0; i<LevelWrapper.levelno;i++ )
-        {
+        for (int i = 0; i < LevelWrapper.levelno; i++) {
             buttonList.get(i).setVisibility(show);
             buttonList.get(i).setEnabled(true);
-            if (i<9){
+            String setimage = getimage(i + 1);
+            String PACKAGE_NAME = getApplicationContext().getPackageName();
+            int imgId = getResources().getIdentifier(PACKAGE_NAME + ":drawable/" + setimage, null, null);
+            buttonList.get(i).setBackgroundDrawable(getResources().getDrawable(imgId));
+            if (i < 9) {
                 buttonList.get(i + 1).setVisibility(show);
-                String setimage = getimage(i+1);
-                String PACKAGE_NAME = getApplicationContext().getPackageName();
-                int imgId = getResources().getIdentifier(PACKAGE_NAME+":drawable/"+setimage , null, null);
-                buttonList.get(i).setBackgroundDrawable(getResources().getDrawable(imgId));
-                buttonList.get(i+1).setEnabled(false);
-                buttonList.get(i+1).setBackgroundDrawable(getResources().getDrawable(R.drawable.lockedlevel));
+                buttonList.get(i + 1).setEnabled(false);
+                buttonList.get(i + 1).setBackgroundDrawable(getResources().getDrawable(R.drawable.lockedlevel));
             }
         }
     }
@@ -226,6 +231,8 @@ public class Level extends Activity implements View.OnClickListener {
     }
     @Override
     public void onBackPressed()    {
+        Intent backHome = new Intent(getApplicationContext(), Homepage.class);
+        startActivity(backHome);
         finish();
     }
 
@@ -326,6 +333,9 @@ public class Level extends Activity implements View.OnClickListener {
                 star=displayLevelBG((SharedPrefsUtils.getFloatPreference(getApplicationContext(), "Level10", 0)));
                 filename = "level"+level+"btn"+star;
                 break;
+            case 11:
+                star=displayLevelBG((SharedPrefsUtils.getFloatPreference(getApplicationContext(), "Level10", 0)));
+                filename = "level"+level+"btn"+star;
         }
         return filename;
     }

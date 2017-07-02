@@ -26,7 +26,7 @@ import android.widget.TextView;
 public class splashscreen extends AppCompatActivity {
 
 
-    private final int SPLASH_DISPLAY_LENGTH = 5000;
+    private final int SPLASH_DISPLAY_LENGTH = 1000;
     TextView game, t, ricals;
     Animation splashanim;
     int count=0;

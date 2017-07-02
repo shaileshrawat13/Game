@@ -2,16 +2,24 @@ package shaileshrawat.game;
 
 import android.animation.ValueAnimator;
 import android.app.Activity;
+import android.content.ActivityNotFoundException;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.w3c.dom.Text;
+
+import java.io.File;
+import java.io.FileOutputStream;
 
 import static shaileshrawat.game.LevelWrapper.hold;
 import static shaileshrawat.game.LevelWrapper.levelno;
@@ -25,7 +33,7 @@ import static shaileshrawat.game.SimulationView.decr;
  */
 
 public class ScoreLayout extends Activity{
-    Button relaunch, missionSelect;
+    Button relaunch, missionSelect, sharebtn1;
     TextView levelText, scoreText, zeroscore;
     ImageView star1, star2, star3;
     Animation fadeIn;
@@ -70,6 +78,7 @@ public class ScoreLayout extends Activity{
 
         relaunch = (Button) findViewById(R.id.relaunch);
         missionSelect = (Button) findViewById(R.id.missionSelect);
+        sharebtn1 = (Button) findViewById(R.id.sharebtn1);
         relaunch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -93,6 +102,14 @@ public class ScoreLayout extends Activity{
                 startActivity(game);
             }
         });
+        sharebtn1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                captureandstore(view);
+                File dirPath = new File(Environment.getExternalStorageDirectory() + "/smartball.png");
+                shareScreenshot(dirPath);
+            }
+        });
 
     }
 
@@ -110,8 +127,35 @@ public class ScoreLayout extends Activity{
             }
         });
         valueAnimator.start();
+    }
+    public static void captureandstore(View view) {
+        View screenView = view.getRootView();
+        screenView.setDrawingCacheEnabled(true);
+        Bitmap bitmap = Bitmap.createBitmap(screenView.getDrawingCache());
+        File dirPath = new File(Environment.getExternalStorageDirectory() + "/smartball.png");
+        try {
+            FileOutputStream fOut = new FileOutputStream(dirPath);
+            bitmap.compress(Bitmap.CompressFormat.PNG, 20, fOut);
+            fOut.flush();
+            fOut.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    public void shareScreenshot(File file){
+        Uri uri = Uri.fromFile(file);
+        Intent intent = new Intent();
+        intent.setAction(Intent.ACTION_SEND);
+        intent.setType("image/*");
 
-
+        intent.putExtra(android.content.Intent.EXTRA_SUBJECT, "");
+        intent.putExtra(android.content.Intent.EXTRA_TEXT, "Nice..!! I achieved this");
+        intent.putExtra(Intent.EXTRA_STREAM, uri);
+        try {
+            startActivity(Intent.createChooser(intent, "Share Screenshot"));
+        } catch (ActivityNotFoundException e) {
+            Toast.makeText(activity, "No App Available", Toast.LENGTH_SHORT).show();
+        }
     }
     @Override
     public void onBackPressed() {

@@ -101,6 +101,16 @@
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:background="@drawable/level10btn0"/>
+        <Button
+            android:layout_toRightOf="@id/ten"
+            android:layout_below="@id/seven"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="10dp"
+            android:id="@+id/eleven"
+            android:visibility="gone"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            />
         </RelativeLayout>
     </FrameLayout>
 </RelativeLayout>

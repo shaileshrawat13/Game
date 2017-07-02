@@ -1,9 +1,7 @@
 package shaileshrawat.game;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -11,49 +9,26 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.LinearGradient;
 import android.graphics.Paint;
-import android.graphics.Point;
-import android.graphics.Rect;
 import android.graphics.Shader;
-import android.graphics.SweepGradient;
-import android.graphics.drawable.BitmapDrawable;
+import android.graphics.Typeface;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Handler;
-import android.util.DisplayMetrics;
-import android.util.Log;
-import android.view.Display;
-import android.view.Gravity;
-import android.view.LayoutInflater;
+import android.os.Vibrator;
 import android.view.Surface;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.WindowManager;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
-import android.widget.Button;
-import android.widget.PopupWindow;
-import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
-import java.util.Random;
 
 import static shaileshrawat.game.LevelWrapper.hold;
-import static shaileshrawat.game.LevelWrapper.levelno;
 import static shaileshrawat.game.LevelWrapper.started;
 import static shaileshrawat.game.LevelWrapper.timer;
-import static shaileshrawat.game.R.id.time;
 
 import static shaileshrawat.game.LevelWrapper.*;
 
-/**
- * Created by shailesh.rawat on 9/2/2016.
- */
 public class SimulationView extends View implements SensorEventListener {
 
     private SensorManager mSensorManager;
@@ -72,15 +47,16 @@ public class SimulationView extends View implements SensorEventListener {
     private float mYOrigin;
     private float mHorizontalBound;
     private float mVerticalBound;
+    private Typeface fontText;
 
     String[] color={"ORANGE","PINK","BLUE","GREEN","BROWN", "VIOLET","GRAY","OLIVE","PEACH","RED","TEAL","YELLOW","WHITE","MAGENTA","LIME","SAFFRON","SKY BLUE", "TURQUOISE","MAROON","TAN","BEIGE"};
     static String[] colortext={"#FFA500","#FFC0CB","#0000FF","#00FF00","#9E664C","#9400D3", "#696969","#137244", "#FFDAB9", "#FF0000", "#008080","#FFFF00","#FFFFFF","#AA00BB","#E3FF00","#F4C430","#87CEEB","#40E0D0"
                                 ,"#990000","#D2B48C","#F5F5DC"};
     int i=0;
-    private HashMap<Particle, String> ballcolormap = new HashMap();
+    private HashMap<Particle, String> ballcolormap = new HashMap<Particle, String>();
   //  private HashMap<Integer, Bitmap> hmcolour = new HashMap();
-    private List<Particle> ballList= new ArrayList();
-    private List<Bitmap> ballListColour= new ArrayList();
+    private ArrayList<Particle> ballList= new ArrayList<Particle>();
+    private ArrayList<Bitmap> ballListColour= new ArrayList<Bitmap>();
 
     public static Activity activity ;
 
@@ -183,10 +159,11 @@ public class SimulationView extends View implements SensorEventListener {
 
         canvas.drawBitmap(mHole, holex, holey, null);
             if (decr < h - 90) {
-                paint.setColor(Color.parseColor(colortext[i]));
-                canvas.drawText(color[i], mXOrigin, (2 * mYOrigin), paint);
+                Vibrator v = (Vibrator) activity.getSystemService(Context.VIBRATOR_SERVICE);
+                //paint.setColor(Color.parseColor(colortext[i]));
+                //canvas.drawText(color[i], mXOrigin, (2 * mYOrigin), paint);
                 canvas.drawBitmap(drawScore(incr), (mXOrigin * 2) - 50, 0, null);
-                canvas.drawBitmap(showScore(), w - 150, h - 100, null);
+                canvas.drawBitmap(showScore(), (mXOrigin*1.50f), 0, null);
                 incr = 0;
 
                 //Ball 1
@@ -195,7 +172,7 @@ public class SimulationView extends View implements SensorEventListener {
                     if (mball10.visibility) {
                         mball10.updatePosition(mSensorX, mSensorY, mSensorZ, mSensorTimeStamp);
                         mball10.resolveCollisionWithBounds(mHorizontalBound, mVerticalBound);
-                        canvas.drawBitmap(drawCircle(i), (1.42f * mXOrigin), (1.91f * mYOrigin), null);
+                        canvas.drawBitmap(drawCircle(i), (1.25f * mXOrigin),0, null);
 
                         if (((mXOrigin - BALL_SIZE + mball10.mPosX) >= (holex - 30) && (mXOrigin - BALL_SIZE + mball10.mPosX) <= (holex + 30)) &&
                                 (mYOrigin - BALL_SIZE - mball10.mPosY) >= holey - 30 && (mYOrigin - BALL_SIZE - mball10.mPosY) <= (holey + 30)) {
@@ -213,6 +190,7 @@ public class SimulationView extends View implements SensorEventListener {
                             } else {
                                 mball10.resetPosition(mXOrigin, mYOrigin);
                                 incr = 2;
+                                v.vibrate(100);
                             }
                         } else {
                             canvas.drawBitmap(ballListColour.get(k), mXOrigin - BALL_SIZE + mball10.mPosX, mYOrigin - BALL_SIZE - mball10.mPosY, null);
@@ -228,8 +206,8 @@ public class SimulationView extends View implements SensorEventListener {
                         public void run() {
                         if(!hold){
                             System.out.println(timer);
-                            newhandler.postDelayed(this, 1000);
-                            timer++;
+                            newhandler.postDelayed(this, 10);
+                            timer=timer+.021f;
                         }else{
                             started = false;
                         }
@@ -246,7 +224,7 @@ public class SimulationView extends View implements SensorEventListener {
                         if(!hold){
                             invalidate();
                         }else{
-                            handler.postDelayed(this, 100);
+                            handler.postDelayed(this, 10);
                         }
                         }
                     });
@@ -261,6 +239,7 @@ public class SimulationView extends View implements SensorEventListener {
         Bitmap canvasBitmap = Bitmap.createBitmap( 100, 100, Bitmap.Config.ARGB_8888);
         Paint paint = new Paint();
         paint.setAntiAlias(true);
+        paint.setStrokeWidth(2.0f);
         paint.setColor(Color.parseColor(colortext[j]));
         Canvas canvas = new Canvas(canvasBitmap);
         canvas.drawCircle(BALL_SIZE, BALL_SIZE, BALL_SIZE/2, paint);
@@ -275,31 +254,31 @@ public class SimulationView extends View implements SensorEventListener {
         Mypaint.setAntiAlias(true);
         int shaderColor0 = Color.GREEN;
         int shaderColor1 = Color.RED;
-
         Mypaint.setShader(new LinearGradient(
                 0, 0,
                 0, h-90,
                 shaderColor0,
                 shaderColor1, Shader.TileMode.CLAMP));
-
         Canvas canvas = new Canvas(canvasBitmap1);
-        canvas.drawRect(50, h - 90, 20, decr, Mypaint);
+        canvas.drawRect(50, h, 20, decr, Mypaint);
         return canvasBitmap1;
     }
     // Show Score
     public static Bitmap showScore() {
-        Bitmap canvasBitmap = Bitmap.createBitmap( 200, 100, Bitmap.Config.ARGB_8888);
+        Bitmap canvasBitmap = Bitmap.createBitmap(260, 100, Bitmap.Config.ARGB_8888);
         String score1;
-        score1 = String.valueOf(timer);
+        Typeface face=Typeface.createFromAsset(activity.getAssets(), "Fonts/neuropol.ttf");
+        score1 = String.format("%.2f",(LevelWrapper.level*LEVEL_TIMER)-timer);
         Paint paint = new Paint();
+        Paint mPaint = new Paint();
         paint.setAntiAlias(true);
+        paint.setTypeface(face);
         paint.setColor(Color.WHITE);
-        paint.setTextSize(90f);
+        paint.setTextSize(65f);
         Canvas canvas = new Canvas(canvasBitmap);
-        canvas.drawText(score1, 0, 80, paint);
+        canvas.drawText(score1, 0, 100, paint);
         return canvasBitmap;
     }
-
     public void calculatescore(int totalBallsTaken){
 
         if(totalBallsTaken == 0){
@@ -307,11 +286,7 @@ public class SimulationView extends View implements SensorEventListener {
         }else{
             double ballTotalWeightage = (500.0f / maxBall ) * totalBallsTaken;
             double timeTakenTotalWeightage = 500.0f;
-
-
             double timeTaken = timer;//secs;
-
-
             double timePercentage = (timeTaken / (LEVEL_TIMER * level)) * 100;
 
             if(timePercentage > 20){
@@ -332,7 +307,6 @@ public class SimulationView extends View implements SensorEventListener {
             calculatedScore+=(perballScore/4);
         }*/
     }
-
     private void saveLocalScore(){
         if (calculatedScore>=1000){
             calculatedScore=1000;
@@ -368,7 +342,6 @@ public class SimulationView extends View implements SensorEventListener {
             SharedPrefsUtils.setFloatPreference((Context)activity, "Level10", calculatedScore);
         }
     }
-
     private void timeFinishdialog() {
         saveLocalScore();
         Intent finish = new Intent(activity, Finish_Activity.class);
