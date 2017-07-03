@@ -23,7 +23,11 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
+import static shaileshrawat.game.Homepage.buttonLevel;
 import static shaileshrawat.game.LevelWrapper.hold;
+import static shaileshrawat.game.LevelWrapper.levelName;
+import static shaileshrawat.game.LevelWrapper.levelno;
+import static shaileshrawat.game.LevelWrapper.mediumlevelno;
 import static shaileshrawat.game.LevelWrapper.started;
 import static shaileshrawat.game.LevelWrapper.timer;
 import static shaileshrawat.game.SimulationView.calculatedScore;
@@ -36,12 +40,12 @@ public class Level extends Activity implements View.OnClickListener {
     public static int star;
     private PowerManager.WakeLock mWakeLock;
     float multiplier=1000000000000f;
+    Button mediumlevel, easylevel;
+    TextView levelname;
 
     List<Button> buttonList = new ArrayList<Button>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        int show = View.VISIBLE;
-        int hide = View.INVISIBLE;
         hold = true;
         timer = 0;
         super.onCreate(savedInstanceState);
@@ -57,9 +61,7 @@ public class Level extends Activity implements View.OnClickListener {
         // Ask permissions
 
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED)
-
         {
-
             // Should we show an explanation?
             if (ActivityCompat.shouldShowRequestPermissionRationale(this,
                     Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
@@ -70,14 +72,10 @@ public class Level extends Activity implements View.OnClickListener {
                 ActivityCompat.requestPermissions(this,
                         new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
                         21);
-
             }
         }
-
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED)
-
         {
-
             // Should we show an explanation?
             if (ActivityCompat.shouldShowRequestPermissionRationale(this,
                     Manifest.permission.READ_EXTERNAL_STORAGE)) {
@@ -88,15 +86,15 @@ public class Level extends Activity implements View.OnClickListener {
                 ActivityCompat.requestPermissions(this,
                         new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
                         22);
-
             }
         }
-
+        mediumlevel = (Button) findViewById(R.id.mediumlevel);
+        easylevel = (Button) findViewById(R.id.easylevel);
+        levelname = (TextView) findViewById(R.id.levelName);
         LevelWrapper.levelno = SharedPrefsUtils.getIntegerPreference(getApplicationContext(), "LevelNO", 1);
+        LevelWrapper.mediumlevelno = SharedPrefsUtils.getIntegerPreference(getApplicationContext(), "MediumLevelNO", 1);
         Animation blink = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.blink);
-
         TextView label = (TextView) findViewById(R.id.LevelLabel);
-
         label.startAnimation(blink);
 
         Button one = (Button) findViewById(R.id.one);
@@ -148,28 +146,36 @@ public class Level extends Activity implements View.OnClickListener {
         buttonList.add(eight);
         buttonList.add(nine);
         buttonList.add(ten);
-        // Set hidden all  initially
-        for (int i = 0; i < buttonList.size(); i++) {
-            buttonList.get(i).setVisibility(hide);
+        if(levelName=="easy"){
+            displayLevels(levelno);
+            levelname.setText("EASY");
+        }else{
+            displayLevels(mediumlevelno);
+            levelname.setText("MEDIUM");
         }
 
-        for (int i = 0; i < LevelWrapper.levelno; i++) {
-            buttonList.get(i).setVisibility(show);
-            buttonList.get(i).setEnabled(true);
-            String setimage = getimage(i + 1);
-            String PACKAGE_NAME = getApplicationContext().getPackageName();
-            int imgId = getResources().getIdentifier(PACKAGE_NAME + ":drawable/" + setimage, null, null);
-            buttonList.get(i).setBackgroundDrawable(getResources().getDrawable(imgId));
-            if (i < 9) {
-                buttonList.get(i + 1).setVisibility(show);
-                buttonList.get(i + 1).setEnabled(false);
-                buttonList.get(i + 1).setBackgroundDrawable(getResources().getDrawable(R.drawable.lockedlevel));
+
+        easylevel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                levelName="easy";
+                levelname.setText("EASY");
+                displayLevels(levelno);
             }
-        }
+        });
+        mediumlevel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                levelName="medium";
+                levelname.setText("MEDIUM");
+                displayLevels(mediumlevelno);
+            }
+        });
     }
 
     public void onClick(View v) {
         String levelNo = v.getTag().toString();
+        buttonLevel.start();
         if (levelNo.equals("one")) {
                 LevelWrapper.level = 1;
                 LevelWrapper.levelspeed = 9.0f * multiplier;
@@ -292,70 +298,96 @@ public class Level extends Activity implements View.OnClickListener {
     public String getimage(int level){
         String filename="";
         int star;
+        String med="";
+        if(levelName=="medium"){
+            med="medium";
+        }
         switch (level) {
             case 1:
-                star=displayLevelBG((SharedPrefsUtils.getFloatPreference(getApplicationContext(), "Level1", 0)));
+                star=displayLevelBG((SharedPrefsUtils.getFloatPreference(getApplicationContext(), med+"Level1", 0)));
                 filename = "level"+level+"btn"+star;
                 break;
             case 2:
-                star=displayLevelBG((SharedPrefsUtils.getFloatPreference(getApplicationContext(), "Level2", 0)));
+                star=displayLevelBG((SharedPrefsUtils.getFloatPreference(getApplicationContext(), med+"Level2", 0)));
                 filename = "level"+level+"btn"+star;
                 break;
             case 3:
-                star=displayLevelBG((SharedPrefsUtils.getFloatPreference(getApplicationContext(), "Level3", 0)));
+                star=displayLevelBG((SharedPrefsUtils.getFloatPreference(getApplicationContext(), med+"Level3", 0)));
                 filename = "level"+level+"btn"+star;
                 break;
             case 4:
-                star=displayLevelBG((SharedPrefsUtils.getFloatPreference(getApplicationContext(), "Level4", 0)));
+                star=displayLevelBG((SharedPrefsUtils.getFloatPreference(getApplicationContext(), med+"Level4", 0)));
                 filename = "level"+level+"btn"+star;
                 break;
             case 5:
-                star=displayLevelBG((SharedPrefsUtils.getFloatPreference(getApplicationContext(), "Level5", 0)));
+                star=displayLevelBG((SharedPrefsUtils.getFloatPreference(getApplicationContext(), med+"Level5", 0)));
                 filename = "level"+level+"btn"+star;
                 break;
             case 6:
-                star=displayLevelBG((SharedPrefsUtils.getFloatPreference(getApplicationContext(), "Level6", 0)));
+                star=displayLevelBG((SharedPrefsUtils.getFloatPreference(getApplicationContext(), med+"Level6", 0)));
                 filename = "level"+level+"btn"+star;
                 break;
             case 7:
-                star=displayLevelBG((SharedPrefsUtils.getFloatPreference(getApplicationContext(), "Level7", 0)));
+                star=displayLevelBG((SharedPrefsUtils.getFloatPreference(getApplicationContext(), med+"Level7", 0)));
                 filename = "level"+level+"btn"+star;
                 break;
             case 8:
-                star=displayLevelBG((SharedPrefsUtils.getFloatPreference(getApplicationContext(), "Level8", 0)));
+                star=displayLevelBG((SharedPrefsUtils.getFloatPreference(getApplicationContext(), med+"Level8", 0)));
                 filename = "level"+level+"btn"+star;
                 break;
             case 9:
-                star=displayLevelBG((SharedPrefsUtils.getFloatPreference(getApplicationContext(), "Level9", 0)));
+                star=displayLevelBG((SharedPrefsUtils.getFloatPreference(getApplicationContext(), med+"Level9", 0)));
                 filename = "level"+level+"btn"+star;
                 break;
             case 10:
-                star=displayLevelBG((SharedPrefsUtils.getFloatPreference(getApplicationContext(), "Level10", 0)));
+                star=displayLevelBG((SharedPrefsUtils.getFloatPreference(getApplicationContext(), med+"Level10", 0)));
                 filename = "level"+level+"btn"+star;
                 break;
             case 11:
-                star=displayLevelBG((SharedPrefsUtils.getFloatPreference(getApplicationContext(), "Level10", 0)));
+                star=displayLevelBG((SharedPrefsUtils.getFloatPreference(getApplicationContext(), med+"Level10", 0)));
                 filename = "level"+level+"btn"+star;
         }
         return filename;
     }
     public static int displayLevelBG(float score){
-        star=0;
-        if (score>=0 && score <350){
-            star=0;
-        }
-        if (score>=350 && score <500){
-            star=1;
-        }
-        if (score>=500 && score <750){
-            star=2;
-        }
-        if (score>=750){
-            star=3;
-        }
-        return star;
-    }
 
+            star = 0;
+            if (score >= 0 && score < 350) {
+                star = 0;
+            }
+            if (score >= 350 && score < 500) {
+                star = 1;
+            }
+            if (score >= 500 && score < 750) {
+                star = 2;
+            }
+            if (score >= 750) {
+                star = 3;
+            }
+            return star;
+        }
+
+  public void displayLevels(int level) {
+
+      // Set hidden all  initially
+      for (int i = 0; i < buttonList.size(); i++) {
+          buttonList.get(i).setVisibility(View.GONE);
+      }
+
+      for (int i = 0; i < level; i++) {
+          buttonList.get(i).setVisibility(View.VISIBLE);
+          buttonList.get(i).setEnabled(true);
+          String setimage = getimage(i + 1);
+          String PACKAGE_NAME = getApplicationContext().getPackageName();
+          int imgId = getResources().getIdentifier(PACKAGE_NAME + ":drawable/" + setimage, null, null);
+          buttonList.get(i).setBackgroundDrawable(getResources().getDrawable(imgId));
+          if (i < 9) {
+              buttonList.get(i + 1).setVisibility(View.VISIBLE);
+              buttonList.get(i + 1).setEnabled(false);
+              buttonList.get(i + 1).setBackgroundDrawable(getResources().getDrawable(R.drawable.lockedlevel));
+          }
+      }
+  }
  }
 
 

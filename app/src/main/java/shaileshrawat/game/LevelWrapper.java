@@ -14,6 +14,8 @@ public class LevelWrapper {
     static int level;
     static float levelspeed;
     static int levelno=1;
+    static int mediumlevelno=1;
+    static String levelName="easy";
     static boolean hold=false;
     static boolean started = false;
     static float timer=0;

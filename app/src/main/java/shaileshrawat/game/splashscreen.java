@@ -6,6 +6,7 @@ import android.animation.ValueAnimator;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
@@ -37,13 +38,15 @@ public class splashscreen extends AppCompatActivity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.splashscreen);
-        final int[] drawablearray=new int[]{R.drawable.wenzi0000,R.drawable.wenzi0010,R.drawable.wenzi0019,R.drawable.wenzi0024,R.drawable.wenzi0030};
+        MediaPlayer splashSound = MediaPlayer.create(this, R.raw.splashsound);
+        splashSound.start();
         splashanim = AnimationUtils.loadAnimation(this, R.anim.splashtexts);
         game= (TextView)findViewById(R.id.textgame);
         t= (TextView)findViewById(R.id.textT);
         ricals= (TextView)findViewById(R.id.textricals);
         game.setAnimation(splashanim);
         ricals.setAnimation(splashanim);
+
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -53,8 +56,6 @@ public class splashscreen extends AppCompatActivity {
                 splashscreen.this.finish();
             }
         }, SPLASH_DISPLAY_LENGTH);
-
-
 
     }
     @Override

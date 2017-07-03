@@ -9,6 +9,14 @@
         android:background="@drawable/levelbgup"
         android:layout_centerInParent="true"
         android:id="@+id/buttonsframe">
+        <shaileshrawat.game.MoonTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="EASY"
+            android:textSize="30dp"
+            android:id="@+id/levelName"
+            android:layout_gravity="center_horizontal"
+            android:textColor="#FFFFFF"/>
         <shaileshrawat.game.FontTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -112,5 +120,15 @@
             android:layout_height="60dp"
             />
         </RelativeLayout>
+        <Button
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:id="@+id/mediumlevel"
+            android:layout_gravity="end|center_vertical"/>
+        <Button
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:id="@+id/easylevel"
+            android:layout_gravity="center_vertical"/>
     </FrameLayout>
 </RelativeLayout>

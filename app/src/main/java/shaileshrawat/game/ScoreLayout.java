@@ -22,7 +22,9 @@ import java.io.File;
 import java.io.FileOutputStream;
 
 import static shaileshrawat.game.LevelWrapper.hold;
+import static shaileshrawat.game.LevelWrapper.levelName;
 import static shaileshrawat.game.LevelWrapper.levelno;
+import static shaileshrawat.game.LevelWrapper.mediumlevelno;
 import static shaileshrawat.game.LevelWrapper.timer;
 import static shaileshrawat.game.SimulationView.activity;
 import static shaileshrawat.game.SimulationView.calculatedScore;
@@ -42,7 +44,13 @@ public class ScoreLayout extends Activity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.score_layout);
         levelText = (TextView) findViewById(R.id.levelCompleteText);
-        levelText.setText("LEVEL " + levelno + " COMPLETED");
+        if (levelName=="medium"){
+            levelText.setText("LEVEL " + mediumlevelno + " COMPLETED");
+        }else
+        {
+            levelText.setText("LEVEL " + levelno + " COMPLETED");
+        }
+
         scoreText = (TextView) findViewById(R.id.displayScoreText);
         animateTextView(0,(int)calculatedScore , scoreText);
         //scoreText.setText(String.valueOf((int)calculatedScore));
@@ -73,7 +81,14 @@ public class ScoreLayout extends Activity{
                 if (LevelWrapper.level == levelno) {
                     levelno++;
                 }
-                SharedPrefsUtils.setIntegerPreference(getApplicationContext(), "LevelNO", levelno);
+                if(levelName=="medium"){
+                    if (LevelWrapper.level == mediumlevelno) {
+                        mediumlevelno++;
+                    }
+                    SharedPrefsUtils.setIntegerPreference(getApplicationContext(), "MediumLevelNO", levelno);
+                }else{
+                SharedPrefsUtils.setIntegerPreference(getApplicationContext(), "LevelNO", levelno);}
+
             }
 
         relaunch = (Button) findViewById(R.id.relaunch);

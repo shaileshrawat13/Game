@@ -50,6 +50,7 @@ public class SimulationView extends View implements SensorEventListener {
     private float mHorizontalBound;
     private float mVerticalBound;
     private Typeface fontText;
+    private int t=0;
 
     String[] color={"ORANGE","PINK","BLUE","GREEN","BROWN", "VIOLET","GRAY","OLIVE","PEACH","RED","TEAL","YELLOW","WHITE","MAGENTA","LIME","SAFFRON","SKY BLUE", "TURQUOISE","MAROON","TAN","BEIGE"};
     static String[] colortext={"#FFA500","#FFC0CB","#0000FF","#00FF00","#9E664C","#9400D3", "#696969","#137244", "#FFDAB9", "#FF0000", "#008080","#FFFF00","#FFFFFF","#AA00BB","#E3FF00","#F4C430","#87CEEB","#40E0D0"
@@ -156,18 +157,22 @@ public class SimulationView extends View implements SensorEventListener {
         float holex = mXOrigin / 2;
         float holey = mYOrigin / 3;
         canvas.drawBitmap(mGrass, 0, 0, null);
-//        System.out.println(BALL_SIZE);
-//        System.out.println("Width = " + w  + " Horizontalnound= " + mHorizontalBound);
-
-        canvas.drawBitmap(mHole, holex, holey, null);
             if (decr < h - 90) {
+                if(levelName=="medium"){
+                    if(t>=LEVEL_TIMER/2){
+                        t=t-10;
+                    }else
+                    {
+                        t=t+10;
+                    }
+                    canvas.drawBitmap(mHole, holex+t, holey, null);
+                }else {
+                    canvas.drawBitmap(mHole, holex, holey, null);
+                }
                 Vibrator v = (Vibrator) activity.getSystemService(Context.VIBRATOR_SERVICE);
-                //paint.setColor(Color.parseColor(colortext[i]));
-                //canvas.drawText(color[i], mXOrigin, (2 * mYOrigin), paint);
                 canvas.drawBitmap(drawScore(incr), (mXOrigin * 2) - 50, 0, null);
                 canvas.drawBitmap(showScore(), (mXOrigin*1.50f), 0, null);
                 incr = 0;
-
                 //Ball 1
                 for (int k = minball; k < maxBall; k++) {
                     Particle mball10 = ballList.get(k);
@@ -185,7 +190,6 @@ public class SimulationView extends View implements SensorEventListener {
                                 rightBall.start();
                                 if (k != maxBall + -1) {
                                     i++;
-
                                     //calculatescore();
                                 } else {
                                     calculatescore(k+1);
@@ -199,7 +203,6 @@ public class SimulationView extends View implements SensorEventListener {
                             }
                         } else {
                             canvas.drawBitmap(ballListColour.get(k), mXOrigin - BALL_SIZE + mball10.mPosX, mYOrigin - BALL_SIZE - mball10.mPosY, null);
-                           // System.out.println((mXOrigin -BALL_SIZE + mball10.mPosX) + " " + (mYOrigin - BALL_SIZE - mball10.mPosY));
                         }
                     }
                 }
@@ -316,35 +319,39 @@ public class SimulationView extends View implements SensorEventListener {
         if (calculatedScore>=1000){
             calculatedScore=1000;
         }
-        if (level==1 && (SharedPrefsUtils.getFloatPreference((Context)activity, "Level1", 0) <= calculatedScore)){
-            SharedPrefsUtils.setFloatPreference((Context)activity, "Level1", calculatedScore);
+        String med="";
+        if (levelName=="medium"){
+            med="medium";
         }
-        if (level==2 && (SharedPrefsUtils.getFloatPreference((Context)activity, "Level2", 0) <= calculatedScore)){
-            SharedPrefsUtils.setFloatPreference((Context)activity, "Level2", calculatedScore);
+        if (level==1 && (SharedPrefsUtils.getFloatPreference((Context)activity, med+"Level1", 0) <= calculatedScore)){
+            SharedPrefsUtils.setFloatPreference((Context)activity, med+"Level1", calculatedScore);
         }
-        if (level==3 && (SharedPrefsUtils.getFloatPreference((Context)activity, "Level3", 0) <= calculatedScore)){
-            SharedPrefsUtils.setFloatPreference((Context)activity, "Level3", calculatedScore);
+        if (level==2 && (SharedPrefsUtils.getFloatPreference((Context)activity, med+"Level2", 0) <= calculatedScore)){
+            SharedPrefsUtils.setFloatPreference((Context)activity, med+"Level2", calculatedScore);
         }
-        if (level==4 && (SharedPrefsUtils.getFloatPreference((Context)activity, "Level4", 0) <= calculatedScore)){
-            SharedPrefsUtils.setFloatPreference((Context)activity, "Level4", calculatedScore);
+        if (level==3 && (SharedPrefsUtils.getFloatPreference((Context)activity, med+"Level3", 0) <= calculatedScore)){
+            SharedPrefsUtils.setFloatPreference((Context)activity, med+"Level3", calculatedScore);
         }
-        if (level==5 && (SharedPrefsUtils.getFloatPreference((Context)activity, "Level5", 0) <= calculatedScore)){
-            SharedPrefsUtils.setFloatPreference((Context)activity, "Level5", calculatedScore);
+        if (level==4 && (SharedPrefsUtils.getFloatPreference((Context)activity, med+"Level4", 0) <= calculatedScore)){
+            SharedPrefsUtils.setFloatPreference((Context)activity, med+"Level4", calculatedScore);
         }
-        if (level==6 && (SharedPrefsUtils.getFloatPreference((Context)activity, "Level6", 0) <= calculatedScore)){
-            SharedPrefsUtils.setFloatPreference((Context)activity, "Level6", calculatedScore);
+        if (level==5 && (SharedPrefsUtils.getFloatPreference((Context)activity, med+"Level5", 0) <= calculatedScore)){
+            SharedPrefsUtils.setFloatPreference((Context)activity, med+"Level5", calculatedScore);
         }
-        if (level==7 && (SharedPrefsUtils.getFloatPreference((Context)activity, "Level7", 0) <= calculatedScore)){
-            SharedPrefsUtils.setFloatPreference((Context)activity, "Level7", calculatedScore);
+        if (level==6 && (SharedPrefsUtils.getFloatPreference((Context)activity, med+"Level6", 0) <= calculatedScore)){
+            SharedPrefsUtils.setFloatPreference((Context)activity, med+"Level6", calculatedScore);
         }
-        if (level==8 && (SharedPrefsUtils.getFloatPreference((Context)activity, "Level8", 0) <= calculatedScore)){
-            SharedPrefsUtils.setFloatPreference((Context)activity, "Level8", calculatedScore);
+        if (level==7 && (SharedPrefsUtils.getFloatPreference((Context)activity, med+"Level7", 0) <= calculatedScore)){
+            SharedPrefsUtils.setFloatPreference((Context)activity, med+"Level7", calculatedScore);
         }
-        if (level==9 && (SharedPrefsUtils.getFloatPreference((Context)activity, "Level9", 0) <= calculatedScore)){
-            SharedPrefsUtils.setFloatPreference((Context)activity, "Level9", calculatedScore);
+        if (level==8 && (SharedPrefsUtils.getFloatPreference((Context)activity, med+"Level8", 0) <= calculatedScore)){
+            SharedPrefsUtils.setFloatPreference((Context)activity, med+"Level8", calculatedScore);
         }
-        if (level==10 && (SharedPrefsUtils.getFloatPreference((Context)activity, "Level10", 0) <= calculatedScore)){
-            SharedPrefsUtils.setFloatPreference((Context)activity, "Level10", calculatedScore);
+        if (level==9 && (SharedPrefsUtils.getFloatPreference((Context)activity, med+"Level9", 0) <= calculatedScore)){
+            SharedPrefsUtils.setFloatPreference((Context)activity, med+"Level9", calculatedScore);
+        }
+        if (level==10 && (SharedPrefsUtils.getFloatPreference((Context)activity, med+"Level10", 0) <= calculatedScore)){
+            SharedPrefsUtils.setFloatPreference((Context)activity, med+"Level10", calculatedScore);
         }
     }
     private void timeFinishdialog() {
