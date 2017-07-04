@@ -25,7 +25,9 @@ import java.util.HashMap;
 
 import static shaileshrawat.game.Homepage.rightBall;
 import static shaileshrawat.game.Homepage.wrongBall;
+import static shaileshrawat.game.Level.MEDIUMLEVEL;
 import static shaileshrawat.game.LevelWrapper.hold;
+import static shaileshrawat.game.LevelWrapper.level;
 import static shaileshrawat.game.LevelWrapper.started;
 import static shaileshrawat.game.LevelWrapper.timer;
 
@@ -156,16 +158,27 @@ public class SimulationView extends View implements SensorEventListener {
         super.onDraw(canvas);
         float holex = mXOrigin / 2;
         float holey = mYOrigin / 3;
+        int direction = 1;
         canvas.drawBitmap(mGrass, 0, 0, null);
             if (decr < h - 90) {
-                if(levelName=="medium"){
-                    if(t>=LEVEL_TIMER/2){
-                        t=t-10;
-                    }else
-                    {
-                        t=t+10;
+                if(levelName==MEDIUMLEVEL){
+                    //run until timer is over
+                    if(timer<=(level*LEVEL_TIMER)){
+
+                        if (((2*holex)+t)<(mXOrigin*2) && direction > 0) {
+                            canvas.drawBitmap(mHole, holex + t, holey, null);
+                            t++;
+                            if(t >= (mXOrigin*2)-(2*holex)){
+                                direction = -1;
+                            }
+                        }else if(direction < 0){
+                            t--;
+                            canvas.drawBitmap(mHole, holex + t, holey, null);
+                            if(t <= (mXOrigin*2)-(2*holex)){
+                                direction = 1;
+                            }
+                        }
                     }
-                    canvas.drawBitmap(mHole, holex+t, holey, null);
                 }else {
                     canvas.drawBitmap(mHole, holex, holey, null);
                 }
@@ -181,7 +194,7 @@ public class SimulationView extends View implements SensorEventListener {
                         mball10.resolveCollisionWithBounds(mHorizontalBound, mVerticalBound);
                         canvas.drawBitmap(drawCircle(i), (1.25f * mXOrigin),0, null);
 
-                        if (((mXOrigin - BALL_SIZE + mball10.mPosX) >= (holex - 30) && (mXOrigin - BALL_SIZE + mball10.mPosX) <= (holex + 30)) &&
+                        if (((mXOrigin - BALL_SIZE + mball10.mPosX) >= (holex+t - 30) && (mXOrigin - BALL_SIZE + mball10.mPosX) <= (holex+t + 30)) &&
                                 (mYOrigin - BALL_SIZE - mball10.mPosY) >= holey - 30 && (mYOrigin - BALL_SIZE - mball10.mPosY) <= (holey + 30)) {
 
                             if (ballcolormap.get(mball10).equals(colortext[i])) {
@@ -214,8 +227,8 @@ public class SimulationView extends View implements SensorEventListener {
                         public void run() {
                         if(!hold){
                             System.out.println(timer);
-                            newhandler.postDelayed(this, 10);
-                            timer=timer+.021f;
+                            newhandler.postDelayed(this, 100);
+                            timer=timer+.21f;
                         }else{
                             started = false;
                         }

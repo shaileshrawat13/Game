@@ -38,6 +38,8 @@ import static shaileshrawat.game.SimulationView.calculatedScore;
 public class Level extends Activity implements View.OnClickListener {
     private static final String TAG = ".Level";
     public static int star;
+    public static String MEDIUMLEVEL = "medium";
+    public static String EASYLEVEL = "easy";
     private PowerManager.WakeLock mWakeLock;
     float multiplier=1000000000000f;
     Button mediumlevel, easylevel;
@@ -158,7 +160,7 @@ public class Level extends Activity implements View.OnClickListener {
         easylevel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                levelName="easy";
+                levelName=EASYLEVEL;
                 levelname.setText("EASY");
                 displayLevels(levelno);
             }
@@ -166,7 +168,7 @@ public class Level extends Activity implements View.OnClickListener {
         mediumlevel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                levelName="medium";
+                levelName=MEDIUMLEVEL;
                 levelname.setText("MEDIUM");
                 displayLevels(mediumlevelno);
             }
@@ -299,8 +301,8 @@ public class Level extends Activity implements View.OnClickListener {
         String filename="";
         int star;
         String med="";
-        if(levelName=="medium"){
-            med="medium";
+        if(levelName==MEDIUMLEVEL){
+            med=MEDIUMLEVEL;
         }
         switch (level) {
             case 1:

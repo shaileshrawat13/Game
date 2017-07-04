@@ -21,6 +21,7 @@ import org.w3c.dom.Text;
 import java.io.File;
 import java.io.FileOutputStream;
 
+import static shaileshrawat.game.Level.MEDIUMLEVEL;
 import static shaileshrawat.game.LevelWrapper.hold;
 import static shaileshrawat.game.LevelWrapper.levelName;
 import static shaileshrawat.game.LevelWrapper.levelno;
@@ -44,7 +45,7 @@ public class ScoreLayout extends Activity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.score_layout);
         levelText = (TextView) findViewById(R.id.levelCompleteText);
-        if (levelName=="medium"){
+        if (levelName==MEDIUMLEVEL){
             levelText.setText("LEVEL " + mediumlevelno + " COMPLETED");
         }else
         {
@@ -81,7 +82,7 @@ public class ScoreLayout extends Activity{
                 if (LevelWrapper.level == levelno) {
                     levelno++;
                 }
-                if(levelName=="medium"){
+                if(levelName==MEDIUMLEVEL){
                     if (LevelWrapper.level == mediumlevelno) {
                         mediumlevelno++;
                     }
