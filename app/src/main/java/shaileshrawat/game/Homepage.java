@@ -14,7 +14,7 @@ import android.widget.Button;
 
 public class Homepage extends Activity {
     Button gameBtn, rulebtn, highScoreBtn, shareBtn, settingsBtn;
-    public static MediaPlayer buttonHome, buttonBack, buttonLevel, rightBall, wrongBall, gamePlay, startSiren, homesound;
+    public static MediaPlayer buttonHome, buttonBack, buttonLevel, rightBall, wrongBall, gamePlay, startSiren, scoreCount;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,7 +27,18 @@ public class Homepage extends Activity {
         wrongBall = MediaPlayer.create(this, R.raw.wrongballin);
         gamePlay = MediaPlayer.create(this, R.raw.game);
         startSiren = MediaPlayer.create(this, R.raw.game);
-        startSiren.start();
+        startSiren.setVolume(0.6f, 0.6f);
+        buttonHome.setVolume(1,1);
+        buttonLevel.setVolume(1,1);
+        rightBall.setVolume(1,1);
+        wrongBall.setVolume(1,1);
+        buttonBack.setVolume(1,1);
+        scoreCount = MediaPlayer.create(this, R.raw.scorecount);
+        if(startSiren.isPlaying()){
+            startSiren.reset();
+        }else {
+            startSiren.start();
+        }
         gameBtn = (Button) findViewById(R.id.gamestart);
         rulebtn = (Button) findViewById(R.id.rules);
         highScoreBtn = (Button) findViewById(R.id.highscores);
@@ -52,5 +63,10 @@ public class Homepage extends Activity {
                 finish();
             }
         });
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
     }
 }

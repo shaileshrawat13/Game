@@ -21,6 +21,7 @@ import org.w3c.dom.Text;
 import java.io.File;
 import java.io.FileOutputStream;
 
+import static shaileshrawat.game.Homepage.scoreCount;
 import static shaileshrawat.game.Level.MEDIUMLEVEL;
 import static shaileshrawat.game.LevelWrapper.hold;
 import static shaileshrawat.game.LevelWrapper.levelName;
@@ -133,16 +134,14 @@ public class ScoreLayout extends Activity{
 
         ValueAnimator valueAnimator = ValueAnimator.ofInt(initialValue, finalValue);
         valueAnimator.setDuration(1500);
-
         valueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
             public void onAnimationUpdate(ValueAnimator valueAnimator) {
-
                 textview.setText(valueAnimator.getAnimatedValue().toString());
-
             }
         });
         valueAnimator.start();
+        scoreCount.start();
     }
     public static void captureandstore(View view) {
         View screenView = view.getRootView();

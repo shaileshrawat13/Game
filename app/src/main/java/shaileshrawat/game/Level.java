@@ -24,6 +24,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static shaileshrawat.game.Homepage.buttonLevel;
+import static shaileshrawat.game.Homepage.startSiren;
 import static shaileshrawat.game.LevelWrapper.hold;
 import static shaileshrawat.game.LevelWrapper.levelName;
 import static shaileshrawat.game.LevelWrapper.levelno;
@@ -219,6 +220,7 @@ public class Level extends Activity implements View.OnClickListener {
                 LevelWrapper.levelspeed = 10.5f * multiplier;
             }
             hold=false;
+            startSiren.stop();
             Intent mainIntent = new Intent(getApplicationContext(), Gamehome.class);
             startActivity(mainIntent);
             this.finish();
@@ -281,10 +283,8 @@ public class Level extends Activity implements View.OnClickListener {
                     // If request is cancelled, the result arrays are empty.
                     if (grantResults.length > 0
                             && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-
                         // permission was granted, yay! Do the
                         // contacts-related task you need to do.
-
                     } else {
                         // showInterstitial();
                     }

@@ -8,6 +8,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.LinearGradient;
+import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Shader;
 import android.graphics.Typeface;
@@ -53,6 +54,7 @@ public class SimulationView extends View implements SensorEventListener {
     private float mVerticalBound;
     private Typeface fontText;
     private int t=0;
+    private boolean leftToRight= true;
 
     String[] color={"ORANGE","PINK","BLUE","GREEN","BROWN", "VIOLET","GRAY","OLIVE","PEACH","RED","TEAL","YELLOW","WHITE","MAGENTA","LIME","SAFFRON","SKY BLUE", "TURQUOISE","MAROON","TAN","BEIGE"};
     static String[] colortext={"#FFA500","#FFC0CB","#0000FF","#00FF00","#9E664C","#9400D3", "#696969","#137244", "#FFDAB9", "#FF0000", "#008080","#FFFF00","#FFFFFF","#AA00BB","#E3FF00","#F4C430","#87CEEB","#40E0D0"
@@ -85,6 +87,7 @@ public class SimulationView extends View implements SensorEventListener {
         // Draw Holes
         Bitmap hole = BitmapFactory.decodeResource(getResources(), R.drawable.blackhole2);
         mHole = Bitmap.createScaledBitmap(hole, HOLE_SIZE, HOLE_SIZE, true);
+
 
         BitmapFactory.Options opts = new BitmapFactory.Options();
         opts.inDither = true;
@@ -151,33 +154,30 @@ public class SimulationView extends View implements SensorEventListener {
         mSensorManager.unregisterListener(this);
     }
 
-
-
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
         float holex = mXOrigin / 2;
         float holey = mYOrigin / 3;
-        int direction = 1;
         canvas.drawBitmap(mGrass, 0, 0, null);
             if (decr < h - 90) {
                 if(levelName==MEDIUMLEVEL){
                     //run until timer is over
                     if(timer<=(level*LEVEL_TIMER)){
-
-                        if (((2*holex)+t)<(mXOrigin*2) && direction > 0) {
-                            canvas.drawBitmap(mHole, holex + t, holey, null);
-                            t++;
-                            if(t >= (mXOrigin*2)-(2*holex)){
-                                direction = -1;
+                        if(leftToRight){
+                            t=t+2;
+                            canvas.drawBitmap(mHole, holex+t, holey, null);
+                            if (holex+HOLE_SIZE+t>=(2*mXOrigin)){
+                                leftToRight=false;
                             }
-                        }else if(direction < 0){
-                            t--;
-                            canvas.drawBitmap(mHole, holex + t, holey, null);
-                            if(t <= (mXOrigin*2)-(2*holex)){
-                                direction = 1;
+                        }else{
+                            t=t-1;
+                            canvas.drawBitmap(mHole, holex+t, holey, null);
+                            if ((holex+t)<=0){
+                                leftToRight=true;
                             }
                         }
+
                     }
                 }else {
                     canvas.drawBitmap(mHole, holex, holey, null);
@@ -382,5 +382,4 @@ public class SimulationView extends View implements SensorEventListener {
         finish.putExtra("Text", "LEVEL COMPLETED!");
         activity.startActivity(finish);
     }
-
 }
