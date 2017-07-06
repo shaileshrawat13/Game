@@ -12,7 +12,7 @@ import android.widget.TextView;
  * Created by SHAILESH RAWAT on 31-05-2017.
  */
 
-public class Finish_Activity extends Activity {
+public class Finish_Activity extends Mediawrapper {
 
     TextView finalText;
 

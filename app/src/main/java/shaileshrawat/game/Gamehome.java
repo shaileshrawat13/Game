@@ -35,7 +35,7 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import static shaileshrawat.game.LevelWrapper.hold;
 import static shaileshrawat.game.SimulationView.calculatedScore;
 
-public class Gamehome extends Activity {
+public class Gamehome extends Mediawrapper {
     private static final String TAG = ".Gamehome";
     private PowerManager.WakeLock mWakeLock;
     private SimulationView mSimulationView;

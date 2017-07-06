@@ -33,8 +33,9 @@ public class tutorial extends Activity implements View.OnClickListener {
         letsPlay.setOnClickListener(this);
     }
     public void onClick(View v) {
-        tutorial.this.finish();
+        onBackPressed();
     }
+    @Override
     public void onBackPressed()    {
         Intent backHome = new Intent(getApplicationContext(), Homepage.class);
         startActivity(backHome);

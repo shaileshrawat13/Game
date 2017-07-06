@@ -3,6 +3,7 @@ package shaileshrawat.game;
 import android.animation.FloatEvaluator;
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
@@ -24,7 +25,7 @@ import android.widget.TextView;
 /**
  * Created by shailesh.rawat on 05-07-2016.
  */
-public class splashscreen extends AppCompatActivity {
+public class splashscreen extends Mediawrapper {
 
 
     private final int SPLASH_DISPLAY_LENGTH = 1000;

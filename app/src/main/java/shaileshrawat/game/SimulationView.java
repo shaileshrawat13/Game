@@ -209,7 +209,7 @@ public class SimulationView extends View implements SensorEventListener {
                                     levelFinishdialog();
                                 }
                             } else {
-                                mball10.resetPosition(mXOrigin, mYOrigin);
+                                mball10.resetPosition(0, 0);
                                 incr = 2;
                                 wrongBall.start();
                                 v.vibrate(100);

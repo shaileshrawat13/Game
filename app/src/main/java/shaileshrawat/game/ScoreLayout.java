@@ -36,7 +36,7 @@ import static shaileshrawat.game.SimulationView.decr;
  * Created by SHAILESH RAWAT on 01-06-2017.
  */
 
-public class ScoreLayout extends Activity{
+public class ScoreLayout extends Mediawrapper{
     Button relaunch, missionSelect, sharebtn1;
     TextView levelText, scoreText, zeroscore;
     ImageView star1, star2, star3;

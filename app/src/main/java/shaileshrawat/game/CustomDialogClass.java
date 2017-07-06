@@ -76,7 +76,6 @@ public class CustomDialogClass extends Dialog implements
                     c.recreate();
 
                 }else {
-
                     Intent levelIntent = new Intent(c, Level.class);
                     levelIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     c.getApplicationContext().startActivity(levelIntent);

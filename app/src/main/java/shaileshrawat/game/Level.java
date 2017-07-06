@@ -36,7 +36,7 @@ import static shaileshrawat.game.SimulationView.calculatedScore;
 /**
  * Created by shailesh.rawat on 9/14/2016.
  */
-public class Level extends Activity implements View.OnClickListener {
+public class Level extends Mediawrapper implements View.OnClickListener {
     private static final String TAG = ".Level";
     public static int star;
     public static String MEDIUMLEVEL = "medium";
