@@ -32,8 +32,8 @@
         android:layout_centerInParent="true"
         android:id="@+id/gameslayout">
     <Button
-    android:layout_width="250dp"
-    android:layout_height="100dp"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
     android:background="@drawable/blankplaybtn"
     android:layout_centerInParent="true"
     android:id="@+id/gamestart"/>

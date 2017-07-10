@@ -3,6 +3,7 @@ package shaileshrawat.game;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.drawable.AnimationDrawable;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
@@ -25,13 +26,13 @@ public class Homepage extends Mediawrapper {
     public static MediaPlayer buttonHome, buttonBack, buttonLevel, rightBall, wrongBall, gamePlay, startSiren, scoreCount;
     TextView launchText, rulesText, highscoreText, sharebtnText, settingsText;
     public static boolean mediarunning=false;
-    Animation homeButtonAnimations;
+    Animation homeButtonanimations;
+    boolean abort;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.homepage);
         final String PACKAGE_NAME = getApplicationContext().getPackageName();
-        homeButtonAnimations = AnimationUtils.loadAnimation(this, R.anim.buttonanimations);
         buttonHome = MediaPlayer.create(this, R.raw.homebuttons);
         buttonBack = MediaPlayer.create(this, R.raw.backbutton);
         buttonLevel = MediaPlayer.create(this, R.raw.levelbuttonsound);
@@ -62,7 +63,7 @@ public class Homepage extends Mediawrapper {
         highscoreText = (TextView) findViewById(R.id.highscorestext);
         sharebtnText = (TextView) findViewById(R.id.sharetext);
         settingsText = (TextView) findViewById(R.id.settingstext);
-
+        homeButtonanimations = AnimationUtils.loadAnimation(this, R.anim.buttonanimations);
 
         gameBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -72,39 +73,25 @@ public class Homepage extends Mediawrapper {
                // gameBtn.startAnimation(homeButtonAnimations);
                 homepageVisibilityShooter();
                 gameBtn.setVisibility(View.VISIBLE);
-                launchText.setVisibility(View.VISIBLE);
-                final Handler newhandler = new Handler();
-                newhandler.postDelayed(new Runnable() {
+                gameBtn.setBackground(getResources().getDrawable(R.drawable.gamebtn4));
+                gameBtn.setAnimation(homeButtonanimations);
+                new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        new Handler().postDelayed(new Runnable() {
-                            int i=1;
-                            @Override
-                            public void run() {
-                                i++;
-                                String setimage = "gamebtn"+i;
-                                int imgId = getResources().getIdentifier(PACKAGE_NAME + ":drawable/" + setimage, null, null);
-                                gameBtn.setBackground(getResources().getDrawable(imgId));
-                            }
-                        }, 500);
-
-                        Intent game = new Intent(Homepage.this, Level.class);
-                        startActivity(game);
+                        Intent tutorial = new Intent(getApplicationContext(), Level.class);
+                        startActivity(tutorial);
                         finish();
                     }
-                }, 2000);
-
+                }, 3000);
             }
         });
         rulebtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 buttonHome.start();
-                rulesText.startAnimation(homeButtonAnimations);
-                rulebtn.startAnimation(homeButtonAnimations);
                 homepageVisibilityShooter();
                 rulebtn.setVisibility(View.VISIBLE);
-                rulesText.setVisibility(View.VISIBLE);
+                rulebtn.setBackground(getResources().getDrawable(R.drawable.rulesbtn4));
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
@@ -137,6 +124,5 @@ public class Homepage extends Mediawrapper {
         sharebtnText.setVisibility(View.INVISIBLE);
         highscoreText.setVisibility(View.INVISIBLE);
         settingsText.setVisibility(View.INVISIBLE);
-
-    }
+        }
 }

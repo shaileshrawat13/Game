@@ -13,12 +13,11 @@
     </scale>
 
     <scale xmlns:android="http://schemas.android.com/apk/res/android"
-        android:duration="1500"
+        android:duration="3000"
         android:fromXScale="1"
         android:fromYScale="1"
-
         android:toXScale="0"
-        android:toYScale="1">
+        android:toYScale="0">
     </scale>
 
 </set>
