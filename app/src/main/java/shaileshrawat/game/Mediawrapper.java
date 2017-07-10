@@ -9,7 +9,8 @@ import static shaileshrawat.game.Homepage.startSiren;
  */
 public abstract class Mediawrapper extends Activity
 {
-
+    public static boolean gamesounds = true;
+    public static boolean gamemusic = true;
     @Override
     protected void onPause() {
         if(Homepage.mediarunning) {

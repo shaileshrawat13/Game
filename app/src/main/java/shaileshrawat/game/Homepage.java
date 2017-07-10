@@ -50,7 +50,9 @@ public class Homepage extends Mediawrapper {
         if(startSiren.isPlaying()){
             startSiren.reset();
         }else {
-            startSiren.start();
+            if (gamemusic) {
+                startSiren.start();
+            }
             mediarunning=true;
         }
         gameBtn = (Button) findViewById(R.id.gamestart);
@@ -68,9 +70,9 @@ public class Homepage extends Mediawrapper {
         gameBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                buttonHome.start();
-                //launchText.setAnimation(homeButtonAnimations);
-               // gameBtn.startAnimation(homeButtonAnimations);
+                if (gamesounds) {
+                    buttonHome.start();
+                }
                 homepageVisibilityShooter();
                 gameBtn.setVisibility(View.VISIBLE);
                 gameBtn.setBackground(getResources().getDrawable(R.drawable.gamebtn4));
@@ -88,10 +90,13 @@ public class Homepage extends Mediawrapper {
         rulebtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                buttonHome.start();
+                if (gamesounds) {
+                    buttonHome.start();
+                }
                 homepageVisibilityShooter();
                 rulebtn.setVisibility(View.VISIBLE);
                 rulebtn.setBackground(getResources().getDrawable(R.drawable.rulesbtn4));
+                rulebtn.setAnimation(homeButtonanimations);
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
@@ -99,7 +104,32 @@ public class Homepage extends Mediawrapper {
                         startActivity(tutorial);
                         finish();
                     }
-                }, 2000);
+                }, 3000);
+
+            }
+        });
+
+        shareBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (gamesounds){
+                    buttonBack.start();
+                }
+                Intent sendIntent = new Intent();
+                sendIntent.setAction(Intent.ACTION_SEND);
+                sendIntent.putExtra(Intent.EXTRA_TEXT, "Fantastic!\nDownload Smart Ball in the Hole from Playstore\n" +
+                        "https://play.google.com/store/apps/details?id=smartlyinnovation.horoscope2018");
+                sendIntent.setType("text/plain");
+                startActivity(Intent.createChooser(sendIntent, "Hello"));
+            }
+        });
+
+        settingsBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (gamesounds){
+                    buttonBack.start();
+                }
 
             }
         });

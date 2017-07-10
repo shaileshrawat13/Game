@@ -228,7 +228,7 @@ public class SimulationView extends View implements SensorEventListener {
                         if(!hold){
                             System.out.println(timer);
                             newhandler.postDelayed(this, 100);
-                            timer=timer+.21f;
+                            timer=timer+.10f;
                         }else{
                             started = false;
                         }

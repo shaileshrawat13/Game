@@ -178,7 +178,9 @@ public class Level extends Mediawrapper implements View.OnClickListener {
 
     public void onClick(View v) {
         String levelNo = v.getTag().toString();
-        buttonLevel.start();
+        if (gamesounds) {
+            buttonLevel.start();
+        };
         if (levelNo.equals("one")) {
                 LevelWrapper.level = 1;
                 LevelWrapper.levelspeed = 9.0f * multiplier;
