@@ -124,11 +124,14 @@
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:id="@+id/mediumlevel"
+            android:background="@drawable/arrow"
             android:layout_gravity="end|center_vertical"/>
         <Button
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:id="@+id/easylevel"
+            android:background="@drawable/arrow"
+            android:rotation="180"
             android:layout_gravity="center_vertical"/>
     </FrameLayout>
 </RelativeLayout>

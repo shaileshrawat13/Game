@@ -80,7 +80,7 @@ public class Gamehome extends Mediawrapper {
     @Override
     public void onBackPressed() {
         calculatedScore=0;
-        CustomDialogClass cdd=new CustomDialogClass(this, "Are you sure you want to leave balls on space? ", "Yes", "No");
+        CustomDialogClass cdd=new CustomDialogClass(this, "Are you sure you want to leave balls on space?");
         cdd.show();
     }
     @Override

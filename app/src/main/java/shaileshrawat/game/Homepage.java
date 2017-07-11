@@ -76,6 +76,7 @@ public class Homepage extends Mediawrapper {
                 homepageVisibilityShooter();
                 gameBtn.setVisibility(View.VISIBLE);
                 gameBtn.setBackground(getResources().getDrawable(R.drawable.gamebtn4));
+                gameBtn.setClickable(false);
                 gameBtn.setAnimation(homeButtonanimations);
                 new Handler().postDelayed(new Runnable() {
                     @Override

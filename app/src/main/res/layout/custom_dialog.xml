@@ -1,55 +1,83 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_centerVertical="true"
-    android:layout_centerHorizontal="true"
-    android:background="#687763"
-    android:alpha="0.8"
-    android:orientation="vertical" >
+    android:background="@drawable/dialogbg"
+    android:orientation="vertical"
+    android:scaleX="1.1"
+    android:scaleY=".85">
 
     <shaileshrawat.game.FontTextView
         android:id="@+id/txt_dia"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_gravity="center"
+        android:layout_height="wrap_content"
+        android:text="Are you sure you want\nto leave balls on space?"
         android:textAlignment="center"
-        android:text="Do you realy want to exiterttertertertertertertert ?"
-        android:textColor="#FF0000"
-        android:textSize="20dp"
-        android:textStyle="bold"/>
+        android:textColor="#FFFFFF"
+        android:textSize="18dp"
+        android:textStyle="bold"
+        android:scaleX=".9"
+        android:scaleY="1.2"
+        android:layout_gravity="center_vertical"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="80dp"
+        />
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_margin="15dp">
+        android:layout_below="@+id/txt_dia"
+        android:gravity="center_horizontal"
+        android:layout_marginTop="50dp"
+        android:scaleX=".9">
+<LinearLayout
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:id="@+id/btn_yes"
+    android:clickable="true">
+    <Button
 
-
-        <Button
-                android:id="@+id/btn_yes"
-                android:layout_width="150dp"
-                android:layout_height="60dp"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
                 android:clickable="true"
-                android:text="Yes"
-                android:textSize="30dp"
-                android:background="@drawable/genbutton"
-                android:textColor="#42f4f4"
+                android:background="@drawable/yesbtn"
                 android:textStyle="bold" />
-
+    <shaileshrawat.game.FontTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="YES"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="5dp"
+                android:textColor="#42f4f4"
+                android:textSize="30dp"
+                android:clickable="true"
+                />
+</LinearLayout>
+<LinearLayout
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:id="@+id/btn_no"
+    android:clickable="true">
         <Button
-            android:id="@+id/btn_no"
-            android:layout_width="150dp"
-            android:layout_height="60dp"
-            android:layout_marginLeft="20dp"
-            android:background="@drawable/genbutton"
-            android:clickable="true"
-            android:text="No"
-            android:textSize="30dp"
-            android:textColor="#42f4f4"
-            android:textStyle="bold" />
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginLeft="20dp"
+                android:background="@drawable/nobtn"
+                android:clickable="true"
+                android:textStyle="bold" />
+        <shaileshrawat.game.FontTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="NO"
+                android:textSize="30dp"
+                android:clickable="true"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="5dp"
+                android:textColor="#42f4f4"
+                android:layout_centerVertical="true"
+                android:layout_toEndOf="@id/btn_no"/>
 
-
+    </LinearLayout>
     </LinearLayout>
 
 </LinearLayout>
