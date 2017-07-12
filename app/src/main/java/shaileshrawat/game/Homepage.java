@@ -76,7 +76,6 @@ public class Homepage extends Mediawrapper {
                 homepageVisibilityShooter();
                 gameBtn.setVisibility(View.VISIBLE);
                 gameBtn.setBackground(getResources().getDrawable(R.drawable.gamebtn4));
-                gameBtn.setClickable(false);
                 gameBtn.setAnimation(homeButtonanimations);
                 new Handler().postDelayed(new Runnable() {
                     @Override
@@ -128,10 +127,11 @@ public class Homepage extends Mediawrapper {
         settingsBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (gamesounds){
+                if (gamesounds) {
                     buttonBack.start();
                 }
-
+                    settingsdialog sdd=new settingsdialog(Homepage.this);
+                    sdd.show();
             }
         });
     }

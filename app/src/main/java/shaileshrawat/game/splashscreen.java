@@ -47,6 +47,8 @@ public class splashscreen extends Mediawrapper {
         ricals= (TextView)findViewById(R.id.textricals);
         game.setAnimation(splashanim);
         ricals.setAnimation(splashanim);
+        gamesounds = SharedPrefsUtils.getBooleanPreference(this, "soundflag", true);
+        gamemusic = SharedPrefsUtils.getBooleanPreference(this, "musicflag", true);
 
         new Handler().postDelayed(new Runnable() {
             @Override

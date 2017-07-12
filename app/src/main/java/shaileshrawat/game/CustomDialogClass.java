@@ -5,12 +5,10 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import org.w3c.dom.Text;
@@ -25,10 +23,11 @@ import static shaileshrawat.game.SimulationView.decr;
  * Created by shailesh.rawat on 11/10/2016.
  */
 
-public class CustomDialogClass extends Dialog implements View.OnTouchListener {
+public class CustomDialogClass extends Dialog implements
+        android.view.View.OnClickListener {
 
     public Activity c;
-    public LinearLayout button1, button2;
+    public Button button1, button2;
     public TextView message;
     public String msg;
 
@@ -49,16 +48,18 @@ public class CustomDialogClass extends Dialog implements View.OnTouchListener {
         Typeface myTypeface = Typeface.createFromAsset(c.getAssets(), "Fonts/neuropol.ttf");
         message = (TextView) findViewById(R.id.txt_dia);
         message.setText(msg);
-        button1 = (LinearLayout) findViewById(R.id.btn_yes);
-        button2 = (LinearLayout) findViewById(R.id.btn_no);
-        button1.setOnTouchListener(this);
-        button2.setOnTouchListener(this);
+        button1 = (Button) findViewById(R.id.btn_yes);
+        button1.setTypeface(myTypeface);
+        button2 = (Button) findViewById(R.id.btn_no);
+        button2.setTypeface(myTypeface);
+        button1.setOnClickListener(this);
+        button2.setOnClickListener(this);
         hold=true;
 
     }
 
     @Override
-    public boolean onTouch(View v, MotionEvent e) {
+    public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_yes:
                 //c.finish();
@@ -67,6 +68,7 @@ public class CustomDialogClass extends Dialog implements View.OnTouchListener {
                     c.getApplicationContext().startActivity(levelIntent);
                     decr = 0;
                     c.finish();
+
                 dismiss();
                 break;
             case R.id.btn_no:
@@ -76,8 +78,6 @@ public class CustomDialogClass extends Dialog implements View.OnTouchListener {
             default:
                 break;
         }
-        dismiss();
-        return false;
         }
 
 }

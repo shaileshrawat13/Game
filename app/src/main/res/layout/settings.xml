@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/dialogbg"
+    android:orientation="vertical"
+    android:scaleX="1.1"
+    android:scaleY=".85">
+    <shaileshrawat.game.MoonTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="SETTINGS"
+        android:textColor="#FFFFFF"
+        android:textSize="40dp"
+        android:layout_marginTop="50dp"
+        android:layout_gravity="center_horizontal"/>
+
+    <RelativeLayout
+        android:id="@+id/musiclayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginLeft="50dp"
+        android:layout_marginTop="10dp">
+
+        <Button
+            android:id="@+id/musicbtn"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@drawable/musicon" />
+        <shaileshrawat.game.FontTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:paddingRight="10dp"
+            android:layout_toEndOf="@+id/musicbtn"
+            android:gravity="center"
+            android:text="MUSIC"
+            android:layout_centerVertical="true"
+            android:textColor="#42f4f4"
+            android:textSize="30dp" />
+    </RelativeLayout>
+    <RelativeLayout
+        android:id="@+id/soundlayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginLeft="50dp"
+        android:layout_marginTop="10dp">
+
+        <Button
+            android:id="@+id/soundbtn"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@drawable/soundson" />
+        <shaileshrawat.game.FontTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:paddingRight="10dp"
+            android:layout_toEndOf="@+id/soundbtn"
+            android:gravity="center"
+            android:text="SOUNDS"
+            android:layout_centerVertical="true"
+            android:textColor="#42f4f4"
+            android:textSize="30dp" />
+    </RelativeLayout>
+    <RelativeLayout
+        android:id="@+id/moredevlayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginLeft="50dp"
+        android:layout_marginTop="10dp">
+
+        <Button
+            android:id="@+id/moredevbtn"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@drawable/moreaboutdevon" />
+        <shaileshrawat.game.FontTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:paddingRight="10dp"
+            android:layout_toEndOf="@+id/moredevbtn"
+           android:layout_centerVertical="true"
+            android:text="More from \nDeveloper"
+            android:textColor="#42f4f4"
+            android:textSize="15dp" />
+    </RelativeLayout>
+
+
+</LinearLayout>

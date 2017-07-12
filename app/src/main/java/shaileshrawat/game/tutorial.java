@@ -11,6 +11,8 @@ import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageView;
 
+import static shaileshrawat.game.Homepage.buttonBack;
+
 /**
  * Created by shailesh.rawat on 10/13/2016.
  */
@@ -33,6 +35,7 @@ public class tutorial extends Activity implements View.OnClickListener {
         letsPlay.setOnClickListener(this);
     }
     public void onClick(View v) {
+        buttonBack.start();
         onBackPressed();
     }
     @Override

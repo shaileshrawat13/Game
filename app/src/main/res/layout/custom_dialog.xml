@@ -33,49 +33,48 @@
 <LinearLayout
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:id="@+id/btn_yes"
-    android:clickable="true">
-    <Button
-
+    android:layout_alignParentBottom="true">
+        <Button
+                android:id="@+id/btn_yes"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:clickable="true"
                 android:background="@drawable/yesbtn"
                 android:textStyle="bold" />
     <shaileshrawat.game.FontTextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="YES"
-                android:layout_gravity="center_vertical"
-                android:layout_marginLeft="5dp"
-                android:textColor="#42f4f4"
-                android:textSize="30dp"
-                android:clickable="true"
-                />
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="YES"
+        android:layout_gravity="center_vertical"
+        android:layout_marginLeft="5dp"
+        android:textColor="#42f4f4"
+        android:textSize="30dp"
+        android:clickable="true"
+        android:layout_toEndOf="@id/btn_yes"/>
 </LinearLayout>
-<LinearLayout
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:id="@+id/btn_no"
-    android:clickable="true">
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center">
         <Button
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_marginLeft="20dp"
-                android:background="@drawable/nobtn"
-                android:clickable="true"
-                android:textStyle="bold" />
+            android:id="@+id/btn_no"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginLeft="20dp"
+            android:background="@drawable/nobtn"
+            android:clickable="true"
+            android:textStyle="bold" />
         <shaileshrawat.game.FontTextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="NO"
-                android:textSize="30dp"
-                android:clickable="true"
-                android:layout_gravity="center_vertical"
-                android:layout_marginLeft="5dp"
-                android:textColor="#42f4f4"
-                android:layout_centerVertical="true"
-                android:layout_toEndOf="@id/btn_no"/>
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="NO"
+            android:textSize="30dp"
+            android:clickable="true"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="5dp"
+            android:textColor="#42f4f4"
+            android:layout_centerVertical="true"
+            android:layout_toEndOf="@id/btn_no"/>
 
     </LinearLayout>
     </LinearLayout>
