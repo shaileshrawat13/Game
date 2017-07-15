@@ -33,6 +33,7 @@ import static shaileshrawat.game.LevelWrapper.started;
 import static shaileshrawat.game.LevelWrapper.timer;
 
 import static shaileshrawat.game.LevelWrapper.*;
+import static shaileshrawat.game.Mediawrapper.gamesounds;
 
 public class SimulationView extends View implements SensorEventListener {
 
@@ -45,7 +46,7 @@ public class SimulationView extends View implements SensorEventListener {
     private Bitmap mHole;
     private Paint paint;
     public static float calculatedScore=0;
-    public static int  LEVEL_TIMER=20;
+    public static int  LEVEL_TIMER=25;
     private int incr=0;
     public static float decr=0;
     private float mXOrigin;
@@ -200,7 +201,9 @@ public class SimulationView extends View implements SensorEventListener {
                             if (ballcolormap.get(mball10).equals(colortext[i])) {
                                 mball10.visibility = false;
                                 incr = -2;
-                                rightBall.start();
+                                if(gamesounds) {
+                                    rightBall.start();
+                                }
                                 if (k != maxBall + -1) {
                                     i++;
                                     //calculatescore();
@@ -211,7 +214,9 @@ public class SimulationView extends View implements SensorEventListener {
                             } else {
                                 mball10.resetPosition(0, 0);
                                 incr = 2;
-                                wrongBall.start();
+                                if (gamesounds) {
+                                    wrongBall.start();
+                                }
                                 v.vibrate(100);
                             }
                         } else {

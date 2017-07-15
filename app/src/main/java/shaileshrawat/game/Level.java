@@ -9,6 +9,7 @@ import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.PowerManager;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -18,14 +19,17 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import static shaileshrawat.game.Homepage.buttonBack;
 import static shaileshrawat.game.Homepage.buttonLevel;
 import static shaileshrawat.game.Homepage.startSiren;
 import static shaileshrawat.game.LevelWrapper.hold;
+import static shaileshrawat.game.LevelWrapper.level;
 import static shaileshrawat.game.LevelWrapper.levelName;
 import static shaileshrawat.game.LevelWrapper.levelno;
 import static shaileshrawat.game.LevelWrapper.mediumlevelno;
@@ -45,6 +49,8 @@ public class Level extends Mediawrapper implements View.OnClickListener {
     float multiplier=1000000000000f;
     Button mediumlevel, easylevel;
     TextView levelname;
+    Animation slidein, slideout;
+    RelativeLayout btnContain;
 
     List<Button> buttonList = new ArrayList<Button>();
     @Override
@@ -59,6 +65,9 @@ public class Level extends Mediawrapper implements View.OnClickListener {
         PowerManager mPowerManager = (PowerManager) getSystemService(POWER_SERVICE);
         mWakeLock = mPowerManager.newWakeLock(PowerManager.SCREEN_BRIGHT_WAKE_LOCK, TAG);
         setContentView(R.layout.level);
+        slidein = AnimationUtils.loadAnimation(this, R.anim.slide_in);
+        slideout = AnimationUtils.loadAnimation(this, R.anim.slide_in);
+        btnContain = (RelativeLayout) findViewById(R.id.btnContainer);
         // How to play button
 
         // Ask permissions
@@ -161,17 +170,40 @@ public class Level extends Mediawrapper implements View.OnClickListener {
         easylevel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                levelName=EASYLEVEL;
                 levelname.setText("EASY");
-                displayLevels(levelno);
+                levelname.startAnimation(slideout);
+                btnContain.startAnimation(slideout);
+                if(gamesounds) {
+                    buttonBack.start();
+                }
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        easylevel.setVisibility(View.INVISIBLE);
+                        mediumlevel.setVisibility(View.VISIBLE);
+                        levelName = EASYLEVEL;
+                        displayLevels(levelno);
+                    }
+                },2000);
             }
         });
         mediumlevel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                levelName=MEDIUMLEVEL;
                 levelname.setText("MEDIUM");
-                displayLevels(mediumlevelno);
+                levelname.startAnimation(slidein);
+                btnContain.startAnimation(slidein);
+                if(gamesounds){
+                }
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                    easylevel.setVisibility(View.VISIBLE);
+                    mediumlevel.setVisibility(View.INVISIBLE);
+                    levelName=MEDIUMLEVEL;
+                    displayLevels(mediumlevelno);
+                    }
+                },2000);
             }
         });
     }

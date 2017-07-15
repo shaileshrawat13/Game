@@ -141,7 +141,9 @@ public class ScoreLayout extends Mediawrapper{
             }
         });
         valueAnimator.start();
-        scoreCount.start();
+        if(calculatedScore>0 && gamesounds) {
+            scoreCount.start();
+        }
     }
     public static void captureandstore(View view) {
         View screenView = view.getRootView();

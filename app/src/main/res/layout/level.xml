@@ -30,6 +30,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:id="@+id/btnContainer"
             android:paddingLeft="25dp"
             android:paddingRight="25dp">
         <Button
