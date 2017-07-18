@@ -12,10 +12,14 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.TextView;
 
+import static shaileshrawat.game.Homepage.buttonBack;
+import static shaileshrawat.game.Homepage.buttonHome;
+import static shaileshrawat.game.Homepage.settingsBtn;
 import static shaileshrawat.game.Homepage.startSiren;
 import static shaileshrawat.game.LevelWrapper.hold;
 import static shaileshrawat.game.Mediawrapper.gamemusic;
 import static shaileshrawat.game.Mediawrapper.gamesounds;
+import static shaileshrawat.game.R.id.settingsbtn;
 import static shaileshrawat.game.SimulationView.decr;
 
 /**
@@ -26,7 +30,7 @@ public class settingsdialog extends Dialog implements
         android.view.View.OnClickListener {
 
     public Activity c;
-    public Button music, sound, more;
+    public Button music, sound, more, close;
 
 
     public settingsdialog(Activity a) {
@@ -42,24 +46,28 @@ public class settingsdialog extends Dialog implements
         setContentView(R.layout.settings);
         this.getWindow().getDecorView().setBackgroundResource(android.R.color.transparent);
         this.getWindow().setDimAmount(0.0f);
+        this.setCanceledOnTouchOutside(false);
+        this.setCancelable(false);
         music = (Button) findViewById(R.id.musicbtn);
+        sound = (Button) findViewById(R.id.soundbtn);
+        more = (Button) findViewById(R.id.moredevbtn);
+        close = (Button) findViewById(R.id.closesetting);
         if(gamemusic){
             music.setBackground(c.getResources().getDrawable(R.drawable.musicon));
         }else
         {
             music.setBackground(c.getResources().getDrawable(R.drawable.musicoff));
         }
-        sound = (Button) findViewById(R.id.soundbtn);
         if(gamesounds){
             sound.setBackground(c.getResources().getDrawable(R.drawable.soundson));
         }else
         {
             sound.setBackground(c.getResources().getDrawable(R.drawable.soundsoff));
         }
-        more = (Button) findViewById(R.id.moredevbtn);
         more.setOnClickListener(this);
         music.setOnClickListener(this);
         sound.setOnClickListener(this);
+        close.setOnClickListener(this);
     }
 
     @Override
@@ -97,8 +105,19 @@ public class settingsdialog extends Dialog implements
                 Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/developer?id=Smartly+Innovated"));
                 c.startActivity(intent);
                 break;
+            case R.id.closesetting:
+               if (gamesounds){
+                   buttonBack.start();
+               }
+               dismiss();
+                settingsBtn.setBackground(c.getResources().getDrawable(R.drawable.settingsbtn1));
             default:
                 break;
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
     }
 }

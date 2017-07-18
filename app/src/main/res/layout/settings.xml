@@ -6,14 +6,22 @@
     android:orientation="vertical"
     android:scaleX="1.1"
     android:scaleY=".85">
+    <Button
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:id="@+id/closesetting"
+        android:background="@drawable/settingsclose"
+        android:layout_gravity="end"
+        android:layout_marginTop="20dp"
+        android:layout_marginRight="20dp"/>
     <shaileshrawat.game.MoonTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="SETTINGS"
         android:textColor="#FFFFFF"
         android:textSize="40dp"
-        android:layout_marginTop="50dp"
         android:layout_gravity="center_horizontal"/>
+
 
     <RelativeLayout
         android:id="@+id/musiclayout"
@@ -89,6 +97,7 @@
             android:textColor="#42f4f4"
             android:textSize="15dp" />
     </RelativeLayout>
+
 
 
 </LinearLayout>

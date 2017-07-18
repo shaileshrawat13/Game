@@ -176,15 +176,11 @@ public class Level extends Mediawrapper implements View.OnClickListener {
                 if(gamesounds) {
                     buttonBack.start();
                 }
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        easylevel.setVisibility(View.INVISIBLE);
-                        mediumlevel.setVisibility(View.VISIBLE);
-                        levelName = EASYLEVEL;
-                        displayLevels(levelno);
-                    }
-                },2000);
+                easylevel.setVisibility(View.INVISIBLE);
+                mediumlevel.setVisibility(View.VISIBLE);
+                levelName = EASYLEVEL;
+                displayLevels(levelno);
+
             }
         });
         mediumlevel.setOnClickListener(new View.OnClickListener() {
@@ -194,16 +190,12 @@ public class Level extends Mediawrapper implements View.OnClickListener {
                 levelname.startAnimation(slidein);
                 btnContain.startAnimation(slidein);
                 if(gamesounds){
+                    buttonBack.start();
                 }
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                    easylevel.setVisibility(View.VISIBLE);
-                    mediumlevel.setVisibility(View.INVISIBLE);
-                    levelName=MEDIUMLEVEL;
-                    displayLevels(mediumlevelno);
-                    }
-                },2000);
+                easylevel.setVisibility(View.VISIBLE);
+                mediumlevel.setVisibility(View.INVISIBLE);
+                levelName=MEDIUMLEVEL;
+                displayLevels(mediumlevelno);
             }
         });
     }

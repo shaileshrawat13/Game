@@ -22,11 +22,11 @@ import static android.provider.ContactsContract.Directory.PACKAGE_NAME;
  */
 
 public class Homepage extends Mediawrapper {
-    Button gameBtn, rulebtn, highScoreBtn, shareBtn, settingsBtn;
+    public static Button gameBtn, rulebtn, highScoreBtn, shareBtn, settingsBtn;
     public static MediaPlayer buttonHome, buttonBack, buttonLevel, rightBall, wrongBall, gamePlay, startSiren, scoreCount;
     TextView launchText, rulesText, highscoreText, sharebtnText, settingsText;
     public static boolean mediarunning=false;
-    Animation homeButtonanimations;
+    Animation homeButtonanimations, rotate;
     boolean abort;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,7 +38,6 @@ public class Homepage extends Mediawrapper {
         buttonLevel = MediaPlayer.create(this, R.raw.levelbuttonsound);
         rightBall = MediaPlayer.create(this, R.raw.rightballin);
         wrongBall = MediaPlayer.create(this, R.raw.wrongballin);
-        gamePlay = MediaPlayer.create(this, R.raw.game);
         startSiren = MediaPlayer.create(this, R.raw.game);
         startSiren.setVolume(0.6f, 0.6f);
         buttonHome.setVolume(1,1);
@@ -47,13 +46,13 @@ public class Homepage extends Mediawrapper {
         wrongBall.setVolume(1,1);
         buttonBack.setVolume(1,1);
         scoreCount = MediaPlayer.create(this, R.raw.scorecount);
-        if(startSiren.isPlaying()){
-            startSiren.reset();
-        }else {
-            if (gamemusic) {
+        if(gamemusic) {
+            if (startSiren.isPlaying()) {
+                startSiren.reset();
+            } else {
                 startSiren.start();
+                mediarunning = true;
             }
-            mediarunning=true;
         }
         gameBtn = (Button) findViewById(R.id.gamestart);
         rulebtn = (Button) findViewById(R.id.rules);
@@ -66,6 +65,7 @@ public class Homepage extends Mediawrapper {
         sharebtnText = (TextView) findViewById(R.id.sharetext);
         settingsText = (TextView) findViewById(R.id.settingstext);
         homeButtonanimations = AnimationUtils.loadAnimation(this, R.anim.buttonanimations);
+        rotate = AnimationUtils.loadAnimation(this, R.anim.rotate);
 
         gameBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -115,6 +115,7 @@ public class Homepage extends Mediawrapper {
                 if (gamesounds){
                     buttonBack.start();
                 }
+                shareBtn.startAnimation(rotate);
                 Intent sendIntent = new Intent();
                 sendIntent.setAction(Intent.ACTION_SEND);
                 sendIntent.putExtra(Intent.EXTRA_TEXT, "Fantastic!\nDownload Smart Ball in the Hole from Playstore\n" +
@@ -130,6 +131,8 @@ public class Homepage extends Mediawrapper {
                 if (gamesounds) {
                     buttonBack.start();
                 }
+                settingsBtn.setBackground(getResources().getDrawable(R.drawable.settingsbtn2));
+                settingsBtn.startAnimation(rotate);
                     settingsdialog sdd=new settingsdialog(Homepage.this);
                     sdd.show();
             }
@@ -138,10 +141,12 @@ public class Homepage extends Mediawrapper {
 
     @Override
     public void onBackPressed() {
-        if(mediarunning){
-            startSiren.seekTo(0);
-            startSiren.pause();
-        }
+       if (gamemusic) {
+           if (mediarunning) {
+               startSiren.seekTo(0);
+               startSiren.pause();
+           }
+       }
       finish();
     }
     public void homepageVisibilityShooter(){

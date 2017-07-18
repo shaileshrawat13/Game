@@ -45,6 +45,8 @@ public class CustomDialogClass extends Dialog implements
         setContentView(R.layout.custom_dialog);
         this.getWindow().getDecorView().setBackgroundResource(android.R.color.transparent);
         this.getWindow().setDimAmount(0.0f);
+        this.setCanceledOnTouchOutside(false);
+        this.setCancelable(false);
         Typeface myTypeface = Typeface.createFromAsset(c.getAssets(), "Fonts/neuropol.ttf");
         message = (TextView) findViewById(R.id.txt_dia);
         message.setText(msg);
@@ -68,7 +70,6 @@ public class CustomDialogClass extends Dialog implements
                     c.getApplicationContext().startActivity(levelIntent);
                     decr = 0;
                     c.finish();
-
                 dismiss();
                 break;
             case R.id.btn_no:
@@ -80,4 +81,8 @@ public class CustomDialogClass extends Dialog implements
         }
         }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+    }
 }
