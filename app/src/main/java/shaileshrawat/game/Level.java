@@ -371,9 +371,9 @@ public class Level extends Mediawrapper implements View.OnClickListener {
                 star=displayLevelBG((SharedPrefsUtils.getFloatPreference(getApplicationContext(), med+"Level10", 0)));
                 filename = "level"+level+"btn"+star;
                 break;
-            case 11:
+           /* case 11:
                 star=displayLevelBG((SharedPrefsUtils.getFloatPreference(getApplicationContext(), med+"Level10", 0)));
-                filename = "level"+level+"btn"+star;
+                filename = "level"+level+"btn"+star;*/
         }
         return filename;
     }
@@ -402,20 +402,24 @@ public class Level extends Mediawrapper implements View.OnClickListener {
           buttonList.get(i).setVisibility(View.GONE);
       }
 
-      for (int i = 0; i < level; i++) {
-          buttonList.get(i).setVisibility(View.VISIBLE);
-          buttonList.get(i).setEnabled(true);
-          String setimage = getimage(i + 1);
-          String PACKAGE_NAME = getApplicationContext().getPackageName();
-          int imgId = getResources().getIdentifier(PACKAGE_NAME + ":drawable/" + setimage, null, null);
-          buttonList.get(i).setBackgroundDrawable(getResources().getDrawable(imgId));
-          if (i < 9) {
-              buttonList.get(i + 1).setVisibility(View.VISIBLE);
-              buttonList.get(i + 1).setEnabled(false);
-              buttonList.get(i + 1).setBackgroundDrawable(getResources().getDrawable(R.drawable.lockedlevel));
+          for (int i = 0; i < level; i++) {
+
+              buttonList.get(i).setVisibility(View.VISIBLE);
+              buttonList.get(i).setEnabled(true);
+              String  setimage = getimage(i + 1);
+              if (i <9){
+
+                      buttonList.get(i + 1).setVisibility(View.VISIBLE);
+                      buttonList.get(i + 1).setEnabled(false);
+                      buttonList.get(i + 1).setBackgroundDrawable(getResources().getDrawable(R.drawable.lockedlevel));
+                  }
+              String PACKAGE_NAME = getApplicationContext().getPackageName();
+              int imgId = getResources().getIdentifier(PACKAGE_NAME + ":drawable/" + setimage, null, null);
+              buttonList.get(i).setBackgroundDrawable(getResources().getDrawable(imgId));
+
           }
       }
   }
- }
+
 
 

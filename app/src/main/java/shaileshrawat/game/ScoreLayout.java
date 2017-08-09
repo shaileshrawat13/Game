@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -41,11 +42,13 @@ public class ScoreLayout extends Mediawrapper{
     TextView levelText, scoreText, zeroscore;
     ImageView star1, star2, star3;
     Animation fadeIn;
+    Typeface fonts;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.score_layout);
         levelText = (TextView) findViewById(R.id.levelCompleteText);
+        fonts=Typeface.createFromAsset(getAssets(), "Fonts/neuropol.ttf");
         if (levelName==MEDIUMLEVEL){
             levelText.setText("LEVEL " + mediumlevelno + " COMPLETED");
         }else
@@ -81,10 +84,13 @@ public class ScoreLayout extends Mediawrapper{
                 star3.setVisibility(View.VISIBLE);
                 star3.startAnimation(fadeIn);
                 if (LevelWrapper.level == levelno) {
-                    levelno++;
+                    if ((levelno<10)) {
+                        levelno++;
+                    }
                 }
                 if(levelName==MEDIUMLEVEL){
                     if (LevelWrapper.level == mediumlevelno) {
+                        if((mediumlevelno<10))
                         mediumlevelno++;
                     }
                     SharedPrefsUtils.setIntegerPreference(getApplicationContext(), "MediumLevelNO", levelno);
@@ -96,18 +102,37 @@ public class ScoreLayout extends Mediawrapper{
         relaunch = (Button) findViewById(R.id.relaunch);
         missionSelect = (Button) findViewById(R.id.missionSelect);
         sharebtn1 = (Button) findViewById(R.id.sharebtn1);
-        relaunch.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                decr=0;
-                hold=false;
-                timer=0;
-                calculatedScore=0;
-                Intent mainIntent = new Intent(getApplicationContext(), Gamehome.class);
-                startActivity(mainIntent);
-                finish();
-            }
-        });
+        relaunch.setTypeface(fonts);
+        if (calculatedScore>=750){
+            relaunch.setText("NEXT");
+        }else
+        {
+            relaunch.setText("RELAUNCH");
+        }
+            relaunch.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (calculatedScore<750) {
+                        decr = 0;
+                        hold = false;
+                        timer = 0;
+                        calculatedScore = 0;
+                        Intent mainIntent = new Intent(getApplicationContext(), Gamehome.class);
+                        startActivity(mainIntent);
+                        finish();
+                    }
+                    else{
+                        decr = 0;
+                        hold = false;
+                        timer = 0;
+                        calculatedScore = 0;
+                        Intent mainIntent = new Intent(getApplicationContext(), Gamehome.class);
+                        startActivity(mainIntent);
+                        finish();
+                        LevelWrapper.level++;
+                    }
+                }
+            });
         missionSelect.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

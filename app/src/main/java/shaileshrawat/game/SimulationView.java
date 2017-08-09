@@ -291,16 +291,15 @@ public class SimulationView extends View implements SensorEventListener {
     }
     // Show Score
     public static Bitmap showScore() {
-        Bitmap canvasBitmap = Bitmap.createBitmap(260, 100, Bitmap.Config.ARGB_8888);
+        Bitmap canvasBitmap = Bitmap.createBitmap(250, 100, Bitmap.Config.ARGB_8888);
         String score1;
         Typeface face=Typeface.createFromAsset(activity.getAssets(), "Fonts/neuropol.ttf");
         score1 = String.format("%.2f",(LevelWrapper.level*LEVEL_TIMER)-timer);
         Paint paint = new Paint();
-        Paint mPaint = new Paint();
         paint.setAntiAlias(true);
         paint.setTypeface(face);
         paint.setColor(Color.WHITE);
-        paint.setTextSize(65f);
+        paint.setTextSize(50f);
         Canvas canvas = new Canvas(canvasBitmap);
         canvas.drawText(score1, 0, 100, paint);
         return canvasBitmap;
