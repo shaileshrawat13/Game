@@ -13,6 +13,9 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.google.android.gms.games.Games;
 
 import static android.provider.ContactsContract.Directory.PACKAGE_NAME;
 
@@ -109,6 +112,30 @@ public class Homepage extends Mediawrapper {
             }
         });
 
+        highScoreBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (gamesounds) {
+                    buttonHome.start();
+                }
+                homepageVisibilityShooter();
+                highScoreBtn.setVisibility(View.VISIBLE);
+                highScoreBtn.setBackground(getResources().getDrawable(R.drawable.highscorebtn4));
+                highScoreBtn.setAnimation(homeButtonanimations);
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        if(splashscreen.isSignedIn){
+                            startActivityForResult(Games.Leaderboards.getLeaderboardIntent(splashscreen.mGoogleApiClient,
+                                    "1001260003726"), REQUEST_LEADERBOARD);
+                        }
+                        finish();
+                    }
+                }, 3000);
+
+            }
+        });
+
         shareBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -138,6 +165,8 @@ public class Homepage extends Mediawrapper {
             }
         });
     }
+
+    private int REQUEST_LEADERBOARD = 20;
 
     @Override
     public void onBackPressed() {

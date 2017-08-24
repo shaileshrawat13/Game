@@ -16,10 +16,17 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Vibrator;
+import android.util.Log;
 import android.view.Surface;
 import android.view.View;
+
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.drive.Drive;
+import com.google.android.gms.games.Games;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -35,7 +42,7 @@ import static shaileshrawat.game.LevelWrapper.timer;
 import static shaileshrawat.game.LevelWrapper.*;
 import static shaileshrawat.game.Mediawrapper.gamesounds;
 
-public class SimulationView extends View implements SensorEventListener {
+public class SimulationView extends View implements SensorEventListener, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener  {
 
     private SensorManager mSensorManager;
     private Sensor mAccelerometer;
@@ -67,6 +74,15 @@ public class SimulationView extends View implements SensorEventListener {
     private ArrayList<Bitmap> ballListColour= new ArrayList<Bitmap>();
 
     public static Activity activity ;
+    private GoogleApiClient mGoogleApiClient;
+    private boolean mIsResolving = false;
+
+    // True immediately after the user clicks the sign-in button/
+    private boolean mSignInClicked = false;
+
+    // True if we want to automatically attempt to sign in the user at application start.
+    private boolean mAutoStartSignIn = true;
+    public static final String TAG = "AddScore";
 
     public SimulationView(Activity activity) {
         super((Context)activity);
@@ -98,6 +114,13 @@ public class SimulationView extends View implements SensorEventListener {
         mGrass = BitmapFactory.decodeResource(getResources(), R.drawable.wood, opts);
         mSensorManager = (SensorManager) ((Context)activity).getSystemService(Context.SENSOR_SERVICE);
         mAccelerometer = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+
+        mGoogleApiClient = new GoogleApiClient.Builder(this.activity)
+                .addConnectionCallbacks(this)
+                .addOnConnectionFailedListener(this)
+                .addApi(Games.API).addScope(Games.SCOPE_GAMES)
+                .build();
+
 
     }
 
@@ -342,7 +365,8 @@ public class SimulationView extends View implements SensorEventListener {
         }
         if (level==1 && (SharedPrefsUtils.getFloatPreference((Context)activity, med+"Level1", 0) <= calculatedScore)){
             SharedPrefsUtils.setFloatPreference((Context)activity, med+"Level1", calculatedScore);
-        }
+            Games.Leaderboards.submitScore(mGoogleApiClient, "1001260003726", (long)calculatedScore);
+    }
         if (level==2 && (SharedPrefsUtils.getFloatPreference((Context)activity, med+"Level2", 0) <= calculatedScore)){
             SharedPrefsUtils.setFloatPreference((Context)activity, med+"Level2", calculatedScore);
         }
@@ -385,5 +409,35 @@ public class SimulationView extends View implements SensorEventListener {
         finish.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
         finish.putExtra("Text", "LEVEL COMPLETED!");
         activity.startActivity(finish);
+    }
+
+    @Override
+    public void onConnected(Bundle connectionHint) {
+        Log.d(TAG, "onConnected");
+    }
+
+    @Override
+    public void onConnectionSuspended(int i) {
+        Log.d(TAG, "onConnectionSuspended: " + i);
+        mGoogleApiClient.connect();
+    }
+
+    @Override
+    public void onConnectionFailed(ConnectionResult connectionResult) {
+        Log.d(TAG, "onConnectionFailed");
+        if (mIsResolving) {
+            // The application is attempting to resolve this connection failure already.
+            Log.d(TAG, "onConnectionFailed: already resolving");
+            return;
+        }
+
+        if (mSignInClicked || mAutoStartSignIn) {
+            mSignInClicked = false;
+            mAutoStartSignIn = false;
+
+            // Attempt to resolve the connection failure.
+            Log.d(TAG, "onConnectionFailed: begin resolution.");
+        }
+
     }
 }
