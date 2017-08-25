@@ -80,6 +80,23 @@ public class Homepage extends Mediawrapper {
                 gameBtn.setVisibility(View.VISIBLE);
                 gameBtn.setBackground(getResources().getDrawable(R.drawable.gamebtn4));
                 gameBtn.setAnimation(homeButtonanimations);
+                homeButtonanimations.setAnimationListener(new Animation.AnimationListener(){
+
+                    @Override
+                    public void onAnimationStart(Animation animation) {
+                        gameBtn.setClickable(false);
+                    }
+
+                    @Override
+                    public void onAnimationEnd(Animation animation) {
+
+                    }
+
+                    @Override
+                    public void onAnimationRepeat(Animation animation) {
+
+                    }
+                });
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
@@ -100,6 +117,23 @@ public class Homepage extends Mediawrapper {
                 rulebtn.setVisibility(View.VISIBLE);
                 rulebtn.setBackground(getResources().getDrawable(R.drawable.rulesbtn4));
                 rulebtn.setAnimation(homeButtonanimations);
+                homeButtonanimations.setAnimationListener(new Animation.AnimationListener(){
+
+                    @Override
+                    public void onAnimationStart(Animation animation) {
+                        rulebtn.setClickable(false);
+                    }
+
+                    @Override
+                    public void onAnimationEnd(Animation animation) {
+
+                    }
+
+                    @Override
+                    public void onAnimationRepeat(Animation animation) {
+
+                    }
+                });
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
@@ -122,6 +156,23 @@ public class Homepage extends Mediawrapper {
                 highScoreBtn.setVisibility(View.VISIBLE);
                 highScoreBtn.setBackground(getResources().getDrawable(R.drawable.highscorebtn4));
                 highScoreBtn.setAnimation(homeButtonanimations);
+                homeButtonanimations.setAnimationListener(new Animation.AnimationListener(){
+
+                    @Override
+                    public void onAnimationStart(Animation animation) {
+                        highScoreBtn.setClickable(false);
+                    }
+
+                    @Override
+                    public void onAnimationEnd(Animation animation) {
+
+                    }
+
+                    @Override
+                    public void onAnimationRepeat(Animation animation) {
+
+                    }
+                });
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {

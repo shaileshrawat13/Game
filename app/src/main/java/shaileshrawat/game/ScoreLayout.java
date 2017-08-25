@@ -122,6 +122,7 @@ public class ScoreLayout extends Mediawrapper{
                         finish();
                     }
                     else{
+                        if (LevelWrapper.level<10){
                         decr = 0;
                         hold = false;
                         timer = 0;
@@ -130,6 +131,12 @@ public class ScoreLayout extends Mediawrapper{
                         startActivity(mainIntent);
                         finish();
                         LevelWrapper.level++;
+                        }
+                        else{
+                            relaunch.setVisibility(View.GONE);
+                        }
+
+
                     }
                 }
             });

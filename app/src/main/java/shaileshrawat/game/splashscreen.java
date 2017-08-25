@@ -80,7 +80,7 @@ public class splashscreen extends Mediawrapper implements GoogleApiClient.Connec
         ricals.setAnimation(splashanim);
         gamesounds = SharedPrefsUtils.getBooleanPreference(this, "soundflag", true);
         gamemusic = SharedPrefsUtils.getBooleanPreference(this, "musicflag", true);
-
+        startHomeActivity();
        /* new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {

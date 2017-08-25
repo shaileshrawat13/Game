@@ -365,7 +365,7 @@ public class SimulationView extends View implements SensorEventListener, GoogleA
         }
         if (level==1 && (SharedPrefsUtils.getFloatPreference((Context)activity, med+"Level1", 0) <= calculatedScore)){
             SharedPrefsUtils.setFloatPreference((Context)activity, med+"Level1", calculatedScore);
-            Games.Leaderboards.submitScore(mGoogleApiClient, "1001260003726", (long)calculatedScore);
+           // Games.Leaderboards.submitScore(mGoogleApiClient, "1001260003726", (long)calculatedScore);
     }
         if (level==2 && (SharedPrefsUtils.getFloatPreference((Context)activity, med+"Level2", 0) <= calculatedScore)){
             SharedPrefsUtils.setFloatPreference((Context)activity, med+"Level2", calculatedScore);
