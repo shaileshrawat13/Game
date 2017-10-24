@@ -13,7 +13,7 @@
             android:layout_height="150dp"
             android:layout_marginLeft="20dp"
             android:src="@drawable/smartballblanklogo"/>
-        <shaileshrawat.game.MoonTextView
+        <smartlyinnovated.game.MoonTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Smart Ball\nin the Hole"
@@ -24,7 +24,7 @@
             android:textColor="#FFFFFF"
             android:textSize="45dp"/>
     </RelativeLayout>
-    <shaileshrawat.game.FontTextView
+    <smartlyinnovated.game.FontTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="LEVEL 5 COMPLETED"
@@ -39,14 +39,14 @@
         android:layout_marginTop="15dp"
         android:layout_gravity="center"
         android:textAlignment="center">
-    <shaileshrawat.game.MoonTextView
+    <smartlyinnovated.game.MoonTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="SCORE"
         android:gravity="center"
         android:textColor="#FFF000"
         android:textSize="50dp"/>
-    <shaileshrawat.game.FontTextView
+    <smartlyinnovated.game.FontTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="888"
@@ -61,7 +61,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal">
-        <shaileshrawat.game.FontTextView
+        <smartlyinnovated.game.FontTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="#FF0000"
@@ -109,7 +109,15 @@
             android:background="@drawable/relaunch"
                 android:layout_centerVertical="true"
                 android:textSize="12dp"
-                android:layout_marginLeft="5dp"
+                android:layout_marginLeft="20dp"
+                android:textColor="#FFFFFF"/>
+            <smartlyinnovated.game.FontTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:textSize="12dp"
+                android:id="@+id/relaunchbtntext"
+                android:layout_marginLeft="80dp"
                 android:textColor="#FFFFFF"/>
         </RelativeLayout>
         <RelativeLayout
@@ -122,7 +130,7 @@
             android:id="@+id/missionSelect"
             android:background="@drawable/bac"
             android:layout_marginLeft="20dp"/>
-        <shaileshrawat.game.FontTextView
+        <smartlyinnovated.game.FontTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"

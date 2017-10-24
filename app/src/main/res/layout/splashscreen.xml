@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center">
-    <shaileshrawat.game.MoonTextView
+    <smartlyinnovated.game.MoonTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="game"
@@ -20,7 +20,7 @@
         android:textSize="50dp"
         android:textColor="@android:color/holo_blue_bright"
         android:textAlignment="center"/>
-    <shaileshrawat.game.FontTextView
+    <smartlyinnovated.game.FontTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="T"
@@ -29,7 +29,7 @@
         android:textSize="50dp"
         android:textColor="@android:color/holo_blue_bright"
         android:textAlignment="center"/>
-    <shaileshrawat.game.MoonTextView
+    <smartlyinnovated.game.MoonTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="ricals"

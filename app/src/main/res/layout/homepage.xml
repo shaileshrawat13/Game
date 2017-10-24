@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
     android:background="@drawable/mainbg"
-    tools:context="shaileshrawat.game.Homepage">
+    tools:context="smartlyinnovated.game.Homepage">
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="200dp"
@@ -14,7 +14,7 @@
         android:layout_width="250dp"
         android:layout_height="200dp"
         android:src="@drawable/smartballblanklogo"/>
-    <shaileshrawat.game.MoonTextView
+    <smartlyinnovated.game.MoonTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Smart Ball\nin the Hole"
@@ -37,7 +37,7 @@
     android:background="@drawable/blankplaybtn"
     android:layout_centerInParent="true"
     android:id="@+id/gamestart"/>
-        <shaileshrawat.game.FontTextView
+        <smartlyinnovated.game.FontTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
@@ -57,7 +57,7 @@
         android:layout_height="wrap_content"
         android:background="@drawable/blankrulebtn"
         android:id="@+id/rules"/>
-    <shaileshrawat.game.FontTextView
+    <smartlyinnovated.game.FontTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
@@ -77,7 +77,7 @@
         android:layout_height="wrap_content"
         android:background="@drawable/blankbtn"
         android:id="@+id/highscores"/>
-    <shaileshrawat.game.FontTextView
+    <smartlyinnovated.game.FontTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
@@ -101,7 +101,7 @@
         android:layout_height="50dp"
         android:id="@+id/sharebtn"
         android:background="@drawable/sharebtn1"/>
-    <shaileshrawat.game.FontTextView
+    <smartlyinnovated.game.FontTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="SHARE"
@@ -121,7 +121,7 @@
         android:layout_height="50dp"
         android:background="@drawable/settingsbtn1"
         android:id="@+id/settingsbtn"/>
-        <shaileshrawat.game.FontTextView
+        <smartlyinnovated.game.FontTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="SETTINGS"

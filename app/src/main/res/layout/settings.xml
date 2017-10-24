@@ -14,7 +14,7 @@
         android:layout_gravity="end"
         android:layout_marginTop="20dp"
         android:layout_marginRight="20dp"/>
-    <shaileshrawat.game.MoonTextView
+    <smartlyinnovated.game.MoonTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="SETTINGS"
@@ -36,7 +36,7 @@
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:background="@drawable/musicon" />
-        <shaileshrawat.game.FontTextView
+        <smartlyinnovated.game.FontTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
@@ -61,7 +61,7 @@
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:background="@drawable/soundson" />
-        <shaileshrawat.game.FontTextView
+        <smartlyinnovated.game.FontTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
@@ -86,7 +86,7 @@
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:background="@drawable/moreaboutdevon" />
-        <shaileshrawat.game.FontTextView
+        <smartlyinnovated.game.FontTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"

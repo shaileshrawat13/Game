@@ -3,9 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="shaileshrawat.game.Gamehome">
+    tools:context="smartlyinnovated.game.Gamehome">
 
-    <shaileshrawat.game.MoonTextView
+    <smartlyinnovated.game.MoonTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Hello World!"

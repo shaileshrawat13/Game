@@ -1,4 +1,4 @@
-package shaileshrawat.game;
+package smartlyinnovated.game;
 
 import org.junit.Test;
 

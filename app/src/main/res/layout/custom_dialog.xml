@@ -7,7 +7,7 @@
     android:scaleX="1.1"
     android:scaleY=".85">
 
-    <shaileshrawat.game.FontTextView
+    <smartlyinnovated.game.FontTextView
         android:id="@+id/txt_dia"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -41,7 +41,7 @@
                 android:clickable="true"
                 android:background="@drawable/yesbtn"
                 android:textStyle="bold" />
-    <shaileshrawat.game.FontTextView
+    <smartlyinnovated.game.FontTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="YES"
@@ -64,7 +64,7 @@
             android:background="@drawable/nobtn"
             android:clickable="true"
             android:textStyle="bold" />
-        <shaileshrawat.game.FontTextView
+        <smartlyinnovated.game.FontTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="NO"
