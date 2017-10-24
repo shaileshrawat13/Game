@@ -1,5 +1,10 @@
 <resources>
-    <string name="LEADERBOARD_ID">1001260003726</string>
-    <string name="leaderboard_best_timer">CgkIjuP8_ZEdEAIQAA</string>
-    <string name="leaderboard_completor">CgkIjuP8_ZEdEAIQAQ</string>
+    <!-- app_id -->
+    <string name="app_id" translatable="false">1061751255737</string>
+    <!-- package_name -->
+    <string name="package_name" translatable="false">smartlyinnovated.game</string>
+    <!-- leaderboard Easy Level -->
+    <string name="leaderboard_easy_level" translatable="false">CgkIueW5qvMeEAIQAQ</string>
+    <!-- leaderboard Medium Level -->
+    <string name="leaderboard_medium_level" translatable="false">CgkIueW5qvMeEAIQAg</string>
 </resources>
